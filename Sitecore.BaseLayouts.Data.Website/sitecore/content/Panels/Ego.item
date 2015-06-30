@@ -1,0 +1,79 @@
+----item----
+version: 1
+id: {7BA25C4E-206B-4D9B-A70E-C03C2E7CF0D3}
+database: master
+path: /sitecore/content/Panels/Ego
+parent: {5F052D46-83F0-42F1-91AB-6D2945362098}
+name: Ego
+master: {00000000-0000-0000-0000-000000000000}
+template: {08C97CE0-8837-45A5-90E5-ACC52DD2E24E}
+templatekey: Panel
+
+----version----
+language: en
+version: 1
+revision: 077431b2-fdd5-42b1-bef6-39318e6d563e
+
+----field----
+field: {99D1E038-E96F-46BA-BC6A-7ABE9DA4C5FF}
+name: Title
+key: title
+content-length: 3
+
+Ego
+----field----
+field: {954196DD-A40D-4F95-8F35-59C4BAE55499}
+name: Body
+key: body
+content-length: 92
+
+<p>If there's anything more important than my ego around, I want it caught and shot now.</p>
+----field----
+field: {52807595-0F8F-4B20-8D2A-CB71D28C6103}
+name: __Owner
+key: __owner
+content-length: 14
+
+sitecore\admin
+----field----
+field: {25BED78C-4957-4165-998A-CA1B52F67497}
+name: __Created
+key: __created
+content-length: 15
+
+20150429T165651
+----field----
+field: {5DD74568-4D4B-44C1-B513-0AF5F4CDA34F}
+name: __Created by
+key: __created by
+content-length: 14
+
+sitecore\admin
+----field----
+field: {8CDC337E-A112-42FB-BBB4-4143751E123F}
+name: __Revision
+key: __revision
+content-length: 36
+
+077431b2-fdd5-42b1-bef6-39318e6d563e
+----field----
+field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
+name: __Updated
+key: __updated
+content-length: 34
+
+20150429T165801:635659234811027697
+----field----
+field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
+name: __Updated by
+key: __updated by
+content-length: 14
+
+sitecore\admin
+----field----
+field: {001DD393-96C5-490B-924A-B0F25CD9EFD8}
+name: __Lock
+key: __lock
+content-length: 5
+
+<r />

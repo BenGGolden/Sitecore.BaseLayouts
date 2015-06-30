@@ -1,0 +1,58 @@
+----item----
+version: 1
+id: {881D3898-DFA2-49AD-8B42-A89B855246C1}
+database: master
+path: /sitecore/content/Base Layouts/Global
+parent: {34A65165-AD43-4DB9-B804-EFA50BEA1F0C}
+name: Global
+master: {00000000-0000-0000-0000-000000000000}
+template: {CE0A7F4B-E99B-43CA-9AC1-B6F746284C22}
+templatekey: Page
+
+----field----
+field: {F1A1FE9E-A60C-4DDB-A3A0-BB5B29FE732E}
+name: __Renderings
+key: __renderings
+content-length: 906
+
+<r xmlns:p="p" xmlns:s="s" p:p="1"><d id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}"><r uid="{96CF5FED-D9AB-46DB-9FA7-01DC24E555B1}" p:before="r[@uid='{16A8C86E-13A8-4F4E-BE3D-281D5885F73F}']" s:ds="{933EF1C2-71EA-4AB7-A370-6CA61858E397}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row2/Column1" /><r uid="{16A8C86E-13A8-4F4E-BE3D-281D5885F73F}" p:before="r[@uid='{CCF46EBC-A56E-40F0-8D36-EDB596ED7FB3}']" s:ds="{35F4234D-1B0B-4E09-8670-2327AE2D872B}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row3" /><r uid="{CCF46EBC-A56E-40F0-8D36-EDB596ED7FB3}" p:before="r[@uid='{C6582485-F836-47B6-A606-C01210F9F145}']" s:ds="{5A067E54-5FF8-4B4F-8C07-F640D3C03ED4}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row1" /><r uid="{C6582485-F836-47B6-A606-C01210F9F145}" s:id="{40EB8CBC-6B5D-419A-8239-CC8976EEC940}" s:ph="OuterContainer" /></d></r>
+----version----
+language: en
+version: 1
+revision: 7262bb5d-d4e8-48cd-b3a2-3dacfd4b3a7d
+
+----field----
+field: {25BED78C-4957-4165-998A-CA1B52F67497}
+name: __Created
+key: __created
+content-length: 15
+
+20150429T131634
+----field----
+field: {8CDC337E-A112-42FB-BBB4-4143751E123F}
+name: __Revision
+key: __revision
+content-length: 36
+
+7262bb5d-d4e8-48cd-b3a2-3dacfd4b3a7d
+----field----
+field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
+name: __Updated
+key: __updated
+content-length: 34
+
+20150429T134001:635659116011250060
+----field----
+field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
+name: __Updated by
+key: __updated by
+content-length: 14
+
+sitecore\admin
+----field----
+field: {001DD393-96C5-490B-924A-B0F25CD9EFD8}
+name: __Lock
+key: __lock
+content-length: 5
+
+<r />
