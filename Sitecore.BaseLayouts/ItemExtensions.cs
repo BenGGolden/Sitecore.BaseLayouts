@@ -42,22 +42,5 @@ namespace Sitecore.BaseLayouts
             var template = TemplateManager.GetTemplate(item);
             return template != null && template.DescendsFromOrEquals(templateId);
         }
-
-        /// <summary>
-        /// Determines if the item is based on the given template.
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        /// <param name="template">
-        /// The template.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public static bool IsDerived(this Item item, Template template)
-        {
-            return template != null && item.IsDerived(template.ID);
-        }
     }
 }

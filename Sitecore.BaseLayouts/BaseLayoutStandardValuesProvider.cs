@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <summary>
-//   The layout preset standard values provider.
+//   The base layouts standard values provider.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Sitecore.BaseLayouts
@@ -17,14 +17,10 @@ namespace Sitecore.BaseLayouts
     using Sitecore.Diagnostics;
 
     /// <summary>
-    /// The layout preset standard values provider.
+    /// The base layout standard values provider.
     /// </summary>
     public class BaseLayoutStandardValuesProvider : StandardValuesProvider
     {
-        private static readonly ID LayoutPresetTemplateId = ID.Parse("{8CA74595-41A2-4077-9911-D386687E77BD}");
-
-        private static readonly ID LayoutPresetFieldId = ID.Parse("{FBC10515-95D6-4559-BAD4-C235148DDECE}");
-
         /// <summary>
         /// The inner provider.
         /// </summary>
@@ -33,7 +29,7 @@ namespace Sitecore.BaseLayouts
         #region Fields
         
         /// <summary>
-        /// The names of databases that support layout presets
+        /// The names of databases that support base layouts
         /// </summary>
         private string[] databases;
         
@@ -48,7 +44,7 @@ namespace Sitecore.BaseLayouts
         /// The inner provider.
         /// </param>
         /// <param name="databases">
-        /// A pipe delimited list of database names that support layout presets.
+        /// A pipe delimited list of database names that support base layouts.
         /// </param>
         public BaseLayoutStandardValuesProvider(
             StandardValuesProvider innerProvider, 
@@ -65,7 +61,7 @@ namespace Sitecore.BaseLayouts
         #region Public Methods and Operators
 
         /// <summary>
-        /// Get the standard value for the field.  If the field is the Layout field (__renderings), it attempts to use layout presets.
+        /// Get the standard value for the field.  If the field is the Layout field (__renderings), it attempts to use base layouts.
         /// Otherwise, it passes the call on to the inner provider, which is usually the built-in standard values provider.
         /// </summary>
         /// <param name="field">
@@ -80,7 +76,7 @@ namespace Sitecore.BaseLayouts
             {
                 if (field.ID == FieldIDs.LayoutField)
                 {
-                    var layoutValue = this.GetLayoutValueWithPreset(field);
+                    var layoutValue = this.GetLayoutValue(field);
                     if (!string.IsNullOrEmpty(layoutValue))
                     {
                         return layoutValue;
@@ -89,7 +85,7 @@ namespace Sitecore.BaseLayouts
             }
             catch (Exception ex)
             {
-                Log.Error("Error getting layout values with preset.", ex, this);
+                Log.Error("Error getting layout value.", ex, this);
             }
 
             return this.innerProvider.GetStandardValue(field);
@@ -150,7 +146,7 @@ namespace Sitecore.BaseLayouts
         #region Methods
 
         /// <summary>
-        /// Get the value of the Layout field using a delta against the layout preset.
+        /// Get the value of the Layout field using a delta against the base layout.
         /// </summary>
         /// <param name="field">
         /// The field.
@@ -158,38 +154,39 @@ namespace Sitecore.BaseLayouts
         /// <returns>
         /// The value of the layout field.
         /// </returns>
-        protected virtual string GetLayoutValueWithPreset(Field field)
+        protected virtual string GetLayoutValue(Field field)
         {
-            // Sanity check.  Make sure the context is appropriate for attempting to resolve the layout value with presets.
+            // Sanity check.  Make sure the context is appropriate for attempting to find a base layout.
             if (field.Item == null
                 || !this.databases.Contains(field.Item.Database.Name, StringComparer.OrdinalIgnoreCase)
-                || !field.Item.Paths.IsContentItem || !field.Item.IsDerived(LayoutPresetTemplateId))
+                || !field.Item.Paths.IsContentItem || !field.Item.IsDerived(BaseLayoutSettings.TemplateId))
             {
                 return null;
             }
 
             // Prevent an infinite loop
-            if (this.HasCircularPresetReference(field.Item))
+            if (this.HasCircularBaseLayoutReference(field.Item))
             {
-                Log.Warn(string.Format("Circular layout preset reference detected on item {0}.  Aborting preset resolution.", field.Item.ID), this);
+                Log.Warn(string.Format("Circular base layout reference detected on item {0}.  Aborting resolution of base layouts.", field.Item.ID), this);
                 return null;
             }
 
-            // Get the item selected in the Layout Preset field.  Otherwise, exit.
-            ReferenceField presetField = field.Item.Fields[LayoutPresetFieldId];
-            var presetItem = presetField.TargetItem;
-            if (presetItem == null)
+            // Get the item selected in the Base Layout field.  Otherwise, exit.
+            ReferenceField baseLayoutField = field.Item.Fields[BaseLayoutSettings.FieldId];
+            var baseLayoutItem = baseLayoutField.TargetItem;
+            if (baseLayoutItem == null)
             {
                 return null;
             }
 
-            // Get the value of the layout field on the preset.  If the selected item also has a preset selected, this will cause implicit recursion.
-            var layoutField = presetItem.Fields[FieldIDs.LayoutField];
+            // Get the value of the layout field on the base layout.
+            // If the selected item also has a base layout selected, this will cause implicit recursion.
+            var layoutField = baseLayoutItem.Fields[FieldIDs.LayoutField];
             return layoutField == null ? null : LayoutField.GetFieldValue(layoutField);
         }
 
         /// <summary>
-        /// Determines if there is a circular reference in the chain of layout presets.
+        /// Determines if there is a circular reference in the chain of base layouts.
         /// </summary>
         /// <param name="startItem">
         /// The start item.
@@ -197,22 +194,22 @@ namespace Sitecore.BaseLayouts
         /// <returns>
         /// True if there is a circular reference.  False if there is not.
         /// </returns>
-        protected virtual bool HasCircularPresetReference(Item startItem)
+        protected virtual bool HasCircularBaseLayoutReference(Item startItem)
         {
             Assert.ArgumentNotNull(startItem, "startItem");
 
             var item = startItem;
-            var presetChain = new List<ID>();
+            var chain = new List<ID>();
             do
             {
-                if (presetChain.Contains(item.ID))
+                if (chain.Contains(item.ID))
                 {
                     return true;
                 }
 
-                presetChain.Add(item.ID);
-                ReferenceField presetField = item.Fields[LayoutPresetFieldId];
-                item = presetField == null ? null : presetField.TargetItem;
+                chain.Add(item.ID);
+                ReferenceField baseLayoutField = item.Fields[BaseLayoutSettings.FieldId];
+                item = baseLayoutField == null ? null : baseLayoutField.TargetItem;
             }
             while (item != null);
 

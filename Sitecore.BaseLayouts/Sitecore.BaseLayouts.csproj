@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\SelectBaseLayout.cs" />
+    <Compile Include="ILayoutStandardValueProvider.cs" />
     <Compile Include="ItemExtensions.cs" />
     <Compile Include="BaseLayoutStandardValuesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
