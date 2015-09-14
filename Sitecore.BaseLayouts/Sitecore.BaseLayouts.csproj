@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Sitecore.BaseLayouts.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,9 +66,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseLayoutValidator.cs" />
+    <Compile Include="BaseLayoutValueProvider.cs" />
     <Compile Include="Commands\SelectBaseLayout.cs" />
-    <Compile Include="ILayoutStandardValueProvider.cs" />
-    <Compile Include="ItemExtensions.cs" />
+    <Compile Include="Diagnostics\ILog.cs" />
+    <Compile Include="Diagnostics\LogWrapper.cs" />
+    <Compile Include="IBaseLayoutValidator.cs" />
+    <Compile Include="ILayoutValueProvider.cs" />
     <Compile Include="BaseLayoutStandardValuesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\SelectBaseLayoutOptions.cs" />
@@ -74,7 +80,9 @@
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutForm.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\BaseLayouts.config" />
+    <Content Include="App_Config\Include\BaseLayouts.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="sitecore modules\shell\BaseLayouts\SelectBaseLayout.xml" />
   </ItemGroup>
   <ItemGroup>

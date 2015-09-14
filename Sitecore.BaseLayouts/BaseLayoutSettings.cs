@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Sitecore.BaseLayouts
+﻿namespace Sitecore.BaseLayouts
 {
+    using Sitecore.Configuration;
     using Sitecore.Data;
 
     public static class BaseLayoutSettings
@@ -14,14 +10,6 @@ namespace Sitecore.BaseLayouts
             get
             {
                 return GetIdSetting("BaseLayouts.FieldId", "{FBC10515-95D6-4559-BAD4-C235148DDECE}");
-            }
-        }
-
-        public static ID TemplateId
-        {
-            get
-            {
-                return GetIdSetting("BaseLayouts.TemplateId", "{8CA74595-41A2-4077-9911-D386687E77BD}");
             }
         }
 
@@ -35,7 +23,7 @@ namespace Sitecore.BaseLayouts
 
         private static ID GetIdSetting(string name, string defaultValue)
         {
-            return ID.Parse(Configuration.Settings.GetSetting(name, defaultValue));
+            return ID.Parse(Settings.GetSetting(name, defaultValue));
         }
     }
 }

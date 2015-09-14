@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{27857C
 EndProject
 Project("{CAA73BB0-EF22-4D79-A57E-DF67B3BA9C80}") = "Sitecore.BaseLayouts.Data.Website", "Sitecore.BaseLayouts.Data.Website\Sitecore.BaseLayouts.Data.Website.scproj", "{846EFD80-28F3-4EC9-91DF-0B3D8842675C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitecore.BaseLayouts.Tests", "Sitecore.BaseLayouts.Tests\Sitecore.BaseLayouts.Tests.csproj", "{DE9BC61F-C99A-4577-9885-34ECCAEB5786}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{846EFD80-28F3-4EC9-91DF-0B3D8842675C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{846EFD80-28F3-4EC9-91DF-0B3D8842675C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{846EFD80-28F3-4EC9-91DF-0B3D8842675C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DE9BC61F-C99A-4577-9885-34ECCAEB5786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9BC61F-C99A-4577-9885-34ECCAEB5786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9BC61F-C99A-4577-9885-34ECCAEB5786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9BC61F-C99A-4577-9885-34ECCAEB5786}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
