@@ -11,10 +11,9 @@ namespace Sitecore.BaseLayouts
     /// </summary>
     public class BaseLayoutValueProvider : ILayoutValueProvider
     {
+        private readonly string[] _databases;
         private readonly IBaseLayoutValidator _baseLayoutValidator;
         private readonly ILog _log;
-
-        private readonly string[] _databases;
 
         /// <summary>
         /// Initializes the BaseLayoutProvider
@@ -22,12 +21,12 @@ namespace Sitecore.BaseLayouts
         /// <param name="databases">pipe separated list of database names to support</param>
         /// <param name="baseLayoutValidator">An IBaseLayoutValidator</param>
         /// <param name="log">a log service</param>
-        public BaseLayoutValueProvider(string databases, IBaseLayoutValidator baseLayoutValidator, ILog log)
+        public BaseLayoutValueProvider(string[] databases, IBaseLayoutValidator baseLayoutValidator, ILog log)
         {
             Assert.ArgumentNotNull(baseLayoutValidator, "baseLayoutValidator");
             Assert.ArgumentNotNull(log, "log");
 
-            _databases = databases.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            _databases = databases;
             _baseLayoutValidator = baseLayoutValidator;
             _log = log;
         }
@@ -48,8 +47,7 @@ namespace Sitecore.BaseLayouts
             }
 
             // Get the item selected in the Base Layout field.  Otherwise, exit.
-            ReferenceField baseLayoutField = field.Item.Fields[BaseLayoutSettings.FieldId];
-            var baseLayoutItem = baseLayoutField.TargetItem;
+            var baseLayoutItem = new BaseLayoutItem(field.Item).BaseLayout;
             if (baseLayoutItem == null)
             {
                 return null;
@@ -67,7 +65,7 @@ namespace Sitecore.BaseLayouts
 
             // Get the value of the layout field on the base layout.
             // If the selected item also has a base layout selected, this will cause implicit recursion.
-            return new LayoutField(baseLayoutItem).Value;
+            return new LayoutField(baseLayoutItem.InnerItem).Value;
         }
 
         /// <summary>

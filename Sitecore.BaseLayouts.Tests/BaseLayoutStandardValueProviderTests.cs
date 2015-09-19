@@ -21,13 +21,6 @@ namespace Sitecore.BaseLayouts.Tests
 
     public class BaseLayoutStandardValueProviderTests : FakeDbTestClass
     {
-        private readonly FakeFieldFactory _fieldFactory;
-
-        public BaseLayoutStandardValueProviderTests()
-        {
-            _fieldFactory = new FakeFieldFactory();
-        }
-
         [Fact]
         public void GetStandardValue_WithLayoutFieldAndNonEmptyLayoutValue_ReturnsLayoutValue()
         {
@@ -39,7 +32,7 @@ namespace Sitecore.BaseLayouts.Tests
             var innerProvider = Substitute.For<StandardValuesProvider>();
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
-            var field = _fieldFactory.CreateFakeLayoutField(Db);
+            var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
             var result = provider.GetStandardValue(field);
@@ -61,7 +54,7 @@ namespace Sitecore.BaseLayouts.Tests
 
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
-            var field = this._fieldFactory.CreateFakeLayoutField(Db);
+            var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
             var result = provider.GetStandardValue(field);
@@ -78,7 +71,7 @@ namespace Sitecore.BaseLayouts.Tests
             var innerProvider = Substitute.For<StandardValuesProvider>();
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
-            var field = this._fieldFactory.CreateFakeEmptyField(Db);
+            var field = MasterFakesFactory.CreateFakeEmptyField();
 
             // Act
             var result = provider.GetStandardValue(field);
@@ -99,7 +92,7 @@ namespace Sitecore.BaseLayouts.Tests
             innerProvider.GetStandardValue(Arg.Any<Field>()).Returns(innerProviderValue);
 
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
-            var field = this._fieldFactory.CreateFakeEmptyField(Db);
+            var field = MasterFakesFactory.CreateFakeEmptyField();
 
             // Act
             var result = provider.GetStandardValue(field);
@@ -122,7 +115,7 @@ namespace Sitecore.BaseLayouts.Tests
 
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
-            var field = this._fieldFactory.CreateFakeLayoutField(Db);
+            var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
             var result = provider.GetStandardValue(field);
@@ -197,7 +190,7 @@ namespace Sitecore.BaseLayouts.Tests
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
 
-            var item = _fieldFactory.CreateFakeEmptyField(Db).Item;
+            var item = MasterFakesFactory.CreateFakeEmptyField().Item;
             
             // Act
             var result = provider.IsStandardValuesHolder(item);

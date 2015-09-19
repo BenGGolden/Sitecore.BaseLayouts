@@ -66,14 +66,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseLayoutItem.cs" />
     <Compile Include="BaseLayoutValidator.cs" />
     <Compile Include="BaseLayoutValueProvider.cs" />
+    <Compile Include="Caching\CachedLayoutValueProvider.cs" />
+    <Compile Include="Caching\ILayoutValueCache.cs" />
+    <Compile Include="Caching\LayoutValueCache.cs" />
     <Compile Include="Commands\SelectBaseLayout.cs" />
     <Compile Include="Diagnostics\ILog.cs" />
     <Compile Include="Diagnostics\LogWrapper.cs" />
     <Compile Include="IBaseLayoutValidator.cs" />
     <Compile Include="ILayoutValueProvider.cs" />
     <Compile Include="BaseLayoutStandardValuesProvider.cs" />
+    <Compile Include="Pipelines\GetBaseLayoutItemsArgs.cs" />
+    <Compile Include="Pipelines\GetLookupSourceItems.cs" />
+    <Compile Include="Pipelines\IGetBaseLayoutItemsProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\SelectBaseLayoutOptions.cs" />
     <Compile Include="BaseLayoutSettings.cs" />

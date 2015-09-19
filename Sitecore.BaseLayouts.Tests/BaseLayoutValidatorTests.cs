@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq.Expressions;
 using Sitecore.Data;
-using Sitecore.Data.Items;
-using Sitecore.FakeDb;
 using Xunit;
 
 namespace Sitecore.BaseLayouts.Tests
@@ -24,7 +21,7 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var validator = new BaseLayoutValidator();
-            var item = CreateFakeItem(Db, null, null, false);
+            var item = MasterFakesFactory.CreateFakeItem(null, null, null, null, false);
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -34,11 +31,11 @@ namespace Sitecore.BaseLayouts.Tests
         }
 
         [Fact]
-        public void HasCircularBaseLayoutReference_WithNoBaseLayout_ReturnsFalse()
+        public void HasCircularBaseLayoutReference_WithItemWithNoBaseLayout_ReturnsFalse()
         {
             // Arrange
             var validator = new BaseLayoutValidator();
-            var item = CreateFakeItem(Db);
+            var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -52,7 +49,7 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var validator = new BaseLayoutValidator();
-            var item = CreateFakeItem(Db);
+            var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -67,7 +64,7 @@ namespace Sitecore.BaseLayouts.Tests
             // Arrange
             var validator = new BaseLayoutValidator();
             var id = new ID();
-            var item = CreateFakeItem(Db, id, id);
+            var item = MasterFakesFactory.CreateFakeItem(id, null, null, id);
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -83,8 +80,8 @@ namespace Sitecore.BaseLayouts.Tests
             var validator = new BaseLayoutValidator();
             var id = new ID();
             var baseId = new ID();
-            var baseItem = CreateFakeItem(Db, baseId, id);
-            var item = CreateFakeItem(Db, id, baseId);
+            var baseItem = MasterFakesFactory.CreateFakeItem(baseId, null, null, id);
+            var item = MasterFakesFactory.CreateFakeItem(id, null, null, baseId);
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -93,22 +90,95 @@ namespace Sitecore.BaseLayouts.Tests
             Assert.True(result);
         }
 
-        private Item CreateFakeItem(Db db, ID id = null, ID baseLayoutId = null, bool addBaseLayoutField = true)
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WithNullItem_ThrowsArgumentNullException()
         {
-            if (ID.IsNullOrEmpty(id))
-            {
-                id = new ID();
-            }
+            // Arrange
+            var validator = new BaseLayoutValidator();
 
-            var item = new DbItem(id.ToShortID().ToString(), id);
-            if (addBaseLayoutField)
-            {
-                item.Fields.Add(BaseLayoutSettings.FieldId,
-                    ID.IsNullOrEmpty(baseLayoutId) ? null : baseLayoutId.ToString());
-            }
+            // Act => Assert
+            Assert.Throws<ArgumentNullException>(() => validator.CreatesCircularBaseLayoutReference(null, MasterFakesFactory.CreateFakeItem()));
+        }
 
-            db.Add(item);
-            return db.GetItem(id);
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WithNullBaseLayoutItem_ThrowsArgumentNullException()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+
+            // Act => Assert
+            Assert.Throws<ArgumentNullException>(() => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(), null));
+        }
+
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WithItemWithoutBaseLayoutField_ThrowsArgumentException()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+
+            // Act => Assert
+            Assert.Throws<ArgumentException>(() => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(null, null, null, null, false), MasterFakesFactory.CreateFakeItem()));
+        }
+
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WithItemSameAsBaseLayoutItem_ReturnsTrue()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+
+            // Act
+            var result = validator.CreatesCircularBaseLayoutReference(item, item);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WhenBaseLayoutItemHasItemSelectedAsBaseLayout_ReturnsTrue()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, item.ID);
+
+            // Act
+            var result = validator.CreatesCircularBaseLayoutReference(item, item2);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WithThreeNodeCycle_ReturnsTrue()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, item.ID);
+            var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, item2.ID);
+
+            // Act
+            var result = validator.CreatesCircularBaseLayoutReference(item, item3);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CreatesCircularBaseLayoutReference_WithLinearChain_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem();
+            var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, item2.ID);
+
+            // Act
+            var result = validator.CreatesCircularBaseLayoutReference(item, item3);
+
+            // Assert
+            Assert.False(result);
         }
     }
 }

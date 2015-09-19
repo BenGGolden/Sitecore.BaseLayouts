@@ -10,21 +10,14 @@ namespace Sitecore.BaseLayouts.Tests
 
     public class BaseLayoutValueProviderTests : FakeDbTestClass
     {
-        private FakeFieldFactory _fakeFieldFactory;
-
-        public BaseLayoutValueProviderTests()
-        {
-            _fakeFieldFactory = new FakeFieldFactory();
-        }
-
         [Fact]
         public void GetLayoutValue_WithNonLayoutField_ReturnsNull()
         {
             // Arrange
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var field = _fakeFieldFactory.CreateFakeEmptyField(Db);
-            var provider = new BaseLayoutValueProvider("master|web", validator, log);
+            var field = MasterFakesFactory.CreateFakeEmptyField();
+            var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
 
             // Act
             var result = provider.GetLayoutValue(field);
@@ -39,8 +32,8 @@ namespace Sitecore.BaseLayouts.Tests
             // Arrange
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutValueProvider("web", validator, log);
-            var field = _fakeFieldFactory.CreateFakeLayoutField(Db);
+            var provider = new BaseLayoutValueProvider(new[] {"web"}, validator, log);
+            var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
             var result = provider.GetLayoutValue(field);
@@ -55,8 +48,8 @@ namespace Sitecore.BaseLayouts.Tests
             // Arrange
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutValueProvider("master|web", validator, log);
-            var field = _fakeFieldFactory.CreateFakeLayoutField(Db, null, ItemIDs.SystemRoot);
+            var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
+            var field = MasterFakesFactory.CreateFakeLayoutField(null, ItemIDs.SystemRoot);
 
             // Act
             var result = provider.GetLayoutValue(field);
@@ -71,8 +64,8 @@ namespace Sitecore.BaseLayouts.Tests
             // Arrange
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutValueProvider("master|web", validator, log);
-            var field = _fakeFieldFactory.CreateFakeLayoutField(Db, null, null, null, null, false);
+            var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
+            var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, null, false);
 
             // Act
             var result = provider.GetLayoutValue(field);
@@ -87,8 +80,8 @@ namespace Sitecore.BaseLayouts.Tests
             // Arrange
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutValueProvider("master|web", validator, log);
-            var field = _fakeFieldFactory.CreateFakeLayoutField(Db);
+            var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
+            var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
             var result = provider.GetLayoutValue(field);
@@ -102,11 +95,11 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var validator = Substitute.For<IBaseLayoutValidator>();
-            validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
+            validator.HasCircularBaseLayoutReference(Arg.Any<BaseLayoutItem>()).Returns(true);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutValueProvider("master|web", validator, log);
-            var baseLayoutId = _fakeFieldFactory.CreateFakeLayoutField(Db).Item.ID;
-            var field = _fakeFieldFactory.CreateFakeLayoutField(Db, null, null, null, baseLayoutId);
+            var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
+            var baseLayoutId = MasterFakesFactory.CreateFakeLayoutField().Item.ID;
+            var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, baseLayoutId);
 
             // Act
             var result = provider.GetLayoutValue(field);
@@ -123,9 +116,9 @@ namespace Sitecore.BaseLayouts.Tests
             var baseLayoutValue = "Hey, this is the base layout value!";
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutValueProvider("master|web", validator, log);
-            var baseLayoutId = _fakeFieldFactory.CreateFakeLayoutField(Db, null, null, baseLayoutValue).Item.ID;
-            var field = _fakeFieldFactory.CreateFakeLayoutField(Db, null, null, null, baseLayoutId);
+            var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
+            var baseLayoutId = MasterFakesFactory.CreateFakeLayoutField(null, null, baseLayoutValue).Item.ID;
+            var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, baseLayoutId);
 
             // Act
             var result = provider.GetLayoutValue(field);

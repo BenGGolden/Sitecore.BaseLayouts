@@ -6,14 +6,15 @@
 //   The select base layout options.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Sitecore.Data;
+using Sitecore.Diagnostics;
+using Sitecore.Shell.Applications.Dialogs.ItemLister;
+using Sitecore.Text;
+using Sitecore.Web;
+
 namespace Sitecore.BaseLayouts.Commands
 {
-    using Sitecore.Data;
-    using Sitecore.Diagnostics;
-    using Sitecore.Shell.Applications.Dialogs.ItemLister;
-    using Sitecore.Text;
-    using Sitecore.Web;
-
     /// <summary>
     ///     The select base layout options.
     /// </summary>
@@ -24,17 +25,17 @@ namespace Sitecore.BaseLayouts.Commands
         /// </summary>
         public SelectBaseLayoutOptions()
         {
-            this.Icon = "ApplicationsV2/32x32/window_gear.png";
-            this.Title = "Select a Base Layout";
-            this.Text = "Select the base layout that will determine the design of the page.";
-            this.ButtonText = "Select";
+            Icon = "ApplicationsV2/32x32/window_gear.png";
+            Title = "Select a Base Layout";
+            Text = "Select the base layout that will determine the design of the page.";
+            ButtonText = "Select";
         }
 
         /// <summary>
         ///     Gets or sets the current base layout id.
         /// </summary>
         public ID CurrentBaseLayoutId { get; set; }
-        
+
         /// <summary>
         ///     The get xml control.
         /// </summary>
@@ -47,24 +48,24 @@ namespace Sitecore.BaseLayouts.Commands
         }
 
         /// <summary>
-        /// The to url string.
+        ///     The to url string.
         /// </summary>
         /// <param name="database">
-        /// The database.
+        ///     The database.
         /// </param>
         /// <returns>
-        /// The <see cref="UrlString"/>.
+        ///     The <see cref="UrlString" />.
         /// </returns>
         public override UrlString ToUrlString(Database database)
         {
             Assert.ArgumentNotNull(database, "database");
 
-            this.AddNullSelectionItem(database);
+            AddNullSelectionItem(database);
             var urlString = base.ToUrlString(database);
-            if (!ID.IsNullOrEmpty(this.CurrentBaseLayoutId))
+            if (!ID.IsNullOrEmpty(CurrentBaseLayoutId))
             {
                 var handle = urlString["hdl"];
-                WebUtil.SetSessionValue(this.GetSessionKey(handle), this.CurrentBaseLayoutId);
+                WebUtil.SetSessionValue(GetSessionKey(handle), CurrentBaseLayoutId);
             }
 
             return urlString;
@@ -82,35 +83,35 @@ namespace Sitecore.BaseLayouts.Commands
                 return;
             }
 
-            var key = this.GetSessionKey(handle);
-            this.CurrentBaseLayoutId = WebUtil.GetSessionValue(key) as ID;
+            var key = GetSessionKey(handle);
+            CurrentBaseLayoutId = WebUtil.GetSessionValue(key) as ID;
             WebUtil.RemoveSessionValue(key);
         }
 
         /// <summary>
-        /// The get session key.
+        ///     The get session key.
         /// </summary>
         /// <param name="handle">
-        /// The handle.
+        ///     The handle.
         /// </param>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
-        private string GetSessionKey(string handle)
+        protected virtual string GetSessionKey(string handle)
         {
             return handle + "_CurrentBaseLayoutId";
         }
 
-        private void AddNullSelectionItem(Database database)
+        protected virtual void AddNullSelectionItem(Database database)
         {
             var nullItem = database.GetItem(BaseLayoutSettings.NullSelectionItemId);
             if (nullItem != null)
             {
-                this.Items.Insert(0, nullItem);
+                Items.Insert(0, nullItem);
 
-                if (ID.IsNullOrEmpty(this.CurrentBaseLayoutId))
+                if (ID.IsNullOrEmpty(CurrentBaseLayoutId))
                 {
-                    this.CurrentBaseLayoutId = BaseLayoutSettings.NullSelectionItemId;
+                    CurrentBaseLayoutId = BaseLayoutSettings.NullSelectionItemId;
                 }
             }
         }

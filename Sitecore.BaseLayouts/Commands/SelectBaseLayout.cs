@@ -1,25 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
+using Sitecore.BaseLayouts.Pipelines;
+using Sitecore.Data;
+using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
+using Sitecore.Diagnostics;
+using Sitecore.Pipelines;
+using Sitecore.Shell.Applications.WebEdit.Commands;
+using Sitecore.Shell.Framework.Commands;
+using Sitecore.Web;
+using Sitecore.Web.UI.Sheer;
 
 namespace Sitecore.BaseLayouts.Commands
 {
-    using System.Collections.Specialized;
-
-    using Sitecore.Data;
-    using Sitecore.Data.Fields;
-    using Sitecore.Data.Items;
-    using Sitecore.Diagnostics;
-    using Sitecore.Shell.Applications.Dialogs.ItemLister;
-    using Sitecore.Shell.Applications.WebEdit.Commands;
-    using Sitecore.Shell.Framework.Commands;
-    using Sitecore.Text;
-    using Sitecore.Web;
-    using Sitecore.Web.UI.Sheer;
-
+    /// <summary>
+    /// Command that opens the base layout selection dialog
+    /// </summary>
     public class SelectBaseLayout : WebEditCommand
     {
+        private readonly IBaseLayoutValidator _validator;
+
+        /// <summary>
+        /// Initializes the SelectBaseLayout command
+        /// </summary>
+        public SelectBaseLayout() : this(new BaseLayoutValidator())
+        {
+        }
+
+
+        /// <summary>
+        /// Initializes the SelectBaseLayout command with the provided BaseLayoutValidator
+        /// </summary>
+        /// <param name="validator"></param>
+        public SelectBaseLayout(IBaseLayoutValidator validator)
+        {
+            Assert.ArgumentNotNull(validator, "validator");
+            _validator = validator;
+        }
+
+        /// <summary>
+        /// Executes the command
+        /// </summary>
+        /// <param name="context"></param>
         public override void Execute(CommandContext context)
         {
             Assert.ArgumentNotNull(context, "context");
@@ -29,32 +53,36 @@ namespace Sitecore.BaseLayouts.Commands
             }
 
             var parameters = new NameValueCollection();
-            parameters["items"] = this.SerializeItems(context.Items);
+            parameters["items"] = SerializeItems(context.Items);
             Context.ClientPage.Start(this, "Run", parameters);
         }
 
+        /// <summary>
+        /// Determines the display state of the command button.
+        /// </summary>
+        /// <param name="context">The command context</param>
+        /// <returns>The state that the button should display in</returns>
         public override CommandState QueryState(CommandContext context)
         {
             Assert.ArgumentNotNull(context, "context");
-            if (!WebEditCommand.CanWebEdit() || WebUtil.GetQueryString("mode") != "edit" || context.Items.Length == 0)
+            if (!CanEdit() || context.Items.Length == 0)
             {
                 return CommandState.Hidden;
             }
 
             var currentItem = context.Items[0];
-            var field = currentItem.Fields[BaseLayoutSettings.FieldId];
-            if (field == null)
+            if (!currentItem.Fields.Contains(BaseLayoutSettings.FieldId))
             {
                 return CommandState.Hidden;
             }
 
-            var items = this.GetBaseLayoutItems(currentItem);
+            var items = GetBaseLayoutItems(currentItem);
             if (items == null || items.Count == 0)
             {
                 return CommandState.Hidden;
             }
 
-            if (!WebEditCommand.CanDesignItem(currentItem))
+            if (!CanDesign(currentItem))
             {
                 return CommandState.Disabled;
             }
@@ -62,15 +90,14 @@ namespace Sitecore.BaseLayouts.Commands
             return base.QueryState(context);
         }
 
-        protected virtual List<Item> GetBaseLayoutItems(Item item)
+        internal virtual List<Item> GetBaseLayoutItems(Item item)
         {
-            var folder = item.Database.GetItem("{34A65165-AD43-4DB9-B804-EFA50BEA1F0C}");
-            if (folder != null)
+            using (new LongRunningOperationWatcher(1000, "getBaseLayoutItems pipeline[item={0}]", item.Paths.Path))
             {
-                return folder.Children.ToList();
+                var args = new GetBaseLayoutItemsArgs(item);
+                CorePipeline.Run("getBaseLayoutItems", args);
+                return args.BaseLayoutItems;
             }
-
-            return null;
         }
 
         protected void Run(ClientPipelineArgs args)
@@ -81,13 +108,13 @@ namespace Sitecore.BaseLayouts.Commands
                 return;
             }
 
-            var currentItem = this.DeserializeItems(args.Parameters["items"])[0];
+            var currentItem = DeserializeItems(args.Parameters["items"])[0];
             if (!args.IsPostBack)
             {
-                var items = this.GetBaseLayoutItems(currentItem);
+                var items = GetBaseLayoutItems(currentItem);
                 if (items.Count > 0)
                 {
-                    var options = new SelectBaseLayoutOptions { Items = items };
+                    var options = new SelectBaseLayoutOptions {Items = items};
                     SheerResponse.ShowModalDialog(options.ToUrlString().ToString(), true);
                     args.WaitForPostBack();
                 }
@@ -117,7 +144,7 @@ namespace Sitecore.BaseLayouts.Commands
                     return;
                 }
 
-                ID itemId = sid.ToID();
+                var itemId = sid.ToID();
                 if (itemId == BaseLayoutSettings.NullSelectionItemId && field.HasValue)
                 {
                     using (new EditContext(currentItem))
@@ -135,7 +162,7 @@ namespace Sitecore.BaseLayouts.Commands
                     return;
                 }
 
-                if (this.HasCircularReference(currentItem, baseLayoutItem))
+                if (_validator.CreatesCircularBaseLayoutReference(currentItem, baseLayoutItem))
                 {
                     SheerResponse.Alert("Circular reference detected in the base layout chain.");
                     return;
@@ -149,30 +176,19 @@ namespace Sitecore.BaseLayouts.Commands
                         field.Value = idString;
                     }
 
-                    WebEditCommand.Reload();
+                    Reload();
                 }
             }
         }
 
-        private bool HasCircularReference(Item currentItem, Item selectedItem)
+        internal virtual bool CanEdit()
         {
-            var chain = new List<ID>();
-            chain.Add(currentItem.ID);
-            var item = selectedItem;
-            do
-            {
-                if (chain.Contains(item.ID))
-                {
-                    return true;
-                }
+            return CanWebEdit() && Context.PageMode.IsPageEditorEditing;
+        }
 
-                chain.Add(item.ID);
-                ReferenceField field = item.Fields[BaseLayoutSettings.FieldId];
-                item = field == null ? null : field.TargetItem;
-            }
-            while (item != null);
-
-            return false;
+        internal virtual bool CanDesign(Item item)
+        {
+            return WebEditUtil.CanDesignItem(item);
         }
     }
 }

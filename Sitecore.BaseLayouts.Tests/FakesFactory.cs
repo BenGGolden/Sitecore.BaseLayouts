@@ -1,25 +1,37 @@
-﻿using Sitecore.Data;
+﻿using System.Linq;
+using Sitecore.Data;
+using Sitecore.Data.Items;
 
 namespace Sitecore.BaseLayouts.Tests
 {
     using Sitecore.Data.Fields;
     using Sitecore.FakeDb;
 
-    public class FakeFieldFactory
+    public class FakesFactory
     {
-        public Field CreateFakeEmptyField(Db db, string databaseName = null)
-        {
-            if (string.IsNullOrWhiteSpace(databaseName))
-            {
-                databaseName = "master";
-            }
+        private readonly Db _db;
 
-            db.Add(new DbItem("Home") { { "Title", null } });
-            var item = db.GetItem("/sitecore/content/home");
+        public FakesFactory(Db db)
+        {
+            _db = db;
+        }
+
+        public Field CreateFakeEmptyField()
+        {
+            _db.Add(new DbItem("Home") { { "Title", null } });
+            var item = _db.GetItem("/sitecore/content/home");
             return item.Fields["Title"];
         }
 
-        public Field CreateFakeLayoutField(Db db, ID id = null, ID parentId = null, string layoutValue = null,
+        public Field CreateFakeLayoutField(ID id = null, ID parentId = null, string layoutValue = null,
+            ID baseLayoutId = null,
+            bool addBaseLayoutField = true)
+        {
+            return
+                CreateFakeItem(id, parentId, layoutValue, baseLayoutId, addBaseLayoutField).Fields[FieldIDs.LayoutField];
+        }
+
+        public Item CreateFakeItem(ID id = null, ID parentId = null, string layoutValue = null,
             ID baseLayoutId = null,
             bool addBaseLayoutField = true)
         {
@@ -51,10 +63,10 @@ namespace Sitecore.BaseLayouts.Tests
                     ID.IsNullOrEmpty(baseLayoutId) ? null : baseLayoutId.ToString());
             }
 
-            db.Add(dbItem);
+            _db.Add(dbItem);
 
-            var item = db.GetItem(id);
-            return item.Fields[FieldIDs.LayoutField];
+            var item = _db.GetItem(id);
+            return item;
         }
     }
 }

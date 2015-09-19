@@ -44,11 +44,17 @@
     <Reference Include="Sitecore.Analytics">
       <HintPath>..\References\Sitecore.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.FakeDb">
-      <HintPath>..\packages\Sitecore.FakeDb.0.29.3\lib\net45\Sitecore.FakeDb.dll</HintPath>
+    <Reference Include="Sitecore.Client, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Sitecore.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.FakeDb.NSubstitute">
-      <HintPath>..\packages\Sitecore.FakeDb.NSubstitute.0.29.3\lib\net45\Sitecore.FakeDb.NSubstitute.dll</HintPath>
+    <Reference Include="Sitecore.FakeDb, Version=0.30.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Sitecore.FakeDb.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.FakeDb.NSubstitute, Version=0.30.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.FakeDb.NSubstitute.0.30.0\lib\net45\Sitecore.FakeDb.NSubstitute.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\References\Sitecore.Kernel.dll</HintPath>
@@ -62,6 +68,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,9 +88,13 @@
     <Compile Include="BaseLayoutStandardValueProviderTests.cs" />
     <Compile Include="BaseLayoutValidatorTests.cs" />
     <Compile Include="BaseLayoutValueProviderTests.cs" />
+    <Compile Include="Caching\CachedLayoutValueProviderTests.cs" />
+    <Compile Include="Commands\SelectBaseLayoutTests.cs" />
     <Compile Include="FakeDbTestClass.cs" />
-    <Compile Include="FakeFieldFactory.cs" />
+    <Compile Include="FakesFactory.cs" />
+    <Compile Include="Caching\LayoutValueCacheTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectBaseLayoutFormTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

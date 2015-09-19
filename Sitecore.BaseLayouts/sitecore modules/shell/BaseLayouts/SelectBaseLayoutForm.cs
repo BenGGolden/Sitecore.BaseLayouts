@@ -93,7 +93,7 @@ namespace Sitecore.BaseLayouts
         /// <returns>
         ///     The <see cref="string" />.
         /// </returns>
-        protected virtual string RenderPreviews(List<Item> items, ID selectedItemId)
+        internal virtual string RenderPreviews(IEnumerable<Item> items, ID selectedItemId)
         {
             Assert.ArgumentNotNull(items, "items");
             var output = new HtmlTextWriter(new StringWriter());
@@ -114,7 +114,7 @@ namespace Sitecore.BaseLayouts
         }
 
         /// <summary>
-        ///     The render selected item preview.
+        ///     Render the selected item preview.
         /// </summary>
         /// <param name="item">
         ///     The item.
@@ -122,12 +122,26 @@ namespace Sitecore.BaseLayouts
         /// <param name="output">
         ///     The output.
         /// </param>
-        private void RenderSelectedItemPreview(Item item, HtmlTextWriter output)
+        internal virtual void RenderSelectedItemPreview(Item item, HtmlTextWriter output)
         {
             var writer = new HtmlTextWriter(new StringWriter());
             RenderItemPreview(item, writer);
 
             output.Write(writer.InnerWriter.ToString().Replace("scItemThumbnail", "scItemThumbnailSelected"));
+        }
+
+        /// <summary>
+        ///     Render the item preview.
+        /// </summary>
+        /// <param name="item">
+        ///     The item.
+        /// </param>
+        /// <param name="output">
+        ///     The output.
+        /// </param>
+        new internal virtual void RenderItemPreview(Item item, HtmlTextWriter output)
+        {
+            base.RenderItemPreview(item, output);
         }
     }
 }

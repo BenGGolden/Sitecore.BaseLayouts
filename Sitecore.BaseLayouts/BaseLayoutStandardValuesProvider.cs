@@ -36,9 +36,6 @@ namespace Sitecore.BaseLayouts
         /// <param name="innerProvider">
         ///     The inner provider.
         /// </param>
-        /// <param name="databases">
-        ///     A pipe delimited list of database names that support base layouts.
-        /// </param>
         /// <param name="layoutValueProvider">
         ///     The layout value provider
         /// </param>
