@@ -2,6 +2,7 @@
 using System.Linq;
 using Sitecore.BaseLayouts.Diagnostics;
 using Sitecore.Data.Fields;
+using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts
@@ -14,6 +15,15 @@ namespace Sitecore.BaseLayouts
         private readonly string[] _databases;
         private readonly IBaseLayoutValidator _baseLayoutValidator;
         private readonly ILog _log;
+
+        /// <summary>
+        /// Initializes the BaseLayoutProvider
+        /// </summary>
+        /// <param name="baseLayoutValidator">An IBaseLayoutValidator</param>
+        /// <param name="log">a log service</param>
+        public BaseLayoutValueProvider(IBaseLayoutValidator baseLayoutValidator, ILog log) : this(BaseLayoutSettings.SupportedDatabases, baseLayoutValidator, log)
+        {
+        }
 
         /// <summary>
         /// Initializes the BaseLayoutProvider
@@ -41,7 +51,7 @@ namespace Sitecore.BaseLayouts
             // Sanity check.  Make sure the context is appropriate for attempting to find a base layout.
             if (!IsLayoutField(field)
                 || !_databases.Contains(field.Item.Database.Name, StringComparer.OrdinalIgnoreCase)
-                || !field.Item.Paths.IsContentItem || !field.Item.Fields.Contains(BaseLayoutSettings.FieldId))
+                || !field.Item.Paths.IsContentItem || !TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, field.Item))
             {
                 return null;
             }

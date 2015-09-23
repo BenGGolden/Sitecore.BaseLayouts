@@ -12,10 +12,12 @@ using Sitecore.BaseLayouts.Commands;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
+using Sitecore.Globalization;
 using Sitecore.Shell.Applications.Dialogs.ItemLister;
 using Sitecore.Shell.Applications.Dialogs.SelectItemWithThumbnail;
 using Sitecore.Web.UI.HtmlControls;
 using Sitecore.Web.UI.Sheer;
+using Version = Sitecore.Data.Version;
 
 namespace Sitecore.BaseLayouts
 {
@@ -59,11 +61,39 @@ namespace Sitecore.BaseLayouts
             }
 
             var options = SelectItemOptions.Parse<SelectBaseLayoutOptions>();
+            options.Items.Insert(0, CreateNullSelectionItem());
             Previews.InnerHtml = RenderPreviews(options.Items, options.CurrentBaseLayoutId);
             if (!ID.IsNullOrEmpty(options.CurrentBaseLayoutId))
             {
                 SelectedItemId = options.CurrentBaseLayoutId.ToShortID().ToString();
             }
+        }
+
+        protected override void SelectableItemPreview_Click(string id, string language, string version)
+        {
+            if (id == ID.Null.ToString())
+            {
+                if (!string.IsNullOrEmpty(SelectedItemId))
+                {
+                    SheerResponse.SetAttribute(string.Format("I{0}", SelectedItemId), "class", "scItemThumbnail");
+                }
+                SelectedItemId = ID.Null.ToShortID().ToString();
+                SheerResponse.SetAttribute(string.Format("I{0}", SelectedItemId), "class", "scItemThumbnailSelected");
+            }
+            else
+            {
+                base.SelectableItemPreview_Click(id, language, version);
+            }
+        }
+
+        protected override void SelectableItemPreview_DblClick(string id, string language, string version)
+        {
+            if (id == ID.Null.ToString())
+            {
+                SheerResponse.SetDialogValue(id);
+            }
+
+            base.SelectableItemPreview_DblClick(id, language, version);
         }
 
         /// <summary>
@@ -142,6 +172,16 @@ namespace Sitecore.BaseLayouts
         new internal virtual void RenderItemPreview(Item item, HtmlTextWriter output)
         {
             base.RenderItemPreview(item, output);
+        }
+
+        private Item CreateNullSelectionItem()
+        {
+            var definition = new ItemDefinition(ID.Null, "None", TemplateIDs.StandardTemplate, ID.Null);
+            var fields = new FieldList {{FieldIDs.Icon, "Applications/32x32/selection_delete.png"}};
+            var data = new ItemData(definition, Language.Current, Version.First, fields);
+            var item = new Item(ID.Null, data, Context.ContentDatabase);
+            item.RuntimeSettings.Temporary = true;
+            return item;
         }
     }
 }

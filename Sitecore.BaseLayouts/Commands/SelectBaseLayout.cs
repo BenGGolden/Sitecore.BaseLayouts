@@ -6,8 +6,10 @@ using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 using Sitecore.Pipelines;
+using Sitecore.SecurityModel;
 using Sitecore.Shell.Applications.WebEdit.Commands;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Web;
@@ -71,7 +73,7 @@ namespace Sitecore.BaseLayouts.Commands
             }
 
             var currentItem = context.Items[0];
-            if (!currentItem.Fields.Contains(BaseLayoutSettings.FieldId))
+            if (!TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, currentItem))
             {
                 return CommandState.Hidden;
             }
@@ -145,7 +147,7 @@ namespace Sitecore.BaseLayouts.Commands
                 }
 
                 var itemId = sid.ToID();
-                if (itemId == BaseLayoutSettings.NullSelectionItemId && field.HasValue)
+                if (itemId == ID.Null && field.HasValue)
                 {
                     using (new EditContext(currentItem))
                     {
@@ -183,12 +185,12 @@ namespace Sitecore.BaseLayouts.Commands
 
         internal virtual bool CanEdit()
         {
-            return CanWebEdit() && Context.PageMode.IsPageEditorEditing;
+            return CanWebEdit() && WebUtil.GetQueryString("mode") == "edit";
         }
 
         internal virtual bool CanDesign(Item item)
         {
-            return WebEditUtil.CanDesignItem(item);
+            return Policy.IsAllowed("Page Editor/Can Design") && CanDesignItem(item);
         }
     }
 }

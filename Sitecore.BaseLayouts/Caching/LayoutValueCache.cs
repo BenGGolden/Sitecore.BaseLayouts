@@ -20,6 +20,13 @@ namespace Sitecore.BaseLayouts.Caching
     public class LayoutValueCache : CustomCache, ILayoutValueCache
     {
         /// <summary>
+        /// Initializes the cache using a configuration setting for the supported databases
+        /// </summary>
+        public LayoutValueCache() : this(BaseLayoutSettings.SupportedDatabases)
+        {
+        }
+
+        /// <summary>
         /// Initializes the cache
         /// </summary>
         /// <param name="databases">the names of databases to suppport</param>

@@ -1,4 +1,5 @@
 using System;
+using Sitecore.Data.Managers;
 
 namespace Sitecore.BaseLayouts
 {
@@ -33,7 +34,7 @@ namespace Sitecore.BaseLayouts
         {
             Assert.ArgumentNotNull(item, "item");
             Assert.ArgumentNotNull(baseLayoutItem, "baseLayoutItem");
-            Assert.ArgumentCondition(item.InnerItem.Fields.Contains(BaseLayoutSettings.FieldId), "item",
+            Assert.ArgumentCondition(TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, item.InnerItem), "item",
                 "item does not have a Base Layout field");
 
             return HasDuplicateBaseLayout(baseLayoutItem, new HashSet<ID> {item.ID});

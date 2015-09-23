@@ -59,8 +59,7 @@ namespace Sitecore.BaseLayouts.Commands
         public override UrlString ToUrlString(Database database)
         {
             Assert.ArgumentNotNull(database, "database");
-
-            AddNullSelectionItem(database);
+            
             var urlString = base.ToUrlString(database);
             if (!ID.IsNullOrEmpty(CurrentBaseLayoutId))
             {
@@ -100,20 +99,6 @@ namespace Sitecore.BaseLayouts.Commands
         protected virtual string GetSessionKey(string handle)
         {
             return handle + "_CurrentBaseLayoutId";
-        }
-
-        protected virtual void AddNullSelectionItem(Database database)
-        {
-            var nullItem = database.GetItem(BaseLayoutSettings.NullSelectionItemId);
-            if (nullItem != null)
-            {
-                Items.Insert(0, nullItem);
-
-                if (ID.IsNullOrEmpty(CurrentBaseLayoutId))
-                {
-                    CurrentBaseLayoutId = BaseLayoutSettings.NullSelectionItemId;
-                }
-            }
         }
     }
 }
