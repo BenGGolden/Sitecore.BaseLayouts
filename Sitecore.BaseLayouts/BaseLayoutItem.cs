@@ -1,6 +1,9 @@
-﻿using Sitecore.Data;
+﻿using System;
+using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Data.Managers;
+using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts
 {
@@ -23,6 +26,16 @@ namespace Sitecore.BaseLayouts
         public static implicit operator BaseLayoutItem(Item innerItem)
         {
             return innerItem == null ? null : new BaseLayoutItem(innerItem);
+        }
+
+        /// <summary>
+        /// Converts a BaseLayoutItem to a regular item
+        /// </summary>
+        /// <param name="item">the BaseLayoutItem</param>
+        /// <returns>the inner item</returns>
+        public static implicit operator Item(BaseLayoutItem item)
+        {
+            return item.InnerItem;
         }
 
         private BaseLayoutItem _baseLayout;

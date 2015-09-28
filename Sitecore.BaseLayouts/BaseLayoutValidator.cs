@@ -34,7 +34,7 @@ namespace Sitecore.BaseLayouts
         {
             Assert.ArgumentNotNull(item, "item");
             Assert.ArgumentNotNull(baseLayoutItem, "baseLayoutItem");
-            Assert.ArgumentCondition(TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, item.InnerItem), "item",
+            Assert.ArgumentCondition(TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, item), "item",
                 "item does not have a Base Layout field");
 
             return HasDuplicateBaseLayout(baseLayoutItem, new HashSet<ID> {item.ID});

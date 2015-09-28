@@ -75,7 +75,7 @@ namespace Sitecore.BaseLayouts
 
             // Get the value of the layout field on the base layout.
             // If the selected item also has a base layout selected, this will cause implicit recursion.
-            return new LayoutField(baseLayoutItem.InnerItem).Value;
+            return new LayoutField(baseLayoutItem).Value;
         }
 
         /// <summary>

@@ -78,13 +78,19 @@
     <Compile Include="IBaseLayoutValidator.cs" />
     <Compile Include="ILayoutValueProvider.cs" />
     <Compile Include="BaseLayoutStandardValuesProvider.cs" />
-    <Compile Include="Pipelines\GetBaseLayoutItemsArgs.cs" />
-    <Compile Include="Pipelines\GetLookupSourceItems.cs" />
-    <Compile Include="Pipelines\IGetBaseLayoutItemsProcessor.cs" />
+    <Compile Include="Pipelines\GetBaseLayoutItems\GetBaseLayoutItemsArgs.cs" />
+    <Compile Include="Pipelines\GetBaseLayoutItems\GetLookupSourceItems.cs" />
+    <Compile Include="Pipelines\GetBaseLayoutItems\IGetBaseLayoutItemsProcessor.cs" />
+    <Compile Include="Pipelines\SaveBaseLayout\CheckForCircularReference.cs" />
+    <Compile Include="Pipelines\SaveBaseLayout\ISaveBaseLayoutProcessor.cs" />
+    <Compile Include="Pipelines\SaveBaseLayout\SaveBaseLayoutArgs.cs" />
+    <Compile Include="Pipelines\SaveBaseLayout\SaveNewBaseLayout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\SelectBaseLayoutOptions.cs" />
     <Compile Include="BaseLayoutSettings.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutForm.cs" />
+    <Compile Include="UI\ISheerResponse.cs" />
+    <Compile Include="UI\SheerResponseWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\BaseLayouts.config">

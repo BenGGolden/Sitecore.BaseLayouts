@@ -2,7 +2,7 @@
 using Sitecore.Diagnostics;
 using Sitecore.Web.UI.HtmlControls.Data;
 
-namespace Sitecore.BaseLayouts.Pipelines
+namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
 {
     /// <summary>
     /// Processor to get base layout items from LookupSources

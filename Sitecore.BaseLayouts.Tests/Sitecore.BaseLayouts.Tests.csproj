@@ -89,6 +89,7 @@
     <Compile Include="BaseLayoutValidatorTests.cs" />
     <Compile Include="BaseLayoutValueProviderTests.cs" />
     <Compile Include="Caching\CachedLayoutValueProviderTests.cs" />
+    <Compile Include="Commands\SelectBaseLayoutOptionsTests.cs" />
     <Compile Include="Commands\SelectBaseLayoutTests.cs" />
     <Compile Include="FakeDbTestClass.cs" />
     <Compile Include="FakesFactory.cs" />

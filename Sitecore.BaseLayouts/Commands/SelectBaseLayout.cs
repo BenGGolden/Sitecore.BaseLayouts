@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Sitecore.BaseLayouts.Pipelines;
+using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
+using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
+using Sitecore.BaseLayouts.UI;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
@@ -22,24 +25,15 @@ namespace Sitecore.BaseLayouts.Commands
     /// </summary>
     public class SelectBaseLayout : WebEditCommand
     {
-        private readonly IBaseLayoutValidator _validator;
+        private readonly ISheerResponse _sheerResponse;
 
-        /// <summary>
-        /// Initializes the SelectBaseLayout command
-        /// </summary>
-        public SelectBaseLayout() : this(new BaseLayoutValidator())
+        public SelectBaseLayout() : this(new SheerResponseWrapper())
         {
         }
 
-
-        /// <summary>
-        /// Initializes the SelectBaseLayout command with the provided BaseLayoutValidator
-        /// </summary>
-        /// <param name="validator"></param>
-        public SelectBaseLayout(IBaseLayoutValidator validator)
+        public SelectBaseLayout(ISheerResponse sheerResponse)
         {
-            Assert.ArgumentNotNull(validator, "validator");
-            _validator = validator;
+            _sheerResponse = sheerResponse;
         }
 
         /// <summary>
@@ -56,7 +50,7 @@ namespace Sitecore.BaseLayouts.Commands
 
             var parameters = new NameValueCollection();
             parameters["items"] = SerializeItems(context.Items);
-            Context.ClientPage.Start(this, "Run", parameters);
+            RunClientPipeline(parameters);
         }
 
         /// <summary>
@@ -92,8 +86,81 @@ namespace Sitecore.BaseLayouts.Commands
             return base.QueryState(context);
         }
 
+        internal virtual void Run(ClientPipelineArgs args)
+        {
+            Assert.ArgumentNotNull(args, "args");
+            if (!_sheerResponse.CheckModified())
+            {
+                return;
+            }
+
+            BaseLayoutItem currentItem = DeserializeItems(args.Parameters["items"])[0];
+            if (!TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, currentItem))
+            {
+                _sheerResponse.Alert("This item does not support base layouts.");
+                return;
+            }
+
+            if (!args.IsPostBack)
+            {
+                var items = GetBaseLayoutItems(currentItem);
+                if (items != null && items.Count > 0)
+                {
+                    var options = new SelectBaseLayoutOptions {Items = items};
+                    if (currentItem.BaseLayout != null)
+                    {
+                        options.CurrentBaseLayoutId = currentItem.BaseLayout.ID;
+                    }
+
+                    _sheerResponse.ShowModalDialog(options);
+                    args.WaitForPostBack();
+                }
+                else
+                {
+                    _sheerResponse.Alert("The base layouts were not found.");
+                }
+            }
+            else if (args.HasResult)
+            {
+                ProcessResult(currentItem, args.Result);
+            }
+        }
+
+        internal virtual void ProcessResult(BaseLayoutItem currentItem, string result)
+        {
+            ShortID sid;
+            if (!ShortID.TryParse(result, out sid))
+            {
+                _sheerResponse.Alert("Could not get the ID of the selected base layout.");
+                return;
+            }
+
+            var itemId = sid.ToID();
+            Item baseLayoutItem = null;
+            if (itemId != ID.Null)
+            {
+                baseLayoutItem = currentItem.Database.GetItem(itemId);
+                if (baseLayoutItem == null)
+                {
+                    _sheerResponse.Alert("The selected base layout item was not found.");
+                    return;
+                }
+            }
+
+            string message;
+            if (SaveBaseLayout(currentItem, baseLayoutItem, out message))
+            {
+                Refresh();
+            }
+            else
+            {
+                _sheerResponse.Alert(message);
+            }
+        }
+
         internal virtual List<Item> GetBaseLayoutItems(Item item)
         {
+            Assert.ArgumentNotNull(item, "item");
             using (new LongRunningOperationWatcher(1000, "getBaseLayoutItems pipeline[item={0}]", item.Paths.Path))
             {
                 var args = new GetBaseLayoutItemsArgs(item);
@@ -102,84 +169,20 @@ namespace Sitecore.BaseLayouts.Commands
             }
         }
 
-        protected void Run(ClientPipelineArgs args)
+        internal virtual bool SaveBaseLayout(BaseLayoutItem item, Item baseLayoutItem, out string message)
         {
-            Assert.ArgumentNotNull(args, "args");
-            if (!SheerResponse.CheckModified())
+            Assert.ArgumentNotNull(item, "item");
+            using (new LongRunningOperationWatcher(1000, "saveBaseLayout pipeline[item={0}, baseLayout={1}]", item.InnerItem.Paths.Path, baseLayoutItem == null ? "null" : baseLayoutItem.Paths.Path))
             {
-                return;
-            }
-
-            var currentItem = DeserializeItems(args.Parameters["items"])[0];
-            if (!args.IsPostBack)
-            {
-                var items = GetBaseLayoutItems(currentItem);
-                if (items.Count > 0)
+                message = string.Empty;
+                var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = baseLayoutItem};
+                CorePipeline.Run("saveBaseLayout", args);
+                if (!string.IsNullOrEmpty(args.Message))
                 {
-                    var options = new SelectBaseLayoutOptions {Items = items};
-                    SheerResponse.ShowModalDialog(options.ToUrlString().ToString(), true);
-                    args.WaitForPostBack();
-                }
-                else
-                {
-                    SheerResponse.Alert("The base layouts were not found.");
-                }
-            }
-            else
-            {
-                if (!args.HasResult)
-                {
-                    return;
+                    message = args.Message;
                 }
 
-                var field = currentItem.Fields[BaseLayoutSettings.FieldId];
-                if (field == null)
-                {
-                    SheerResponse.Alert("Base Layout field not found.");
-                    return;
-                }
-
-                ShortID sid;
-                if (!ShortID.TryParse(args.Result, out sid))
-                {
-                    SheerResponse.Alert("The selection is invalid.");
-                    return;
-                }
-
-                var itemId = sid.ToID();
-                if (itemId == ID.Null && field.HasValue)
-                {
-                    using (new EditContext(currentItem))
-                    {
-                        field.Reset();
-                    }
-
-                    return;
-                }
-
-                var baseLayoutItem = Client.ContentDatabase.GetItem(itemId);
-                if (baseLayoutItem == null)
-                {
-                    SheerResponse.Alert("The base layout was not found.");
-                    return;
-                }
-
-                if (_validator.CreatesCircularBaseLayoutReference(currentItem, baseLayoutItem))
-                {
-                    SheerResponse.Alert("Circular reference detected in the base layout chain.");
-                    return;
-                }
-
-                var idString = itemId.ToString();
-                if (!field.Value.Equals(idString, StringComparison.OrdinalIgnoreCase))
-                {
-                    using (new EditContext(currentItem))
-                    {
-                        field.Value = idString;
-                    }
-
-                    Reload();
-                }
+                return args.Successful;
             }
         }
 
@@ -191,6 +194,16 @@ namespace Sitecore.BaseLayouts.Commands
         internal virtual bool CanDesign(Item item)
         {
             return Policy.IsAllowed("Page Editor/Can Design") && CanDesignItem(item);
+        }
+
+        internal virtual void Refresh()
+        {
+            Reload();
+        }
+
+        internal virtual void RunClientPipeline(NameValueCollection parameters)
+        {
+            Context.ClientPage.Start(this, "Run", parameters);
         }
     }
 }

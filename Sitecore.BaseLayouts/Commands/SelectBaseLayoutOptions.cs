@@ -20,6 +20,8 @@ namespace Sitecore.BaseLayouts.Commands
     /// </summary>
     public class SelectBaseLayoutOptions : SelectAcceptableItemOptions
     {
+        internal const string CurrentBaseLayoutQueryKey = "currentBaseLayoutId";
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="SelectBaseLayoutOptions" /> class.
         /// </summary>
@@ -58,16 +60,7 @@ namespace Sitecore.BaseLayouts.Commands
         /// </returns>
         public override UrlString ToUrlString(Database database)
         {
-            Assert.ArgumentNotNull(database, "database");
-            
-            var urlString = base.ToUrlString(database);
-            if (!ID.IsNullOrEmpty(CurrentBaseLayoutId))
-            {
-                var handle = urlString["hdl"];
-                WebUtil.SetSessionValue(GetSessionKey(handle), CurrentBaseLayoutId);
-            }
-
-            return urlString;
+            return AddCurrentBaseLayout(base.ToUrlString(database));
         }
 
         /// <summary>
@@ -76,29 +69,32 @@ namespace Sitecore.BaseLayouts.Commands
         protected override void ParseOptions()
         {
             base.ParseOptions();
-            var handle = WebUtil.GetQueryString("hdl");
-            if (string.IsNullOrEmpty(handle))
-            {
-                return;
-            }
-
-            var key = GetSessionKey(handle);
-            CurrentBaseLayoutId = WebUtil.GetSessionValue(key) as ID;
-            WebUtil.RemoveSessionValue(key);
+            ParseCurrentBaseLayout();
         }
 
-        /// <summary>
-        ///     The get session key.
-        /// </summary>
-        /// <param name="handle">
-        ///     The handle.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="string" />.
-        /// </returns>
-        protected virtual string GetSessionKey(string handle)
+        internal virtual UrlString AddCurrentBaseLayout(UrlString urlString)
         {
-            return handle + "_CurrentBaseLayoutId";
+            if (!ID.IsNullOrEmpty(CurrentBaseLayoutId))
+            {
+                urlString[CurrentBaseLayoutQueryKey] = CurrentBaseLayoutId.ToShortID().ToString();
+            }
+
+            return urlString;
+        }
+
+        internal virtual void ParseCurrentBaseLayout()
+        {
+            ShortID id;
+            var value = GetQueryString(CurrentBaseLayoutQueryKey);
+            if (!string.IsNullOrEmpty(value) && ShortID.TryParse(value, out id))
+            {
+                CurrentBaseLayoutId = id.ToID();
+            }
+        }
+
+        internal virtual string GetQueryString(string key)
+        {
+            return WebUtil.GetQueryString(CurrentBaseLayoutQueryKey);
         }
     }
 }
