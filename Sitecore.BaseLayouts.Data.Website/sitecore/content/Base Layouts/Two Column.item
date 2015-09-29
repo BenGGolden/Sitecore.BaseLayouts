@@ -10,17 +10,19 @@ template: {CE0A7F4B-E99B-43CA-9AC1-B6F746284C22}
 templatekey: Page
 
 ----field----
+field: {C7C26117-DBB1-42B2-AB5E-F7223845CCA3}
+name: __Thumbnail
+key: __thumbnail
+content-length: 58
+
+<image mediaid="{54CE52E8-0469-4F26-A329-069B574358E2}" />
+----field----
 field: {F1A1FE9E-A60C-4DDB-A3A0-BB5B29FE732E}
 name: __Renderings
 key: __renderings
 content-length: 274
 
 <r xmlns:p="p" xmlns:s="s" p:p="1"><d id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}"><r uid="{7C37486A-AFF8-4282-93D5-44B12B170514}" p:before="r[@uid='{96CF5FED-D9AB-46DB-9FA7-01DC24E555B1}']" s:id="{4B2AE187-F8CB-49C0-88DC-347C9A8123BE}" s:ph="/OuterContainer/Row2" /></d></r>
-----version----
-language: en
-version: 1
-revision: 6aba3572-b9ef-4dde-b59e-26d4611f6d17
-
 ----field----
 field: {FBC10515-95D6-4559-BAD4-C235148DDECE}
 name: Base Layout
@@ -28,6 +30,11 @@ key: base layout
 content-length: 38
 
 {881D3898-DFA2-49AD-8B42-A89B855246C1}
+----version----
+language: en
+version: 1
+revision: 48e5137b-cd96-4565-8d72-c3607e2244e9
+
 ----field----
 field: {25BED78C-4957-4165-998A-CA1B52F67497}
 name: __Created
@@ -41,14 +48,14 @@ name: __Revision
 key: __revision
 content-length: 36
 
-6aba3572-b9ef-4dde-b59e-26d4611f6d17
+48e5137b-cd96-4565-8d72-c3607e2244e9
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
 content-length: 34
 
-20150429T165425:635659232653393467
+20150929T163318:635791411988475332
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by

@@ -15,7 +15,7 @@ name: Type
 key: type
 content-length: 8
 
-Droptree
+Droplink
 ----field----
 field: {1EB8AE32-E190-44A6-968D-ED904C794EBF}
 name: Source
@@ -23,6 +23,13 @@ key: source
 content-length: 38
 
 {34A65165-AD43-4DB9-B804-EFA50BEA1F0C}
+----field----
+field: {BE351A73-FCB0-4213-93FA-C302D8AB4F51}
+name: Shared
+key: shared
+content-length: 1
+
+1
 ----field----
 field: {BA3F86A2-4A1C-4D78-B63D-91C2779C1B5E}
 name: __Sortorder
@@ -33,7 +40,7 @@ content-length: 3
 ----version----
 language: en
 version: 1
-revision: 136066af-1f1b-4a7d-b37d-43b0535e1013
+revision: 5b53db69-7fd0-4157-af06-507ccaa21f94
 
 ----field----
 field: {25BED78C-4957-4165-998A-CA1B52F67497}
@@ -48,14 +55,14 @@ name: __Revision
 key: __revision
 content-length: 36
 
-136066af-1f1b-4a7d-b37d-43b0535e1013
+5b53db69-7fd0-4157-af06-507ccaa21f94
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
-content-length: 35
+content-length: 34
 
-20150601T050638:635687319983144314Z
+20150929T095402:635791172422697406
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by

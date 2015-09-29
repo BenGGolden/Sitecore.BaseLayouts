@@ -16,11 +16,6 @@ key: __renderings
 content-length: 982
 
 <r xmlns:p="p" xmlns:s="s" p:p="1"><d id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}"><r uid="{523605A7-2E0B-49CF-8600-7A220EF1E04C}" p:before="r[@uid='{BDCD2739-CE8E-4E6D-80DB-2771CEBF3A88}']" s:ds="{BABE7D6C-3AB4-4EAC-860F-D6F3207473F0}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row2/Column2" /><r uid="{BDCD2739-CE8E-4E6D-80DB-2771CEBF3A88}" p:before="r[@uid='{84BBD9A3-B7EA-4233-8CC9-7CEF19DE3CE9}']" s:ds="{B4BB8808-E64B-4C24-BC06-56374EC3C281}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row2/Column2" /><r uid="{84BBD9A3-B7EA-4233-8CC9-7CEF19DE3CE9}" p:before="r[@uid='{FBFC1870-6EAD-4117-93BE-24BBA6F55CC5}']" s:ds="{7667388B-A95C-4BAF-B6A9-06BCCF82F3ED}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row2/Column2" /><r uid="{FBFC1870-6EAD-4117-93BE-24BBA6F55CC5}" s:ds="{7BA25C4E-206B-4D9B-A70E-C03C2E7CF0D3}" s:id="{EDF3E5D0-6CE5-4084-AF84-D940E676B893}" s:ph="/OuterContainer/Row2/Column3" /></d></r>
-----version----
-language: en
-version: 1
-revision: 65f9ecb6-32e0-44a5-914c-a503792b9fb1
-
 ----field----
 field: {FBC10515-95D6-4559-BAD4-C235148DDECE}
 name: Base Layout
@@ -28,6 +23,11 @@ key: base layout
 content-length: 38
 
 {0E65368F-9040-4BF7-A00C-F9ED1E1168A0}
+----version----
+language: en
+version: 1
+revision: 53138591-a196-4d1b-987c-638fa02faa11
+
 ----field----
 field: {25BED78C-4957-4165-998A-CA1B52F67497}
 name: __Created
@@ -41,14 +41,14 @@ name: __Revision
 key: __revision
 content-length: 36
 
-65f9ecb6-32e0-44a5-914c-a503792b9fb1
+53138591-a196-4d1b-987c-638fa02faa11
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
 content-length: 34
 
-20150629T221010:635712126107853185
+20150929T113615:635791233754552228
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by
