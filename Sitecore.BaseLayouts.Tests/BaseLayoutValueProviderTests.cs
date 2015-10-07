@@ -20,7 +20,7 @@ namespace Sitecore.BaseLayouts.Tests
             var provider = new BaseLayoutValueProvider(new[] {"master", "web"}, validator, log);
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             Assert.Null(result);
@@ -36,7 +36,7 @@ namespace Sitecore.BaseLayouts.Tests
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             Assert.Null(result);
@@ -52,7 +52,7 @@ namespace Sitecore.BaseLayouts.Tests
             var field = MasterFakesFactory.CreateFakeLayoutField(null, ItemIDs.SystemRoot);
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             Assert.Null(result);
@@ -68,7 +68,7 @@ namespace Sitecore.BaseLayouts.Tests
             var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, null, false);
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             Assert.Null(result);
@@ -84,7 +84,7 @@ namespace Sitecore.BaseLayouts.Tests
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             Assert.Null(result);
@@ -102,7 +102,7 @@ namespace Sitecore.BaseLayouts.Tests
             var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, baseLayoutId);
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             log.Received().Warn(Arg.Any<string>());
@@ -121,7 +121,7 @@ namespace Sitecore.BaseLayouts.Tests
             var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, baseLayoutId);
 
             // Act
-            var result = provider.GetLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(field);
 
             // Assert
             Assert.Equal(baseLayoutValue, result);

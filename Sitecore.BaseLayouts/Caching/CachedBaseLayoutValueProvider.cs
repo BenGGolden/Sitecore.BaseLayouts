@@ -3,12 +3,12 @@ using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.Caching
 {
-    public class CachedLayoutValueProvider : ILayoutValueProvider
+    public class CachedBaseLayoutValueProvider : IBaseLayoutValueProvider
     {
-        private readonly ILayoutValueProvider _innerProvider;
-        private readonly ILayoutValueCache _cache;
+        private readonly IBaseLayoutValueProvider _innerProvider;
+        private readonly IBaseLayoutValueCache _cache;
 
-        public CachedLayoutValueProvider(ILayoutValueProvider innerProvider, ILayoutValueCache cache)
+        public CachedBaseLayoutValueProvider(IBaseLayoutValueProvider innerProvider, IBaseLayoutValueCache cache)
         {
             Assert.ArgumentNotNull(innerProvider, "innerProvider");
             Assert.ArgumentNotNull(cache, "cache");
@@ -17,12 +17,12 @@ namespace Sitecore.BaseLayouts.Caching
             _cache = cache;
         }
 
-        public string GetLayoutValue(Field field)
+        public string GetBaseLayoutValue(Field field)
         {
             var value = _cache.GetLayoutValue(field);
             if (string.IsNullOrWhiteSpace(value))
             {
-                value = _innerProvider.GetLayoutValue(field);
+                value = _innerProvider.GetBaseLayoutValue(field);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     _cache.AddLayoutValue(field, value);

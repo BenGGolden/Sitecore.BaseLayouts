@@ -24,7 +24,7 @@ namespace Sitecore.BaseLayouts
         /// </summary>
         private readonly StandardValuesProvider _innerProvider;
 
-        private readonly ILayoutValueProvider _layoutValueProvider;
+        private readonly IBaseLayoutValueProvider _baseLayoutValueProvider;
 
         private readonly ILog _log;
 
@@ -36,21 +36,21 @@ namespace Sitecore.BaseLayouts
         /// <param name="innerProvider">
         ///     The inner provider.
         /// </param>
-        /// <param name="layoutValueProvider">
+        /// <param name="baseLayoutValueProvider">
         ///     The layout value provider
         /// </param>
         /// <param name="log"></param>
         public BaseLayoutStandardValuesProvider(
             StandardValuesProvider innerProvider,
-            ILayoutValueProvider layoutValueProvider,
+            IBaseLayoutValueProvider baseLayoutValueProvider,
             ILog log)
         {
             Assert.ArgumentNotNull(innerProvider, "innerProvider");
-            Assert.ArgumentNotNull(layoutValueProvider, "layoutValueProvider");
+            Assert.ArgumentNotNull(baseLayoutValueProvider, "layoutValueProvider");
             Assert.ArgumentNotNull(log, "log");
 
             _innerProvider = innerProvider;
-            _layoutValueProvider = layoutValueProvider;
+            _baseLayoutValueProvider = baseLayoutValueProvider;
             _log = log;
         }
 
@@ -75,7 +75,7 @@ namespace Sitecore.BaseLayouts
             {
                 if (field.ID == FieldIDs.LayoutField)
                 {
-                    var layoutValue = _layoutValueProvider.GetLayoutValue(field);
+                    var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field);
                     if (!string.IsNullOrEmpty(layoutValue))
                     {
                         return layoutValue;

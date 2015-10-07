@@ -17,12 +17,12 @@ namespace Sitecore.BaseLayouts.Caching
     /// <summary>
     /// Provides caching for layout values.
     /// </summary>
-    public class LayoutValueCache : CustomCache, ILayoutValueCache
+    public class BaseLayoutValueCache : CustomCache, IBaseLayoutValueCache
     {
         /// <summary>
         /// Initializes the cache using a configuration setting for the supported databases
         /// </summary>
-        public LayoutValueCache() : this(BaseLayoutSettings.SupportedDatabases)
+        public BaseLayoutValueCache() : this(BaseLayoutSettings.SupportedDatabases)
         {
         }
 
@@ -30,7 +30,7 @@ namespace Sitecore.BaseLayouts.Caching
         /// Initializes the cache
         /// </summary>
         /// <param name="databases">the names of databases to suppport</param>
-        public LayoutValueCache(string[] databases) : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
+        public BaseLayoutValueCache(string[] databases) : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
         {
             foreach (var database in databases)
             {

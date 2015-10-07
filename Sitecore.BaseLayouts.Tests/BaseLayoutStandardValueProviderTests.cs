@@ -26,8 +26,8 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var layoutProviderValue = "This is the layout value!";
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
-            layoutProvider.GetLayoutValue(Arg.Any<Field>()).Returns(layoutProviderValue);
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(layoutProviderValue);
 
             var innerProvider = Substitute.For<StandardValuesProvider>();
             var log = Substitute.For<ILog>();
@@ -45,8 +45,8 @@ namespace Sitecore.BaseLayouts.Tests
         public void GetStandardValue_WithLayoutFieldAndEmptyLayoutValue_ReturnsValueFromInnerProvider()
         {
             // Arrange
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
-            layoutProvider.GetLayoutValue(Arg.Any<Field>()).Returns(string.Empty);
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(string.Empty);
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();
@@ -67,7 +67,7 @@ namespace Sitecore.BaseLayouts.Tests
         public void GetStandardValue_WithNonLayoutField_DoesNotCallLayoutValueProvider()
         {
             // Arrange
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
@@ -77,14 +77,14 @@ namespace Sitecore.BaseLayouts.Tests
             var result = provider.GetStandardValue(field);
 
             // Assert
-            layoutProvider.DidNotReceive().GetLayoutValue(Arg.Any<Field>());
+            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
         }
 
         [Fact]
         public void GetStandardValue_WithNonLayoutField_ReturnsValueFromInnerProvider()
         {
             // Arrange
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();
@@ -106,8 +106,8 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var ex = new Exception("Something bad happened.");
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
-            layoutProvider.GetLayoutValue(Arg.Any<Field>()).Throws(ex);
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Throws(ex);
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();
@@ -129,7 +129,7 @@ namespace Sitecore.BaseLayouts.Tests
         public void Initialize_Always_CallsInnerProviderInitialize()
         {
             // Arrange
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
@@ -149,7 +149,7 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var name = "baseLayouts";
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.Name.Returns(name);
             var log = Substitute.For<ILog>();
@@ -167,7 +167,7 @@ namespace Sitecore.BaseLayouts.Tests
         {
             // Arrange
             var description = "I don't think this is even used";
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.Description.Returns(description);
             var log = Substitute.For<ILog>();
@@ -184,7 +184,7 @@ namespace Sitecore.BaseLayouts.Tests
         public void IsStandardValuesHolder_Always_ReturnsInnerProviderIsStandardValuesHolder()
         {
             // Arrange
-            var layoutProvider = Substitute.For<ILayoutValueProvider>();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.IsStandardValuesHolder(Arg.Any<Item>()).Returns(true);
             var log = Substitute.For<ILog>();

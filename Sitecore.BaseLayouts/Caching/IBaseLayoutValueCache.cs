@@ -5,7 +5,7 @@ namespace Sitecore.BaseLayouts.Caching
     /// <summary>
     /// Provides caching for layout values.
     /// </summary>
-    public interface ILayoutValueCache
+    public interface IBaseLayoutValueCache
     {
 
         /// <summary>

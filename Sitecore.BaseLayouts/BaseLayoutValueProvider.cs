@@ -10,7 +10,7 @@ namespace Sitecore.BaseLayouts
     /// <summary>
     /// Gets the value of the layout field from the base layout if one is selected.
     /// </summary>
-    public class BaseLayoutValueProvider : ILayoutValueProvider
+    public class BaseLayoutValueProvider : IBaseLayoutValueProvider
     {
         private readonly string[] _databases;
         private readonly IBaseLayoutValidator _baseLayoutValidator;
@@ -46,7 +46,7 @@ namespace Sitecore.BaseLayouts
         /// </summary>
         /// <param name="field">The layout field.</param>
         /// <returns>The merged layout field value of the base layout chain.</returns>
-        public virtual string GetLayoutValue(Field field)
+        public virtual string GetBaseLayoutValue(Field field)
         {
             // Sanity check.  Make sure the context is appropriate for attempting to find a base layout.
             if (!IsLayoutField(field)
