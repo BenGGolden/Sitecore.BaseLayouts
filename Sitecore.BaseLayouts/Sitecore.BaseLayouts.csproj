@@ -66,21 +66,27 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\IPageModeAccess.cs" />
+    <Compile Include="Abstractions\PageModeAccess.cs" />
     <Compile Include="BaseLayoutItem.cs" />
     <Compile Include="BaseLayoutValidator.cs" />
     <Compile Include="BaseLayoutValueProvider.cs" />
     <Compile Include="Caching\CachedBaseLayoutValueProvider.cs" />
     <Compile Include="Caching\IBaseLayoutValueCache.cs" />
     <Compile Include="Caching\BaseLayoutValueCache.cs" />
+    <Compile Include="Commands\ICommandContextChecker.cs" />
     <Compile Include="Commands\SelectBaseLayout.cs" />
+    <Compile Include="Commands\SelectBaseLayoutContextChecker.cs" />
     <Compile Include="Diagnostics\ILog.cs" />
     <Compile Include="Diagnostics\LogWrapper.cs" />
+    <Compile Include="Extensions\ItemExtensions.cs" />
     <Compile Include="IBaseLayoutValidator.cs" />
     <Compile Include="IBaseLayoutValueProvider.cs" />
     <Compile Include="BaseLayoutStandardValuesProvider.cs" />
     <Compile Include="Pipelines\GetBaseLayoutItems\GetBaseLayoutItemsArgs.cs" />
     <Compile Include="Pipelines\GetBaseLayoutItems\GetLookupSourceItems.cs" />
     <Compile Include="Pipelines\GetBaseLayoutItems\IGetBaseLayoutItemsProcessor.cs" />
+    <Compile Include="Pipelines\IPipelineRunner.cs" />
     <Compile Include="Pipelines\RunnablePipelineArgs.cs" />
     <Compile Include="Pipelines\PipelineRunner.cs" />
     <Compile Include="Pipelines\SaveBaseLayout\CheckForCircularReference.cs" />
@@ -91,8 +97,8 @@
     <Compile Include="Commands\SelectBaseLayoutOptions.cs" />
     <Compile Include="BaseLayoutSettings.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutForm.cs" />
-    <Compile Include="UI\ISheerResponse.cs" />
-    <Compile Include="UI\SheerResponseWrapper.cs" />
+    <Compile Include="Abstractions\ISheerResponse.cs" />
+    <Compile Include="Abstractions\SheerResponseWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\BaseLayouts.config">

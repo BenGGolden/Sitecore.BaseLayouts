@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using Sitecore.BaseLayouts.Pipelines;
+using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
-using Sitecore.BaseLayouts.UI;
 using Sitecore.Data;
-using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
-using Sitecore.Pipelines;
 using Sitecore.SecurityModel;
 using Sitecore.Shell.Applications.WebEdit.Commands;
 using Sitecore.Shell.Framework.Commands;
@@ -26,16 +22,18 @@ namespace Sitecore.BaseLayouts.Commands
     public class SelectBaseLayout : WebEditCommand
     {
         private readonly ISheerResponse _sheerResponse;
-        private readonly PipelineRunner _pipelineRunner;
+        private readonly IPipelineRunner _pipelineRunner;
+        private readonly ICommandContextChecker _contextChecker;
 
-        public SelectBaseLayout() : this(new SheerResponseWrapper(), new PipelineRunner())
+        public SelectBaseLayout() : this(new SheerResponseWrapper(), new PipelineRunner(), new SelectBaseLayoutContextChecker(new PageModeAccess(), new PipelineRunner()))
         {
         }
 
-        public SelectBaseLayout(ISheerResponse sheerResponse, PipelineRunner pipelineRunner)
+        public SelectBaseLayout(ISheerResponse sheerResponse, IPipelineRunner pipelineRunner, ICommandContextChecker contextChecker)
         {
             _sheerResponse = sheerResponse;
             _pipelineRunner = pipelineRunner;
+            _contextChecker = contextChecker;
         }
 
         /// <summary>
@@ -63,29 +61,12 @@ namespace Sitecore.BaseLayouts.Commands
         public override CommandState QueryState(CommandContext context)
         {
             Assert.ArgumentNotNull(context, "context");
-            if (!CanEdit() || context.Items.Length == 0)
-            {
-                return CommandState.Hidden;
-            }
-
-            var currentItem = context.Items[0];
-            if (!TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, currentItem))
-            {
-                return CommandState.Hidden;
-            }
-
-            var items = GetBaseLayoutItems(currentItem);
-            if (items == null || items.Count == 0)
-            {
-                return CommandState.Hidden;
-            }
-
-            if (!CanDesign(currentItem))
+            if (context.Items.Length != 1)
             {
                 return CommandState.Disabled;
             }
-
-            return base.QueryState(context);
+            
+            return _contextChecker.CanExecute(context.Items[0]) ? CommandState.Enabled : CommandState.Disabled;
         }
 
         internal virtual void Run(ClientPipelineArgs args)
@@ -180,16 +161,6 @@ namespace Sitecore.BaseLayouts.Commands
             }
 
             return args.Successful;
-        }
-
-        internal virtual bool CanEdit()
-        {
-            return CanWebEdit() && WebUtil.GetQueryString("mode") == "edit";
-        }
-
-        internal virtual bool CanDesign(Item item)
-        {
-            return Policy.IsAllowed("Page Editor/Can Design") && CanDesignItem(item);
         }
 
         internal virtual void Refresh()
