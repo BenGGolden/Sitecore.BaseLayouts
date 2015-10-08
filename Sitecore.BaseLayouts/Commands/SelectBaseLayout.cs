@@ -26,14 +26,16 @@ namespace Sitecore.BaseLayouts.Commands
     public class SelectBaseLayout : WebEditCommand
     {
         private readonly ISheerResponse _sheerResponse;
+        private readonly PipelineRunner _pipelineRunner;
 
-        public SelectBaseLayout() : this(new SheerResponseWrapper())
+        public SelectBaseLayout() : this(new SheerResponseWrapper(), new PipelineRunner())
         {
         }
 
-        public SelectBaseLayout(ISheerResponse sheerResponse)
+        public SelectBaseLayout(ISheerResponse sheerResponse, PipelineRunner pipelineRunner)
         {
             _sheerResponse = sheerResponse;
+            _pipelineRunner = pipelineRunner;
         }
 
         /// <summary>
@@ -161,29 +163,23 @@ namespace Sitecore.BaseLayouts.Commands
         internal virtual List<Item> GetBaseLayoutItems(Item item)
         {
             Assert.ArgumentNotNull(item, "item");
-            using (new LongRunningOperationWatcher(1000, "getBaseLayoutItems pipeline[item={0}]", item.Paths.Path))
-            {
-                var args = new GetBaseLayoutItemsArgs(item);
-                CorePipeline.Run("getBaseLayoutItems", args);
-                return args.BaseLayoutItems;
-            }
+            var args = new GetBaseLayoutItemsArgs(item);
+            _pipelineRunner.Run(args);
+            return args.BaseLayoutItems;
         }
 
         internal virtual bool SaveBaseLayout(BaseLayoutItem item, Item baseLayoutItem, out string message)
         {
             Assert.ArgumentNotNull(item, "item");
-            using (new LongRunningOperationWatcher(1000, "saveBaseLayout pipeline[item={0}, baseLayout={1}]", item.InnerItem.Paths.Path, baseLayoutItem == null ? "null" : baseLayoutItem.Paths.Path))
+            message = string.Empty;
+            var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = baseLayoutItem};
+            _pipelineRunner.Run(args);
+            if (!string.IsNullOrEmpty(args.Message))
             {
-                message = string.Empty;
-                var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = baseLayoutItem};
-                CorePipeline.Run("saveBaseLayout", args);
-                if (!string.IsNullOrEmpty(args.Message))
-                {
-                    message = args.Message;
-                }
-
-                return args.Successful;
+                message = args.Message;
             }
+
+            return args.Successful;
         }
 
         internal virtual bool CanEdit()

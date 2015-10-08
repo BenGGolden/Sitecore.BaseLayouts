@@ -8,7 +8,7 @@ namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
     /// <summary>
     /// Arguments for the saveBaseLayout pipeline
     /// </summary>
-    public class SaveBaseLayoutArgs : PipelineArgs
+    public class SaveBaseLayoutArgs : RunnablePipelineArgs
     {
         /// <summary>
         /// Initializes an instance of SaveBaseLayoutArgs
@@ -40,5 +40,19 @@ namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
         /// Whether the save operation was successful
         /// </summary>
         public bool Successful;
+
+        public override string PipelineName
+        {
+            get { return "saveBaseLayout"; }
+        }
+
+        public override string WatcherMessage
+        {
+            get
+            {
+                return string.Format("{0} pipeline[item={1}, baseLayout={2}]", PipelineName, Item.InnerItem.Paths.Path,
+                    NewBaseLayoutItem == null ? "null" : NewBaseLayoutItem.InnerItem.Paths.Path);
+            }
+        }
     }
 }

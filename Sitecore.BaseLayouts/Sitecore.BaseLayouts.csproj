@@ -81,6 +81,8 @@
     <Compile Include="Pipelines\GetBaseLayoutItems\GetBaseLayoutItemsArgs.cs" />
     <Compile Include="Pipelines\GetBaseLayoutItems\GetLookupSourceItems.cs" />
     <Compile Include="Pipelines\GetBaseLayoutItems\IGetBaseLayoutItemsProcessor.cs" />
+    <Compile Include="Pipelines\RunnablePipelineArgs.cs" />
+    <Compile Include="Pipelines\PipelineRunner.cs" />
     <Compile Include="Pipelines\SaveBaseLayout\CheckForCircularReference.cs" />
     <Compile Include="Pipelines\SaveBaseLayout\ISaveBaseLayoutProcessor.cs" />
     <Compile Include="Pipelines\SaveBaseLayout\SaveBaseLayoutArgs.cs" />

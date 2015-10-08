@@ -8,7 +8,7 @@ namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
     /// <summary>
     /// Pipeline args for the getBaseLayoutItems pipeline
     /// </summary>
-    public class GetBaseLayoutItemsArgs : PipelineArgs
+    public class GetBaseLayoutItemsArgs : RunnablePipelineArgs
     {
         /// <summary>
         /// Initializes a GetBaseLayoutItemArgs
@@ -31,5 +31,18 @@ namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
         /// The resulting list of base layout items
         /// </summary>
         public List<Item> BaseLayoutItems { get; private set; }
+
+        public override string PipelineName
+        {
+            get { return "getBaseLayoutItems"; }
+        }
+
+        public override string WatcherMessage
+        {
+            get
+            {
+                return string.Format("{0} pipeline[item={1}]", PipelineName, Item.Paths.Path);
+            }
+        }
     }
 }

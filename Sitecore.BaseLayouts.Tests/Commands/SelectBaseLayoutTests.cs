@@ -3,9 +3,11 @@ using System.Collections.Specialized;
 using System.Linq;
 using NSubstitute;
 using Sitecore.BaseLayouts.Commands;
+using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.UI;
 using Sitecore.Data;
 using Sitecore.Data.Items;
+using Sitecore.Pipelines;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Tasks;
 using Sitecore.Web.UI.Sheer;
@@ -150,8 +152,10 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             var args = Substitute.For<ClientPipelineArgs>();
             var sheer = Substitute.For<ISheerResponse>();
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
             sheer.CheckModified().Returns(false);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
 
             // Act
@@ -173,7 +177,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
 
             // Act
@@ -196,7 +202,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             args.IsPostBack = false;
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
             command.When(c => c.GetBaseLayoutItems(Arg.Any<Item>())).DoNotCallBase();
             command.GetBaseLayoutItems(Arg.Any<Item>()).Returns((List<Item>)null);
@@ -221,7 +229,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             args.IsPostBack = false;
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
             command.When(c => c.GetBaseLayoutItems(Arg.Any<Item>())).DoNotCallBase();
             command.GetBaseLayoutItems(Arg.Any<Item>()).Returns(new List<Item>());
@@ -247,7 +257,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             args.IsPostBack = false;
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
             command.When(c => c.GetBaseLayoutItems(Arg.Any<Item>())).DoNotCallBase();
             command.GetBaseLayoutItems(Arg.Any<Item>()).Returns(new List<Item> {item});
@@ -274,7 +286,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             args.Result = result;
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
 
             // Act
@@ -297,7 +311,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             string message;
             var sheer = Substitute.For<ISheerResponse>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
             var item = MasterFakesFactory.CreateFakeItem();
 
@@ -315,7 +331,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             string message;
             var sheer = Substitute.For<ISheerResponse>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
             var item = MasterFakesFactory.CreateFakeItem();
 
@@ -333,7 +351,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             string message;
             var sheer = Substitute.For<ISheerResponse>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem();
@@ -351,7 +371,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             string message;
             var sheer = Substitute.For<ISheerResponse>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
             command.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message).Returns(true);
             command.When(c => c.Refresh()).DoNotCallBase();
@@ -371,7 +393,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             string message;
             var sheer = Substitute.For<ISheerResponse>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer);
+            var runner = Substitute.For<PipelineRunner>();
+            runner.When(r => r.Run(Arg.Any<RunnablePipelineArgs>())).DoNotCallBase();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner);
             command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
             command.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message).Returns(false);
             command.When(c => c.Refresh()).DoNotCallBase();
