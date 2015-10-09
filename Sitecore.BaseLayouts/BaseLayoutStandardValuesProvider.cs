@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections.Specialized;
-using Sitecore.BaseLayouts.Diagnostics;
+using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;

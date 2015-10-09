@@ -14,7 +14,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void AddLayoutValue_WithFieldNotInCache_AddsEntry()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
             var field = MasterFakesFactory.CreateFakeLayoutField();
             
@@ -30,7 +30,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         {
             // Arrange
             var newValue = "This is the new layout value";
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
             var field = MasterFakesFactory.CreateFakeLayoutField();
             cache.AddLayoutValue(field, field.Value);
@@ -49,7 +49,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void AddLayoutValue_WithFieldsFromDifferentItems_AddsEntriesForBoth()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
             var field1 = MasterFakesFactory.CreateFakeLayoutField();
             var field2 = MasterFakesFactory.CreateFakeLayoutField();
@@ -66,7 +66,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void AddLayoutValue_WithSameFieldInDifferentDatabases_AddsEntriesForBoth()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
             var id = new ID();
             var masterField = MasterFakesFactory.CreateFakeLayoutField(id);
@@ -90,7 +90,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         {
             // Arrange
             var field = MasterFakesFactory.CreateFakeLayoutField();
-            var cache = new BaseLayoutValueCache(new string[0]) {Enabled = true};
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
 
             // Act
@@ -106,7 +106,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             // Arrange
             var value = "Here be ye olde layout value.";
             var field = MasterFakesFactory.CreateFakeLayoutField(null, null, value);
-            var cache = new BaseLayoutValueCache(new string[0]) {Enabled = true};
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
 
             // Act
@@ -121,7 +121,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void ProcessItemUpdate_WithUnrelatedItem_DoesNotRemoveEntries()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
             var count = 3;
             for (int i = 0; i < count; i++)
@@ -141,7 +141,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void ProcessItemUpdate_WithItemMatchingEntryItem_RemovesEntries()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) {Enabled = true};
             cache.Clear();
             Field field = null;
             var count = 3;
@@ -162,7 +162,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void ProcessItemUpdate_WithBaseLayoutOfItemWithEntry_RemovesEntry()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) { Enabled = true };
             cache.Clear();
             var baseLayoutItem = MasterFakesFactory.CreateFakeItem();
             var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, baseLayoutItem.ID);
@@ -179,7 +179,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void ProcessItemUpdate_WithEntriesInDifferentDatabases_OnlyRemovesEntryForMatchingDatabase()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) { Enabled = true };
             cache.Clear();
             var id = new ID();
             var masterField = MasterFakesFactory.CreateFakeLayoutField(id);
@@ -205,7 +205,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void ProcessItemUpdate_WithEntriesForBaseLayoutChain_OnlyRemovesEntriesForDependentItems()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) { Enabled = true };
             cache.Clear();
 
             // create 2 base layout chains of 5 items each
@@ -231,7 +231,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         public void ProcessItemUpdate_WithStandardValuesItem_RemovesAllEntriesForMatchingDatabase()
         {
             // Arrange
-            var cache = new BaseLayoutValueCache(new string[0]) { Enabled = true };
+            var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) { Enabled = true };
             cache.Clear();
             for (int i = 0; i < 3; i++)
             {

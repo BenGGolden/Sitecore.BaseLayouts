@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Sitecore.BaseLayouts.Diagnostics;
+using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
@@ -51,7 +52,7 @@ namespace Sitecore.BaseLayouts
             // Sanity check.  Make sure the context is appropriate for attempting to find a base layout.
             if (!IsLayoutField(field)
                 || !_databases.Contains(field.Item.Database.Name, StringComparer.OrdinalIgnoreCase)
-                || !field.Item.Paths.IsContentItem || !TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, field.Item))
+                || !field.Item.Paths.IsContentItem || !field.Item.HasField(BaseLayoutSettings.FieldId))
             {
                 return null;
             }

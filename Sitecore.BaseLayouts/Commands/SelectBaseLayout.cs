@@ -23,24 +23,25 @@ namespace Sitecore.BaseLayouts.Commands
     public class SelectBaseLayout : WebEditCommand
     {
         private readonly ISheerResponse _sheerResponse;
-        private readonly IPipelineRunner _pipelineRunner;
         private readonly ICommandContextChecker _contextChecker;
         private readonly IDialogLocator _dialogLocator;
+        private readonly IDialogResultProcessor _dialogResultProcessor;
 
         public SelectBaseLayout()
         {
             _sheerResponse = new SheerResponseWrapper();
-            _pipelineRunner = new PipelineRunner();
-            _contextChecker = new SelectBaseLayoutContextChecker(new PageModeAccess(), _pipelineRunner);
-            _dialogLocator = new SelectBaseLayoutDialogLocator(_pipelineRunner);
+            var pipelineRunner = new PipelineRunner();
+            _contextChecker = new SelectBaseLayoutContextChecker(new PageModeAccess(), pipelineRunner);
+            _dialogLocator = new SelectBaseLayoutDialogLocator(pipelineRunner);
+            _dialogResultProcessor = new SelectBaseLayoutDialogResultProcessor(pipelineRunner);
         }
 
-        public SelectBaseLayout(ISheerResponse sheerResponse, IPipelineRunner pipelineRunner, ICommandContextChecker contextChecker, IDialogLocator dialogLocator)
+        public SelectBaseLayout(ISheerResponse sheerResponse, ICommandContextChecker contextChecker, IDialogLocator dialogLocator, IDialogResultProcessor dialogResultProcessor)
         {
             _sheerResponse = sheerResponse;
-            _pipelineRunner = pipelineRunner;
             _contextChecker = contextChecker;
             _dialogLocator = dialogLocator;
+            _dialogResultProcessor = dialogResultProcessor;
         }
 
         /// <summary>
@@ -101,54 +102,18 @@ namespace Sitecore.BaseLayouts.Commands
             }
             else if (args.HasResult)
             {
-                ProcessResult(currentItem, args.Result);
-            }
-        }
-
-        internal virtual void ProcessResult(BaseLayoutItem currentItem, string result)
-        {
-            ShortID sid;
-            if (!ShortID.TryParse(result, out sid))
-            {
-                _sheerResponse.Alert("Could not get the ID of the selected base layout.");
-                return;
-            }
-
-            var itemId = sid.ToID();
-            Item baseLayoutItem = null;
-            if (itemId != ID.Null)
-            {
-                baseLayoutItem = currentItem.Database.GetItem(itemId);
-                if (baseLayoutItem == null)
+                string message;
+                if (_dialogResultProcessor.ProcessResult(currentItem, args.Result, out message))
                 {
-                    _sheerResponse.Alert("The selected base layout item was not found.");
-                    return;
+                    Refresh();
+                }
+                else
+                {
+                    _sheerResponse.Alert(string.IsNullOrEmpty(message)
+                        ? "An unknown error occured while processing your selection."
+                        : message);
                 }
             }
-
-            string message;
-            if (SaveBaseLayout(currentItem, baseLayoutItem, out message))
-            {
-                Refresh();
-            }
-            else
-            {
-                _sheerResponse.Alert(message);
-            }
-        }
-
-        internal virtual bool SaveBaseLayout(BaseLayoutItem item, Item baseLayoutItem, out string message)
-        {
-            Assert.ArgumentNotNull(item, "item");
-            message = string.Empty;
-            var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = baseLayoutItem};
-            _pipelineRunner.Run(args);
-            if (!string.IsNullOrEmpty(args.Message))
-            {
-                message = args.Message;
-            }
-
-            return args.Successful;
         }
 
         internal virtual void Refresh()

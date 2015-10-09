@@ -23,10 +23,10 @@ namespace Sitecore.BaseLayouts.Tests.Commands
         {
             // Arrange
             var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
-            var command = new SelectBaseLayout(sheer, runner, contextChecker, locator);
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             var context = new CommandContext();
 
@@ -42,11 +42,11 @@ namespace Sitecore.BaseLayouts.Tests.Commands
         {
             // Arrange
             var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             contextChecker.CanExecute(Arg.Any<Item>()).Returns(false);
             var locator = Substitute.For<IDialogLocator>();
-            var command = new SelectBaseLayout(sheer, runner, contextChecker, locator);
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             var context = new CommandContext(MasterFakesFactory.CreateFakeItem());
 
@@ -62,11 +62,11 @@ namespace Sitecore.BaseLayouts.Tests.Commands
         {
             // Arrange
             var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             contextChecker.CanExecute(Arg.Any<Item>()).Returns(true);
             var locator = Substitute.For<IDialogLocator>();
-            var command = new SelectBaseLayout(sheer, runner, contextChecker, locator);
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             var context = new CommandContext(MasterFakesFactory.CreateFakeItem());
 
@@ -89,11 +89,10 @@ namespace Sitecore.BaseLayouts.Tests.Commands
 
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(false);
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             // Act
             command.Run(args);
@@ -101,8 +100,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Assert
             sheer.DidNotReceive().Alert(Arg.Any<string>());
             sheer.DidNotReceive().ShowModalDialog(Arg.Any<string>());
-            args.DidNotReceive().WaitForPostBack();
-            command.DidNotReceive().ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>());
+            locator.DidNotReceive().GetDialogUrl(Arg.Any<Item>());
+            string message;
+            processor.DidNotReceive().ProcessResult(Arg.Any<Item>(), Arg.Any<string>(), out message);
         }
 
         [Fact]
@@ -116,11 +116,10 @@ namespace Sitecore.BaseLayouts.Tests.Commands
 
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             // Act
             command.Run(args);
@@ -140,13 +139,12 @@ namespace Sitecore.BaseLayouts.Tests.Commands
 
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
             locator.GetDialogUrl(Arg.Any<Item>()).Returns((string) null);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
-            
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
+
             // Act
             command.Run(args);
 
@@ -166,12 +164,12 @@ namespace Sitecore.BaseLayouts.Tests.Commands
 
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var url = "/This/is/my/dialog/url";
             var locator = Substitute.For<IDialogLocator>();
             locator.GetDialogUrl(Arg.Any<Item>()).Returns(url);
-            var command = new SelectBaseLayout(sheer, runner, contextChecker, locator);
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             // Act
             command.Run(args);
@@ -182,7 +180,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
         }
 
         [Fact]
-        public void Run_WithIsPostBackTrueAndHasResultTrue_CallsProcessResult()
+        public void Run_WithIsPostBackTrueAndHasResultTrue_CallsDialogResultProcessor()
         {
             // Arrange
             var result = new ID().ToString();
@@ -194,141 +192,75 @@ namespace Sitecore.BaseLayouts.Tests.Commands
 
             var sheer = Substitute.For<ISheerResponse>();
             sheer.CheckModified().Returns(true);
-            var runner = Substitute.For<IPipelineRunner>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.ProcessResult(Arg.Any<BaseLayoutItem>(), Arg.Any<string>())).DoNotCallBase();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             // Act
             command.Run(args);
 
             // Assert
-            command.Received().ProcessResult(Arg.Is<BaseLayoutItem>(i => i.ID == item.ID), result);
-        }
-
-        #endregion
-
-        #region ProcessResult tests
-
-        [Fact]
-        public void ProcessResult_WithInvalidResult_CallsAlertAndDoesNotCallSaveBaseLayout()
-        {
-            // Arrange
             string message;
-            var item = MasterFakesFactory.CreateFakeItem();
-
-            var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
-            var contextChecker = Substitute.For<ICommandContextChecker>();
-            var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
-
-            // Act
-            command.ProcessResult(item, "this is not a short id");
-
-            // Assert
-            sheer.Received().Alert(Arg.Any<string>());
-            command.DidNotReceive().SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message);
+            processor.Received().ProcessResult(Arg.Is<Item>(i => i.ID == item.ID), result, out message);
         }
 
         [Fact]
-        public void ProcessResult_WithResultEqualToIdOfItemThatDoesNotExist_CallsAlertAndDoesNotCallSaveBaseLayout()
+        public void Run_WithIsPostBackTrueAndHasResultTrueAndResultProcessorReturnsTrue_CallsRefresh()
         {
             // Arrange
-            string message;
+            var result = new ID().ToString();
             var item = MasterFakesFactory.CreateFakeItem();
+            var args = Substitute.For<ClientPipelineArgs>();
+            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.IsPostBack = true;
+            args.Result = result;
 
+            string message;
             var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
+            sheer.CheckModified().Returns(true);
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
-
-            // Act
-            command.ProcessResult(item, new ID().ToShortID().ToString());
-
-            // Assert
-            sheer.Received().Alert(Arg.Any<string>());
-            command.DidNotReceive().SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message);
-        }
-
-        [Fact]
-        public void ProcessResult_WithValidSelection_CallsSaveBaseLayout()
-        {
-            // Arrange
-            string message;
-            var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem();
-
-            var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
-            var contextChecker = Substitute.For<ICommandContextChecker>();
-            var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
-
-            // Act
-            command.ProcessResult(item, item2.ID.ToShortID().ToString());
-
-            // Assert
-            command.Received().SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message);
-        }
-
-        [Fact]
-        public void ProcessResult_WithValidSelectionAndWhenSaveBaseLayoutReturnsTrue_CallsRefresh()
-        {
-            // Arrange
-            string message;
-            var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem();
-
-            var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
-            var contextChecker = Substitute.For<ICommandContextChecker>();
-            var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
-            command.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message).Returns(true);
+            var processor = Substitute.For<IDialogResultProcessor>();
+            processor.ProcessResult(Arg.Any<Item>(), Arg.Any<string>(), out message).Returns(true);
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, contextChecker, locator, processor);
             command.When(c => c.Refresh()).DoNotCallBase();
 
             // Act
-            command.ProcessResult(item, item2.ID.ToShortID().ToString());
+            command.Run(args);
 
             // Assert
             command.Received().Refresh();
         }
 
         [Fact]
-        public void ProcessResult_WithValidSelectionAndWhenSaveBaseLayoutReturnsFalse_CallsAlert()
+        public void Run_WithIsPostBackTrueAndHasResultTrueAndResultProcessorReturnsFalse_CallsAlertWithMessage()
         {
             // Arrange
-            string message;
+            var result = new ID().ToString();
             var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem();
+            var args = Substitute.For<ClientPipelineArgs>();
+            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.IsPostBack = true;
+            args.Result = result;
 
+            string message;
+            var expectedAlert = "This is the expected alert message!";
             var sheer = Substitute.For<ISheerResponse>();
-            var runner = Substitute.For<IPipelineRunner>();
+            sheer.CheckModified().Returns(true);
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, runner, contextChecker, locator);
-            command.When(c => c.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message)).DoNotCallBase();
-            command.SaveBaseLayout(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>(), out message).Returns(false);
-            command.When(c => c.Refresh()).DoNotCallBase();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            processor.ProcessResult(Arg.Any<Item>(), Arg.Any<string>(), out message).Returns(false).AndDoes(ci => ci[2] = expectedAlert);
+            var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             // Act
-            command.ProcessResult(item, item2.ID.ToShortID().ToString());
+            command.Run(args);
 
             // Assert
-            sheer.Received().Alert(Arg.Any<string>());
-        } 
-        #endregion
-
-        private List<Item> CreateBaseLayoutItems()
-        {
-            return Enumerable.Range(0, 4).Select(x => MasterFakesFactory.CreateFakeItem()).ToList();
+            sheer.Received().Alert(expectedAlert);
         }
+
+        #endregion
     }
 }

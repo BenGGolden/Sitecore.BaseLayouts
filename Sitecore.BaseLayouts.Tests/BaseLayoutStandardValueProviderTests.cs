@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sitecore.BaseLayouts.Abstractions;
 
 namespace Sitecore.BaseLayouts.Tests
 {
@@ -10,8 +11,6 @@ namespace Sitecore.BaseLayouts.Tests
 
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
-
-    using Sitecore.BaseLayouts.Diagnostics;
     using Sitecore.Data;
     using Sitecore.Data.Fields;
     using Sitecore.Data.Items;

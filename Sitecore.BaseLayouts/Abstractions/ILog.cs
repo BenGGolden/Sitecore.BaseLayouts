@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sitecore.BaseLayouts.Diagnostics
-{
-    using System;
+using System;
 
+namespace Sitecore.BaseLayouts.Abstractions
+{
     /// <summary>
     /// The Log interface.
     /// </summary>

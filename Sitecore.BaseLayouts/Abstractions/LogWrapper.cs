@@ -4,12 +4,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Sitecore.BaseLayouts.Diagnostics
+using System;
+using Sitecore.Diagnostics;
+
+namespace Sitecore.BaseLayouts.Abstractions
 {
-    using System;
-
-    using Sitecore.Diagnostics;
-
     /// <summary>
     /// The log.
     /// </summary>

@@ -1,4 +1,5 @@
-﻿using Sitecore.Data.Managers;
+﻿using Sitecore.BaseLayouts.Extensions;
+using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 using Sitecore.Web.UI.HtmlControls.Data;
 
@@ -18,7 +19,7 @@ namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
             Assert.ArgumentNotNull(args, "args");
             Assert.IsNotNull(args.Item, "Item cannot be null.");
 
-            if (!TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, args.Item)) return;
+            if (!args.Item.HasField(BaseLayoutSettings.FieldId)) return;
 
             var field = args.Item.Fields[BaseLayoutSettings.FieldId];
             var items = LookupSources.GetItems(args.Item, field.Source);

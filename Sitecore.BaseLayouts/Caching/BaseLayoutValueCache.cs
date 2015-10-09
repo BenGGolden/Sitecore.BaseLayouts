@@ -22,7 +22,7 @@ namespace Sitecore.BaseLayouts.Caching
         /// <summary>
         /// Initializes the cache using a configuration setting for the supported databases
         /// </summary>
-        public BaseLayoutValueCache() : this(BaseLayoutSettings.SupportedDatabases)
+        public BaseLayoutValueCache() : this(BaseLayoutSettings.SupportedDatabases.Select(db => Factory.GetDatabase(db, false)).ToArray())
         {
         }
 
@@ -30,15 +30,11 @@ namespace Sitecore.BaseLayouts.Caching
         /// Initializes the cache
         /// </summary>
         /// <param name="databases">the names of databases to suppport</param>
-        public BaseLayoutValueCache(string[] databases) : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
+        public BaseLayoutValueCache(Database[] databases) : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
         {
-            foreach (var database in databases)
+            foreach (var db in databases.Where(db => db != null))
             {
-                var db = Factory.GetDatabase(database, false);
-                if (db != null)
-                {
-                    InitializeEventHandlers(db);
-                }
+                InitializeEventHandlers(db);
             }
         }
 
