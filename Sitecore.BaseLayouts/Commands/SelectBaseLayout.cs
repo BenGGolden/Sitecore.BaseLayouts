@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
+using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
 using Sitecore.Data;
@@ -24,16 +25,22 @@ namespace Sitecore.BaseLayouts.Commands
         private readonly ISheerResponse _sheerResponse;
         private readonly IPipelineRunner _pipelineRunner;
         private readonly ICommandContextChecker _contextChecker;
+        private readonly IDialogLocator _dialogLocator;
 
-        public SelectBaseLayout() : this(new SheerResponseWrapper(), new PipelineRunner(), new SelectBaseLayoutContextChecker(new PageModeAccess(), new PipelineRunner()))
+        public SelectBaseLayout()
         {
+            _sheerResponse = new SheerResponseWrapper();
+            _pipelineRunner = new PipelineRunner();
+            _contextChecker = new SelectBaseLayoutContextChecker(new PageModeAccess(), _pipelineRunner);
+            _dialogLocator = new SelectBaseLayoutDialogLocator(_pipelineRunner);
         }
 
-        public SelectBaseLayout(ISheerResponse sheerResponse, IPipelineRunner pipelineRunner, ICommandContextChecker contextChecker)
+        public SelectBaseLayout(ISheerResponse sheerResponse, IPipelineRunner pipelineRunner, ICommandContextChecker contextChecker, IDialogLocator dialogLocator)
         {
             _sheerResponse = sheerResponse;
             _pipelineRunner = pipelineRunner;
             _contextChecker = contextChecker;
+            _dialogLocator = dialogLocator;
         }
 
         /// <summary>
@@ -78,29 +85,18 @@ namespace Sitecore.BaseLayouts.Commands
             }
 
             BaseLayoutItem currentItem = DeserializeItems(args.Parameters["items"])[0];
-            if (!TemplateManager.IsFieldPartOfTemplate(BaseLayoutSettings.FieldId, currentItem))
-            {
-                _sheerResponse.Alert("This item does not support base layouts.");
-                return;
-            }
 
             if (!args.IsPostBack)
             {
-                var items = GetBaseLayoutItems(currentItem);
-                if (items != null && items.Count > 0)
+                var url = _dialogLocator.GetDialogUrl(currentItem);
+                if (!string.IsNullOrEmpty(url))
                 {
-                    var options = new SelectBaseLayoutOptions {Items = items};
-                    if (currentItem.BaseLayout != null)
-                    {
-                        options.CurrentBaseLayoutId = currentItem.BaseLayout.ID;
-                    }
-
-                    _sheerResponse.ShowModalDialog(options);
+                    _sheerResponse.ShowModalDialog(url);
                     args.WaitForPostBack();
                 }
                 else
                 {
-                    _sheerResponse.Alert("The base layouts were not found.");
+                    _sheerResponse.Alert("Could not get the dialog URL.");
                 }
             }
             else if (args.HasResult)
@@ -139,14 +135,6 @@ namespace Sitecore.BaseLayouts.Commands
             {
                 _sheerResponse.Alert(message);
             }
-        }
-
-        internal virtual List<Item> GetBaseLayoutItems(Item item)
-        {
-            Assert.ArgumentNotNull(item, "item");
-            var args = new GetBaseLayoutItemsArgs(item);
-            _pipelineRunner.Run(args);
-            return args.BaseLayoutItems;
         }
 
         internal virtual bool SaveBaseLayout(BaseLayoutItem item, Item baseLayoutItem, out string message)

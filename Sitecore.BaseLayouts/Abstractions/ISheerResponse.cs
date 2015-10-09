@@ -25,8 +25,8 @@ namespace Sitecore.BaseLayouts.Abstractions
         /// <summary>
         /// Show a modal dialog to select an item
         /// </summary>
-        /// <param name="options">options for the select item dialog</param>
+        /// <param name="url">the dialog url</param>
         /// <returns>a client command object</returns>
-        ClientCommand ShowModalDialog(SelectItemOptions options);
+        ClientCommand ShowModalDialog(string url);
     }
 }

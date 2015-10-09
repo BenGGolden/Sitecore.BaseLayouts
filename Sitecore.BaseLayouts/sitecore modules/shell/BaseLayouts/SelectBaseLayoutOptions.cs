@@ -8,12 +8,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Sitecore.Data;
-using Sitecore.Diagnostics;
 using Sitecore.Shell.Applications.Dialogs.ItemLister;
 using Sitecore.Text;
 using Sitecore.Web;
 
-namespace Sitecore.BaseLayouts.Commands
+namespace Sitecore.BaseLayouts
 {
     /// <summary>
     ///     The select base layout options.
