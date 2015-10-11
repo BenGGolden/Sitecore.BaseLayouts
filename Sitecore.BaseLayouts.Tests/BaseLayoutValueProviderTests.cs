@@ -1,6 +1,7 @@
 ﻿using System;
 using NSubstitute;
 using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.Data.Items;
 using Sitecore.FakeDb;
 

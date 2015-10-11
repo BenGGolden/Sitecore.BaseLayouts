@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.Data;
 
 namespace Sitecore.BaseLayouts.Tests
 {

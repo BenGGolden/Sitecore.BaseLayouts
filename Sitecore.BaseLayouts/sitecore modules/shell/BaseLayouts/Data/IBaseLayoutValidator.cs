@@ -1,7 +1,7 @@
-﻿namespace Sitecore.BaseLayouts
-{
-    using Sitecore.Data.Items;
+﻿using Sitecore.Data.Items;
 
+namespace Sitecore.BaseLayouts.Data
+{
     /// <summary>
     /// Interface for a base layout validator
     /// </summary>

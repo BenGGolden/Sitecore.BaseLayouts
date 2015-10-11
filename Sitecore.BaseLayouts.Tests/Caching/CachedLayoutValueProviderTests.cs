@@ -1,6 +1,7 @@
 ﻿using System;
 using NSubstitute;
 using Sitecore.BaseLayouts.Caching;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.Data.Fields;
 using Xunit;
 

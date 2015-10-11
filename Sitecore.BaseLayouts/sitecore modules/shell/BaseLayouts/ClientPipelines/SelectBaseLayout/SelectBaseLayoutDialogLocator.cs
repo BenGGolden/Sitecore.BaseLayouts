@@ -1,4 +1,5 @@
-﻿using Sitecore.BaseLayouts.Pipelines;
+﻿using Sitecore.BaseLayouts.Data;
+using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;

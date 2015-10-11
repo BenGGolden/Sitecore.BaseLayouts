@@ -3,10 +3,9 @@ using System.Linq;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data.Fields;
-using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 
-namespace Sitecore.BaseLayouts
+namespace Sitecore.BaseLayouts.Data
 {
     /// <summary>
     /// Gets the value of the layout field from the base layout if one is selected.

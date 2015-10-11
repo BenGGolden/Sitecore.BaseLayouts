@@ -1,16 +1,11 @@
-using System;
+using System.Collections.Generic;
 using Sitecore.BaseLayouts.Extensions;
-using Sitecore.Data.Managers;
+using Sitecore.Data;
+using Sitecore.Data.Items;
+using Sitecore.Diagnostics;
 
-namespace Sitecore.BaseLayouts
+namespace Sitecore.BaseLayouts.Data
 {
-    using System.Collections.Generic;
-
-    using Sitecore.Data;
-    using Sitecore.Data.Fields;
-    using Sitecore.Data.Items;
-    using Sitecore.Diagnostics;
-
     public class BaseLayoutValidator : IBaseLayoutValidator
     {
         /// <summary>

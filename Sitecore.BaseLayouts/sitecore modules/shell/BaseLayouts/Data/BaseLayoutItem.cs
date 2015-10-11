@@ -1,11 +1,7 @@
-﻿using System;
-using Sitecore.Data;
-using Sitecore.Data.Fields;
+﻿using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
-using Sitecore.Data.Managers;
-using Sitecore.Diagnostics;
 
-namespace Sitecore.BaseLayouts
+namespace Sitecore.BaseLayouts.Data
 {
     public class BaseLayoutItem : CustomItem
     {

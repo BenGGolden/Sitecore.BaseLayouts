@@ -12,7 +12,7 @@ using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 
-namespace Sitecore.BaseLayouts
+namespace Sitecore.BaseLayouts.Data
 {
     /// <summary>
     ///     The base layout standard values provider.

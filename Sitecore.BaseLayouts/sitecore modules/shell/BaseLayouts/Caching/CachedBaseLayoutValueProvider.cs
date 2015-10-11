@@ -1,4 +1,5 @@
-﻿using Sitecore.Data.Fields;
+﻿using Sitecore.BaseLayouts.Data;
+using Sitecore.Data.Fields;
 using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.Caching

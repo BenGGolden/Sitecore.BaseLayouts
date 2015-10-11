@@ -1,4 +1,5 @@
-﻿using Sitecore.Diagnostics;
+﻿using Sitecore.BaseLayouts.Data;
+using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
 {

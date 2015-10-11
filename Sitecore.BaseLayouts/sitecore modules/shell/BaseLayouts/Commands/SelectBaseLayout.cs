@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;

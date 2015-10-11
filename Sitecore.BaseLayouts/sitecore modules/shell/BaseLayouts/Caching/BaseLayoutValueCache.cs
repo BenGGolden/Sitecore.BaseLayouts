@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.Caching;
 using Sitecore.Configuration;
 using Sitecore.Data;

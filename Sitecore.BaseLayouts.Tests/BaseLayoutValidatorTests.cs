@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.Data;
 using Xunit;
 
