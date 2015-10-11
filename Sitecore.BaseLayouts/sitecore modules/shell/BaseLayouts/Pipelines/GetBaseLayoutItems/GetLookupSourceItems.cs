@@ -1,4 +1,6 @@
-﻿using Sitecore.BaseLayouts.Extensions;
+﻿using System.Collections.Generic;
+using Sitecore.BaseLayouts.Extensions;
+using Sitecore.Data.Items;
 using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 using Sitecore.Web.UI.HtmlControls.Data;
@@ -22,11 +24,12 @@ namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
             if (!args.Item.HasField(BaseLayoutSettings.FieldId)) return;
 
             var field = args.Item.Fields[BaseLayoutSettings.FieldId];
-            var items = LookupSources.GetItems(args.Item, field.Source);
-            if (items != null)
-            {
-                args.BaseLayoutItems.AddRange(items);
-            }
+            args.BaseLayoutItems.AddRange(GetItems(args.Item, field.Source));
+        }
+
+        internal virtual IEnumerable<Item> GetItems(Item item, string source)
+        {
+            return LookupSources.GetItems(item, source);
         }
     }
 }

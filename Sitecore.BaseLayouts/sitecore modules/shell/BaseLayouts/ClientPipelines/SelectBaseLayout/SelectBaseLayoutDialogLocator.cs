@@ -3,6 +3,7 @@ using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
+using Sitecore.Text;
 
 namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
 {
@@ -38,6 +39,11 @@ namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
                 options.CurrentBaseLayoutId = baseLayoutItem.BaseLayout.ID;
             }
 
+            return GetUrl(options);
+        }
+
+        internal virtual string GetUrl(SelectBaseLayoutOptions options)
+        {
             return options.ToUrlString().ToString();
         }
     }

@@ -43,7 +43,7 @@ namespace Sitecore.BaseLayouts.Commands
             var args = new GetBaseLayoutItemsArgs(item);
             _pipelineRunner.Run(args);
 
-            return args.BaseLayoutItems != null && args.BaseLayoutItems.Count > 0;
+            return args.BaseLayoutItems.Count > 0;
         }
     }
 }

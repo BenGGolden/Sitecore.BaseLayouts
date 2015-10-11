@@ -89,8 +89,13 @@
     <Compile Include="BaseLayoutValidatorTests.cs" />
     <Compile Include="BaseLayoutValueProviderTests.cs" />
     <Compile Include="Caching\CachedLayoutValueProviderTests.cs" />
+    <Compile Include="ClientPipelines\SelectBaseLayout\SelectBaseLayoutDialogLocatorTests.cs" />
     <Compile Include="ClientPipelines\SelectBaseLayout\SelectBaseLayoutDialogResultProcessorTests.cs" />
-    <Compile Include="Commands\SelectBaseLayoutOptionsTests.cs" />
+    <Compile Include="Commands\SelectBaseLayoutContextCheckerTests.cs" />
+    <Compile Include="Pipelines\GetBaseLayoutItems\GetLookupSourceItemsTests.cs" />
+    <Compile Include="Pipelines\SaveBaseLayout\CheckForCircularReferenceTests.cs" />
+    <Compile Include="Pipelines\SaveBaseLayout\SaveNewBaseLayoutTests.cs" />
+    <Compile Include="SelectBaseLayoutOptionsTests.cs" />
     <Compile Include="Commands\SelectBaseLayoutTests.cs" />
     <Compile Include="FakeDbTestClass.cs" />
     <Compile Include="FakesFactory.cs" />
@@ -115,6 +120,7 @@
   <ItemGroup>
     <Content Include="license.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

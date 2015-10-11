@@ -16,8 +16,72 @@ namespace Sitecore.BaseLayouts.Tests.Commands
 {
     public class SelectBaseLayoutTests : FakeDbTestClass
     {
+        #region Execute Tests
+
+        [Fact]
+        public void Execute_WithNoItemsInContext_DoesNotRunPipeline()
+        {
+            // Arrange
+            var context = new CommandContext();
+            var sheer = Substitute.For<ISheerResponse>();
+            var contextChecker = Substitute.For<ICommandContextChecker>();
+            var locator = Substitute.For<IDialogLocator>();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, contextChecker, locator, processor);
+            command.When(c => c.RunClientPipeline(Arg.Any<NameValueCollection>())).DoNotCallBase();
+
+            // Act
+            command.Execute(context);
+
+            // Assert
+            command.DidNotReceive().RunClientPipeline(Arg.Any<NameValueCollection>());
+        }
+
+        [Fact]
+        public void Execute_WithMoreThanOneItemInContext_DoesNotRunPipeline()
+        {
+            // Arrange
+            var item = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem();
+            var context = new CommandContext(new[] { item, item2 });
+            var sheer = Substitute.For<ISheerResponse>();
+            var contextChecker = Substitute.For<ICommandContextChecker>();
+            var locator = Substitute.For<IDialogLocator>();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, contextChecker, locator, processor);
+            command.When(c => c.RunClientPipeline(Arg.Any<NameValueCollection>())).DoNotCallBase();
+
+            // Act
+            command.Execute(context);
+
+            // Assert
+            command.DidNotReceive().RunClientPipeline(Arg.Any<NameValueCollection>());
+        }
+
+        [Fact]
+        public void Execute_WithOneItemInContext_RunsPipelineWithCorrectParameters()
+        {
+            // Arrange
+            var item = MasterFakesFactory.CreateFakeItem();
+            var context = new CommandContext(item);
+            var sheer = Substitute.For<ISheerResponse>();
+            var contextChecker = Substitute.For<ICommandContextChecker>();
+            var locator = Substitute.For<IDialogLocator>();
+            var processor = Substitute.For<IDialogResultProcessor>();
+            var command = Substitute.ForPartsOf<SelectBaseLayout>(sheer, contextChecker, locator, processor);
+            command.When(c => c.RunClientPipeline(Arg.Any<NameValueCollection>())).DoNotCallBase();
+
+            // Act
+            command.Execute(context);
+
+            // Assert
+            command.Received().RunClientPipeline(Arg.Is<NameValueCollection>(nvc => ItemUri.IsItemUri(nvc["items"])));
+        }
+
+        #endregion
+
         #region QueryState tests
-        
+
         [Fact]
         public void QueryState_WithNoItemInContext_ReturnsDisabled()
         {

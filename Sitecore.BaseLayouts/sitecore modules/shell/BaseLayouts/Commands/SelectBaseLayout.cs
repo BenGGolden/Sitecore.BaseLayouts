@@ -1,19 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
 using Sitecore.BaseLayouts.Data;
 using Sitecore.BaseLayouts.Pipelines;
-using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
-using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
-using Sitecore.Data;
-using Sitecore.Data.Items;
-using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
-using Sitecore.SecurityModel;
 using Sitecore.Shell.Applications.WebEdit.Commands;
 using Sitecore.Shell.Framework.Commands;
-using Sitecore.Web;
 using Sitecore.Web.UI.Sheer;
 
 namespace Sitecore.BaseLayouts.Commands
@@ -28,16 +20,8 @@ namespace Sitecore.BaseLayouts.Commands
         private readonly IDialogLocator _dialogLocator;
         private readonly IDialogResultProcessor _dialogResultProcessor;
 
-        public SelectBaseLayout()
-        {
-            _sheerResponse = new SheerResponseWrapper();
-            var pipelineRunner = new PipelineRunner();
-            _contextChecker = new SelectBaseLayoutContextChecker(new PageModeAccess(), pipelineRunner);
-            _dialogLocator = new SelectBaseLayoutDialogLocator(pipelineRunner);
-            _dialogResultProcessor = new SelectBaseLayoutDialogResultProcessor(pipelineRunner);
-        }
-
-        public SelectBaseLayout(ISheerResponse sheerResponse, ICommandContextChecker contextChecker, IDialogLocator dialogLocator, IDialogResultProcessor dialogResultProcessor)
+        public SelectBaseLayout(ISheerResponse sheerResponse, ICommandContextChecker contextChecker,
+            IDialogLocator dialogLocator, IDialogResultProcessor dialogResultProcessor)
         {
             _sheerResponse = sheerResponse;
             _contextChecker = contextChecker;

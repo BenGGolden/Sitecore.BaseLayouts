@@ -1,63 +1,12 @@
-﻿using System.Collections.Specialized;
-using NSubstitute;
-using Sitecore.BaseLayouts.Commands;
+﻿using NSubstitute;
 using Sitecore.Data;
-using Sitecore.Shell.Framework.Commands;
 using Sitecore.Text;
 using Xunit;
 
-namespace Sitecore.BaseLayouts.Tests.Commands
+namespace Sitecore.BaseLayouts.Tests
 {
     public class SelectBaseLayoutOptionsTests : FakeDbTestClass
     {
-        [Fact]
-        public void Execute_WithNoItemsInContext_DoesNotRunPipeline()
-        {
-            // Arrange
-            var context = new CommandContext();
-            var command = Substitute.ForPartsOf<SelectBaseLayout>();
-            command.When(c => c.RunClientPipeline(Arg.Any<NameValueCollection>())).DoNotCallBase();
-
-            // Act
-            command.Execute(context);
-
-            // Assert
-            command.DidNotReceive().RunClientPipeline(Arg.Any<NameValueCollection>());
-        }
-
-        [Fact]
-        public void Execute_WithMoreThanOneItemInContext_DoesNotRunPipeline()
-        {
-            // Arrange
-            var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem();
-            var context = new CommandContext(new[] {item, item2});
-            var command = Substitute.ForPartsOf<SelectBaseLayout>();
-            command.When(c => c.RunClientPipeline(Arg.Any<NameValueCollection>())).DoNotCallBase();
-
-            // Act
-            command.Execute(context);
-
-            // Assert
-            command.DidNotReceive().RunClientPipeline(Arg.Any<NameValueCollection>());
-        }
-
-        [Fact]
-        public void Execute_WithOneItemInContext_RunsPipelineWithCorrectParameters()
-        {
-            // Arrange
-            var item = MasterFakesFactory.CreateFakeItem();
-            var context = new CommandContext(item);
-            var command = Substitute.ForPartsOf<SelectBaseLayout>();
-            command.When(c => c.RunClientPipeline(Arg.Any<NameValueCollection>())).DoNotCallBase();
-
-            // Act
-            command.Execute(context);
-
-            // Assert
-            command.Received().RunClientPipeline(Arg.Is<NameValueCollection>(nvc => ItemUri.IsItemUri(nvc["items"])));
-        }
-
         [Fact]
         public void AddCurrentBaseLayout_WithCurrentBaseLayoutIdNull_DoesNotAddQueryStringParameter()
         {
