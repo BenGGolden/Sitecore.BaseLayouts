@@ -2,6 +2,7 @@
 using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
+using Sitecore.Data;
 using Sitecore.Data.Items;
 using Xunit;
 
@@ -34,14 +35,15 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
             runner.When(r => r.Run(Arg.Any<GetBaseLayoutItemsArgs>()))
                 .Do(x => x.Arg<GetBaseLayoutItemsArgs>().BaseLayoutItems.Add(item2));
             var locator = Substitute.ForPartsOf<SelectBaseLayoutDialogLocator>(runner);
-            locator.When(l => l.GetUrl(Arg.Any<SelectBaseLayoutOptions>())).DoNotCallBase();
+            locator.When(l => l.GetUrl(Arg.Any<SelectBaseLayoutOptions>(), Arg.Any<Database>())).DoNotCallBase();
             
             // Act
             var result = locator.GetDialogUrl(item);
 
             // Assert
             locator.Received()
-                .GetUrl(Arg.Is<SelectBaseLayoutOptions>(o => o.Items.Count == 1 && o.Items[0].ID == item2.ID));
+                .GetUrl(Arg.Is<SelectBaseLayoutOptions>(o => o.Items.Count == 1 && o.Items[0].ID == item2.ID),
+                    Arg.Is<Database>(db => db.Name == item.Database.Name));
         }
 
         [Fact]
@@ -54,14 +56,15 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
             runner.When(r => r.Run(Arg.Any<GetBaseLayoutItemsArgs>()))
                 .Do(x => x.Arg<GetBaseLayoutItemsArgs>().BaseLayoutItems.Add(item));
             var locator = Substitute.ForPartsOf<SelectBaseLayoutDialogLocator>(runner);
-            locator.When(l => l.GetUrl(Arg.Any<SelectBaseLayoutOptions>())).DoNotCallBase();
+            locator.When(l => l.GetUrl(Arg.Any<SelectBaseLayoutOptions>(), Arg.Any<Database>())).DoNotCallBase();
 
             // Act
             var result = locator.GetDialogUrl(item2);
 
             // Assert
             locator.Received()
-                .GetUrl(Arg.Is<SelectBaseLayoutOptions>(o => o.CurrentBaseLayoutId == item.ID));
+                .GetUrl(Arg.Is<SelectBaseLayoutOptions>(o => o.CurrentBaseLayoutId == item.ID),
+                    Arg.Is<Database>(db => db.Name == item.Database.Name));
         }
     }
 }

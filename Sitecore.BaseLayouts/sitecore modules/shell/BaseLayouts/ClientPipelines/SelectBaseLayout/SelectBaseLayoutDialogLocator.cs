@@ -1,6 +1,7 @@
 ﻿using Sitecore.BaseLayouts.Data;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
+using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 using Sitecore.Text;
@@ -39,12 +40,12 @@ namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
                 options.CurrentBaseLayoutId = baseLayoutItem.BaseLayout.ID;
             }
 
-            return GetUrl(options);
+            return GetUrl(options, item.Database);
         }
 
-        internal virtual string GetUrl(SelectBaseLayoutOptions options)
+        internal virtual string GetUrl(SelectBaseLayoutOptions options, Database db)
         {
-            return options.ToUrlString().ToString();
+            return options.ToUrlString(db).ToString();
         }
     }
 }
