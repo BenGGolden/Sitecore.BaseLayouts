@@ -20,6 +20,15 @@ namespace Sitecore.BaseLayouts.Commands
         private readonly IDialogLocator _dialogLocator;
         private readonly IDialogResultProcessor _dialogResultProcessor;
 
+        public SelectBaseLayout()
+        {
+            _sheerResponse = new SheerResponseWrapper();
+            var runner = new PipelineRunner();
+            _contextChecker = new SelectBaseLayoutContextChecker(new PageModeAccess(), runner);
+            _dialogLocator = new SelectBaseLayoutDialogLocator(runner);
+            _dialogResultProcessor = new SelectBaseLayoutDialogResultProcessor(runner);
+        }
+
         public SelectBaseLayout(ISheerResponse sheerResponse, ICommandContextChecker contextChecker,
             IDialogLocator dialogLocator, IDialogResultProcessor dialogResultProcessor)
         {

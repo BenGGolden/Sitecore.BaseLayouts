@@ -45,7 +45,9 @@ namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
 
         internal virtual string GetUrl(SelectBaseLayoutOptions options, Database db)
         {
-            return options.ToUrlString(db).ToString();
+            var url = options.ToUrlString(db);
+            url.Path = "/sitecore/shell/default.aspx";
+            return url.ToString();
         }
     }
 }
