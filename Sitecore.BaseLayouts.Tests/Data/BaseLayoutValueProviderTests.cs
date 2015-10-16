@@ -1,14 +1,10 @@
-﻿using System;
-using NSubstitute;
+﻿using NSubstitute;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Data;
-using Sitecore.Data.Items;
-using Sitecore.FakeDb;
+using Xunit;
 
-namespace Sitecore.BaseLayouts.Tests
+namespace Sitecore.BaseLayouts.Tests.Data
 {
-    using Xunit;
-
     public class BaseLayoutValueProviderTests : FakeDbTestClass
     {
         [Fact]

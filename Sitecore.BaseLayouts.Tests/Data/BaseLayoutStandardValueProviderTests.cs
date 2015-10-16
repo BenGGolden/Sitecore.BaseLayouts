@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Specialized;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Data;
+using Sitecore.Data;
+using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
+using Xunit;
 
-namespace Sitecore.BaseLayouts.Tests
+namespace Sitecore.BaseLayouts.Tests.Data
 {
-    using System.Collections.Specialized;
-
-    using NSubstitute;
-    using NSubstitute.ExceptionExtensions;
-    using Sitecore.Data;
-    using Sitecore.Data.Fields;
-    using Sitecore.Data.Items;
-    using Sitecore.FakeDb;
-
-    using Xunit;
-
     public class BaseLayoutStandardValueProviderTests : FakeDbTestClass
     {
         [Fact]

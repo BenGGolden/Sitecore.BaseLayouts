@@ -85,9 +85,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseLayoutStandardValueProviderTests.cs" />
-    <Compile Include="BaseLayoutValidatorTests.cs" />
-    <Compile Include="BaseLayoutValueProviderTests.cs" />
+    <Compile Include="Data\BaseLayoutStandardValueProviderTests.cs" />
+    <Compile Include="Data\BaseLayoutValidatorTests.cs" />
+    <Compile Include="Data\BaseLayoutValueProviderTests.cs" />
     <Compile Include="Caching\CachedLayoutValueProviderTests.cs" />
     <Compile Include="ClientPipelines\SelectBaseLayout\SelectBaseLayoutDialogLocatorTests.cs" />
     <Compile Include="ClientPipelines\SelectBaseLayout\SelectBaseLayoutDialogResultProcessorTests.cs" />
