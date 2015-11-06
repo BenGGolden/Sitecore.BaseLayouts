@@ -2,6 +2,7 @@
 using System.Linq;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Extensions;
+using Sitecore.BaseLayouts.sitecore_modules.shell.BaseLayouts.Extensions;
 using Sitecore.Data.Fields;
 using Sitecore.Diagnostics;
 
@@ -49,7 +50,7 @@ namespace Sitecore.BaseLayouts.Data
         public virtual string GetBaseLayoutValue(Field field)
         {
             // Sanity check.  Make sure the context is appropriate for attempting to find a base layout.
-            if (!IsLayoutField(field)
+            if (!field.IsLayoutField()
                 || !_databases.Contains(field.Item.Database.Name, StringComparer.OrdinalIgnoreCase)
                 || !field.Item.Paths.IsContentItem || !field.Item.HasField(BaseLayoutSettings.FieldId))
             {
@@ -76,16 +77,6 @@ namespace Sitecore.BaseLayouts.Data
             // Get the value of the layout field on the base layout.
             // If the selected item also has a base layout selected, this will cause implicit recursion.
             return new LayoutField(baseLayoutItem).Value;
-        }
-
-        /// <summary>
-        /// Determines whether the field is a layout field
-        /// </summary>
-        /// <param name="field">the field in question</param>
-        /// <returns>True if it is a layout field, otherwise false.</returns>
-        protected virtual bool IsLayoutField(Field field)
-        {
-            return field.ID == FieldIDs.LayoutField;
         }
     }
 }

@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Specialized;
 using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.sitecore_modules.shell.BaseLayouts.Extensions;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
@@ -73,7 +74,7 @@ namespace Sitecore.BaseLayouts.Data
         {
             try
             {
-                if (field.ID == FieldIDs.LayoutField)
+                if (field.IsLayoutField())
                 {
                     var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field);
                     if (!string.IsNullOrEmpty(layoutValue))
