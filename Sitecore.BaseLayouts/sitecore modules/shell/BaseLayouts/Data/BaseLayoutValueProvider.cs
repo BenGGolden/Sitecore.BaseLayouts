@@ -2,7 +2,6 @@
 using System.Linq;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Extensions;
-using Sitecore.BaseLayouts.sitecore_modules.shell.BaseLayouts.Extensions;
 using Sitecore.Data.Fields;
 using Sitecore.Diagnostics;
 
