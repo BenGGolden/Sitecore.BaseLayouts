@@ -203,5 +203,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-*.DotSettings
+
 Sitecore.BaseLayouts.Tests/license.xml
+References/sc*/*
+

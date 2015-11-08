@@ -1,0 +1,38 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Sitecore.BaseLayouts.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='sc72|AnyCPU'">
+    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc72\</SitecorePath>
+    <DefineConstants>SC72</DefineConstants>
+    <OutputPath>bin\sc72\</OutputPath>
+    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)'==''">v4.5</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='sc80|AnyCPU'">
+    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc80\</SitecorePath>
+    <DefineConstants>SC80</DefineConstants>
+    <OutputPath>bin\sc80\</OutputPath>
+    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)'==''">v4.5</TargetFrameworkVersion>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+</Project>
