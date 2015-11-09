@@ -54,16 +54,17 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\ILog.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\IPageModeAccess.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\ISheerResponse.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\LogWrapper.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\PageModeAccess.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutItem.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutValidator.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutValueProvider.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\SheerResponseWrapper.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\BaseLayoutSettings.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Caching\BaseLayoutValueCache.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Caching\CachedBaseLayoutValueProvider.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Caching\IBaseLayoutValueCache.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Caching\BaseLayoutValueCache.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\IDialogLocator.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\IDialogResultProcessor.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\SelectBaseLayoutDialogLocator.cs" />
@@ -71,27 +72,36 @@
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\ICommandContextChecker.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayoutContextChecker.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Extensions\FieldExtensions.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Extensions\ItemExtensions.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutItem.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutStandardValuesProvider.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutValidator.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutValueProvider.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Data\IBaseLayoutValidator.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Data\IBaseLayoutValueProvider.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutStandardValuesProvider.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Extensions\FieldExtensions.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Extensions\ItemExtensions.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\GetBaseLayoutItems\GetBaseLayoutItemsArgs.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\GetBaseLayoutItems\GetLookupSourceItems.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\GetBaseLayoutItems\IGetBaseLayoutItemsProcessor.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\IPipelineRunner.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\RunnablePipelineArgs.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\PipelineRunner.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\RunnablePipelineArgs.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\SaveBaseLayout\CheckForCircularReference.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\SaveBaseLayout\ISaveBaseLayoutProcessor.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\SaveBaseLayout\SaveBaseLayoutArgs.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\SaveBaseLayout\SaveNewBaseLayout.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutOptions.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\BaseLayoutSettings.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutForm.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\ISheerResponse.cs" />
-    <Compile Include="sitecore modules\shell\BaseLayouts\Abstractions\SheerResponseWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(SpeakRibbon)'=='true'">
+    <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\Execute.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\GetDialogUrl.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Commands\CanExecute.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\SaveBaseLayout\CheckForVersioningConflict.cs" />
+    <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\Execute.js" />
+    <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\GetDialogUrl.js" />
+    <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\OpenDialog.js" />
+    <Content Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\BaseLayouts.config">
@@ -117,8 +127,8 @@
       <DependentUpon>BaseLayouts.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
     </None>
-    <Content Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
-    <Content Include="packages.config" />
+    <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
