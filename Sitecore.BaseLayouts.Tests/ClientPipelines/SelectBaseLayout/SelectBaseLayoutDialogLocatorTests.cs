@@ -51,7 +51,7 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
         {
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, item.ID);
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item.ID);
             var runner = Substitute.For<IPipelineRunner>();
             runner.When(r => r.Run(Arg.Any<GetBaseLayoutItemsArgs>()))
                 .Do(x => x.Arg<GetBaseLayoutItemsArgs>().BaseLayoutItems.Add(item));

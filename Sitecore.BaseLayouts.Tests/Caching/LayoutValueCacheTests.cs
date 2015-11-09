@@ -165,7 +165,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             var cache = new BaseLayoutValueCache(new[] {MasterDb.Database}) { Enabled = true };
             cache.Clear();
             var baseLayoutItem = MasterFakesFactory.CreateFakeItem();
-            var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, baseLayoutItem.ID);
+            var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, null, baseLayoutItem.ID);
             cache.AddLayoutValue(field, field.Value);
 
             // Act
@@ -214,7 +214,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             Item updatedItem = null;
             for (int i = 0; i < 10; i++)
             {
-                var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, id);
+                var field = MasterFakesFactory.CreateFakeLayoutField(null, null, null, null, id);
                 cache.AddLayoutValue(field, field.Value);
                 id = (i == 4) ? null : field.Item.ID;
                 if (i == 2) updatedItem = field.Item;

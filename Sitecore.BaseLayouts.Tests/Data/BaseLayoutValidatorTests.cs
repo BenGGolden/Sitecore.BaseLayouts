@@ -22,7 +22,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         {
             // Arrange
             var validator = new BaseLayoutValidator();
-            var item = MasterFakesFactory.CreateFakeItem(null, null, null, null, false);
+            var item = MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false);
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -65,7 +65,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var validator = new BaseLayoutValidator();
             var id = new ID();
-            var item = MasterFakesFactory.CreateFakeItem(id, null, null, id);
+            var item = MasterFakesFactory.CreateFakeItem(id, null, null, null, id);
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -81,8 +81,8 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = new BaseLayoutValidator();
             var id = new ID();
             var baseId = new ID();
-            var baseItem = MasterFakesFactory.CreateFakeItem(baseId, null, null, id);
-            var item = MasterFakesFactory.CreateFakeItem(id, null, null, baseId);
+            var baseItem = MasterFakesFactory.CreateFakeItem(baseId, null, null, null, id);
+            var item = MasterFakesFactory.CreateFakeItem(id, null, null, null, baseId);
 
             // Act
             var result = validator.HasCircularBaseLayoutReference(item);
@@ -118,7 +118,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = new BaseLayoutValidator();
 
             // Act => Assert
-            Assert.Throws<ArgumentException>(() => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(null, null, null, null, false), MasterFakesFactory.CreateFakeItem()));
+            Assert.Throws<ArgumentException>(() => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false), MasterFakesFactory.CreateFakeItem()));
         }
 
         [Fact]
@@ -141,7 +141,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var validator = new BaseLayoutValidator();
             var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, item.ID);
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item.ID);
 
             // Act
             var result = validator.CreatesCircularBaseLayoutReference(item, item2);
@@ -156,8 +156,8 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var validator = new BaseLayoutValidator();
             var item = MasterFakesFactory.CreateFakeItem();
-            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, item.ID);
-            var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, item2.ID);
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item.ID);
+            var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item2.ID);
 
             // Act
             var result = validator.CreatesCircularBaseLayoutReference(item, item3);
@@ -173,7 +173,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = new BaseLayoutValidator();
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem();
-            var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, item2.ID);
+            var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item2.ID);
 
             // Act
             var result = validator.CreatesCircularBaseLayoutReference(item, item3);
@@ -181,5 +181,67 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Assert
             Assert.False(result);
         }
+
+#if FINAL_LAYOUT
+        [Fact]
+        public void CreatesVersioningConflict_WhenItemHasOnlyFinalRenderings_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem(null, null, string.Empty);
+            var item2 = MasterFakesFactory.CreateFakeItem();
+
+            // Act
+            var result = validator.CreatesVersioningConflict(item, item2);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CreatesVersioningConflict_WhenBaseLayoutItemHasOnlySharedRenderings_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, string.Empty);
+
+            // Act
+            var result = validator.CreatesVersioningConflict(item, item2);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CreatesVersioningConflict_WhenItemHasRenderingsSeedAndBaseLayoutItemHasFinalRenderings_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem();
+
+            // Act
+            var result = validator.CreatesVersioningConflict(item, item2);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CreatesVersioningConflict_WhenItemHasRenderingsDeltaAndBaseLayoutItemHasFinalRenderings_ReturnsTrue()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem(null, null, "<r xmlns:p=\"p\" xmlns:s=\"s\" p:p=\"1\"></r>");
+            var item2 = MasterFakesFactory.CreateFakeItem();
+
+            // Act
+            var result = validator.CreatesVersioningConflict(item, item2);
+
+            // Assert
+            Assert.True(result);
+        }
+#endif
     }
 }

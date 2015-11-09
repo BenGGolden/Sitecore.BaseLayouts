@@ -28,7 +28,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='sc80|AnyCPU'">
     <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc80\</SitecorePath>
-    <DefineConstants>SC80</DefineConstants>
+    <DefineConstants>FINAL_LAYOUT</DefineConstants>
     <OutputPath>bin\sc80\</OutputPath>
     <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)'==''">v4.5</TargetFrameworkVersion>
     <DebugSymbols>true</DebugSymbols>

@@ -33,6 +33,28 @@ namespace Sitecore.BaseLayouts.Tests.Data
             Assert.Equal(layoutProviderValue, result);
         }
 
+#if FINAL_LAYOUT
+        [Fact]
+        public void GetStandardValue_WithFinalLayoutFieldAndNonEmptyLayoutValue_ReturnsLayoutValue()
+        {
+            // Arrange
+            var layoutProviderValue = "This is the layout value!";
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(layoutProviderValue);
+
+            var innerProvider = Substitute.For<StandardValuesProvider>();
+            var log = Substitute.For<ILog>();
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
+            var field = MasterFakesFactory.CreateFakeFinalLayoutField();
+
+            // Act
+            var result = provider.GetStandardValue(field);
+
+            // Assert
+            Assert.Equal(layoutProviderValue, result);
+        }
+#endif
+
         [Fact]
         public void GetStandardValue_WithLayoutFieldAndEmptyLayoutValue_ReturnsValueFromInnerProvider()
         {
@@ -54,6 +76,30 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Assert
             Assert.Equal(innerProviderValue, result);
         }
+
+#if FINAL_LAYOUT
+        [Fact]
+        public void GetStandardValue_WithFinalLayoutFieldAndEmptyLayoutValue_ReturnsValueFromInnerProvider()
+        {
+            // Arrange
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(string.Empty);
+
+            var innerProviderValue = "Standard value from inner provider";
+            var innerProvider = Substitute.For<StandardValuesProvider>();
+            innerProvider.GetStandardValue(Arg.Any<Field>()).Returns(innerProviderValue);
+
+            var log = Substitute.For<ILog>();
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, log);
+            var field = MasterFakesFactory.CreateFakeFinalLayoutField();
+
+            // Act
+            var result = provider.GetStandardValue(field);
+
+            // Assert
+            Assert.Equal(innerProviderValue, result);
+        }
+#endif
 
         [Fact]
         public void GetStandardValue_WithNonLayoutField_DoesNotCallLayoutValueProvider()

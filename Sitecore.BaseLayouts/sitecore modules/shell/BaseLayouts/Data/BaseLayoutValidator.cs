@@ -3,6 +3,7 @@ using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
+using Sitecore.Xml.Patch;
 
 namespace Sitecore.BaseLayouts.Data
 {
@@ -35,6 +36,15 @@ namespace Sitecore.BaseLayouts.Data
 
             return HasDuplicateBaseLayout(baseLayoutItem, new HashSet<ID> {item.ID});
         }
+
+#if FINAL_LAYOUT
+        public bool CreatesVersioningConflict(Item item, Item baseLayoutItem)
+        {
+            var itemLayout = item.Fields[FieldIDs.LayoutField].GetValue(false, false);
+            return !string.IsNullOrWhiteSpace(itemLayout) && XmlPatchUtils.IsXmlPatch(itemLayout) &&
+                   !string.IsNullOrWhiteSpace(baseLayoutItem.Fields[FieldIDs.FinalLayoutField].GetValue(false, false));
+        }
+#endif
 
         /// <summary>
         /// Determines if there are duplicat IDs in the baseLayouts ID set and the chain of base layout IDs originating at item.

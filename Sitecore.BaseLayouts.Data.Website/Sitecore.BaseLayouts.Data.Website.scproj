@@ -37,12 +37,16 @@
     <RecursiveDeployAction>Ignore</RecursiveDeployAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'sc80' ">
-    <SitecoreDeployFolder>D:\Projects\sc80up3\Website</SitecoreDeployFolder>
-    <SitecoreWebUrl>http://sc80up3</SitecoreWebUrl>
-    <SitecoreAccessGuid>ad63a62a-e27c-4398-afc1-5d44e080bf44</SitecoreAccessGuid>
-    <InstallSitecoreConnector>True</InstallSitecoreConnector>
+    <SitecoreDeployFolder>
+    </SitecoreDeployFolder>
+    <SitecoreWebUrl>
+    </SitecoreWebUrl>
+    <SitecoreAccessGuid>
+    </SitecoreAccessGuid>
+    <InstallSitecoreConnector>False</InstallSitecoreConnector>
     <DisableFileDeployment>True</DisableFileDeployment>
-    <OutputPath>bin\Sitecore7\</OutputPath>
+    <OutputPath>.\bin\sc80\</OutputPath>
+    <RecursiveDeployAction>Ignore</RecursiveDeployAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'sc72' ">
     <SitecoreDeployFolder>

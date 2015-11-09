@@ -22,5 +22,18 @@ namespace Sitecore.BaseLayouts.Data
         /// <param name="baseLayoutItem">the candidate base layout item</param>
         /// <returns>True if a circular reference would be created. Otherwise, false.</returns>
         bool CreatesCircularBaseLayoutReference(BaseLayoutItem item, Item baseLayoutItem);
+
+#if FINAL_LAYOUT
+        /// <summary>
+        /// Determines if there is a versioning conflict created if baseLayoutItem were set
+        /// as the base layout for item.  A versioning conflict occurs when a shared layout delta
+        /// is applied over versioned layout value.  That is, if and item has a value for the renderings
+        /// field and the item set as its base layout has a value for the final renderings field.
+        /// </summary>
+        /// <param name="item">the item</param>
+        /// <param name="baseLayoutItem">the base layout item</param>
+        /// <returns></returns>
+        bool CreatesVersioningConflict(Item item, Item baseLayoutItem);
+#endif
     }
 }

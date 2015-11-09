@@ -11,7 +11,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.GetBaseLayoutItems
         public void Process_WithItemWithoutBaseLayoutField_DoesNotCallGetItems()
         {
             // Arrange
-            var args = new GetBaseLayoutItemsArgs(MasterFakesFactory.CreateFakeItem(null, null, null, null, false));
+            var args = new GetBaseLayoutItemsArgs(MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false));
             var processor = Substitute.ForPartsOf<GetLookupSourceItems>();
             processor.When(p => p.GetItems(Arg.Any<Item>(), Arg.Any<string>())).DoNotCallBase();
 

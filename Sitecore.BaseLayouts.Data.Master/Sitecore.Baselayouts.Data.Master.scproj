@@ -52,10 +52,16 @@
     </SitecoreAccessGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'sc80' ">
-    <SitecoreDeployFolder>D:\Projects\sc72up4\Website</SitecoreDeployFolder>
-    <SitecoreWebUrl>http://sc72up4</SitecoreWebUrl>
-    <SitecoreAccessGuid>ad63a62a-e27c-4398-afc1-5d44e080bf44</SitecoreAccessGuid>
-    <OutputPath>bin\Sitecore7\</OutputPath>
+    <SitecoreDeployFolder>
+    </SitecoreDeployFolder>
+    <SitecoreWebUrl>
+    </SitecoreWebUrl>
+    <SitecoreAccessGuid>
+    </SitecoreAccessGuid>
+    <OutputPath>.\bin\sc80\</OutputPath>
+    <InstallSitecoreConnector>False</InstallSitecoreConnector>
+    <RecursiveDeployAction>Ignore</RecursiveDeployAction>
+    <DisableFileDeployment>False</DisableFileDeployment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'sc72' ">
     <SitecoreDeployFolder>
