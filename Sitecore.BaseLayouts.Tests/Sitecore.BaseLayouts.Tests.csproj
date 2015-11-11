@@ -32,10 +32,10 @@
     <Reference Include="Sitecore.Client">
       <HintPath>$(SitecorePath)Sitecore.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ExperienceEditor" Condition="'$(Configuration)|$(Platform)'=='sc80|AnyCPU'">
+    <Reference Include="Sitecore.ExperienceEditor" Condition="$(SitecoreVersionNumber) &gt;= 8.0">
       <HintPath>$(SitecorePath)Sitecore.ExperienceEditor.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ExperienceEditor.Speak" Condition="'$(Configuration)|$(Platform)'=='sc80|AnyCPU'">
+    <Reference Include="Sitecore.ExperienceEditor.Speak" Condition="$(SitecoreVersionNumber) &gt;= 8.0">
       <HintPath>$(SitecorePath)Sitecore.ExperienceEditor.Speak.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.FakeDb, Version=0.31.5.0, Culture=neutral, processorArchitecture=MSIL">

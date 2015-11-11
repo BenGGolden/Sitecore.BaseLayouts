@@ -34,11 +34,11 @@ Applications/16x16/window_star.png
 field: {F1A1FE9E-A60C-4DDB-A3A0-BB5B29FE732E}
 name: __Renderings
 key: __renderings
-content-length: 577
+content-length: 588
 
 <r>
   <d id="{FE5D7FDF-89C0-4D99-9AA3-B5FBD009C9F3}">
-    <r id="{28D7AA23-A9A3-4ABC-9DE6-AA717F6177CD}" par="Id=LargeButton&amp;Click=trigger%3abutton%3aclick&amp;Command=SelectBaseLayout&amp;PageCodeScriptFileName=%2fsitecore+modules%2fshell%2fBaseLayouts%2fSelectBaseLayout.js" uid="{6FA554B8-3A3F-4CF0-907F-1F5BBBED8ED2}" />
+    <r id="{28D7AA23-A9A3-4ABC-9DE6-AA717F6177CD}" par="Id=LargeButton&amp;Click=trigger%3abutton%3aclick&amp;Command=SelectBaseLayout&amp;PageCodeScriptFileName=%2fsitecore+modules%2fshell%2fBaseLayouts%2fCommands%2fSelectBaseLayout.js" uid="{6FA554B8-3A3F-4CF0-907F-1F5BBBED8ED2}" />
     <r id="{21E86498-6C8E-4F3B-83F2-B49E5E0ABE16}" par="PipelineItemId=%7bD3E5272E-0650-4580-973F-07EFBDF6D18E%7d&amp;Id=SelectBaseLayoutPipeline&amp;LoadMode=WhenRun&amp;UseBundle=0" uid="{7BA5C5A5-BD43-4260-ACAB-49BA1A29394E}" />
   </d>
 </r>
@@ -167,7 +167,7 @@ sitecore\admin
 ----version----
 language: en
 version: 1
-revision: a1ebf390-edfc-4cc1-b1bd-46178bd51845
+revision: eb7ecccd-5e15-4d02-b1d0-f03020b0e5c6
 
 ----field----
 field: {4DF6DA21-E745-444C-956E-1D4A96AB8821}
@@ -210,14 +210,14 @@ name: __Revision
 key: __revision
 content-length: 36
 
-a1ebf390-edfc-4cc1-b1bd-46178bd51845
+eb7ecccd-5e15-4d02-b1d0-f03020b0e5c6
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
-content-length: 35
+content-length: 16
 
-20151007T224816:635798548966233074Z
+20151110T155634Z
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by

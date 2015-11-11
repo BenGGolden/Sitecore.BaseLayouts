@@ -60,6 +60,12 @@
     <OutputPath>.\bin\sc72\</OutputPath>
     <RecursiveDeployAction>Ignore</RecursiveDeployAction>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'sc81' ">
+    <InstallSitecoreConnector>False</InstallSitecoreConnector>
+    <DisableFileDeployment>False</DisableFileDeployment>
+    <OutputPath>.\bin\sc81\</OutputPath>
+    <RecursiveDeployAction>Ignore</RecursiveDeployAction>
+  </PropertyGroup>
   <ItemGroup>
     <AssemblyAttributes Include="AssemblyFileVersion">
       <Value>$(AssemblyFileVersion)</Value>

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="..\BuildConfigurations.proj" />
   <PropertyGroup>
@@ -21,16 +22,17 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Sitecore.Client">
       <HintPath>$(SitecorePath)Sitecore.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ExperienceEditor" Condition="'$(Configuration)|$(Platform)'=='sc80|AnyCPU'">
+    <Reference Include="Sitecore.ExperienceEditor" Condition="$(SitecoreVersionNumber) &gt;= 8.0">
       <HintPath>$(SitecorePath)Sitecore.ExperienceEditor.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ExperienceEditor.Speak" Condition="'$(Configuration)|$(Platform)'=='sc80|AnyCPU'">
+    <Reference Include="Sitecore.ExperienceEditor.Speak" Condition="$(SitecoreVersionNumber) &gt;= 8.0">
       <HintPath>$(SitecorePath)Sitecore.ExperienceEditor.Speak.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Kernel">
@@ -93,7 +95,7 @@
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutOptions.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\SelectBaseLayoutForm.cs" />
   </ItemGroup>
-  <ItemGroup Condition="'$(SpeakRibbon)'=='true'">
+  <ItemGroup Condition="$(SitecoreVersionNumber) &gt;= 8.0">
     <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\Execute.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\GetDialogUrl.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\CanExecute.cs" />
@@ -101,13 +103,14 @@
     <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\Execute.js" />
     <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\GetDialogUrl.js" />
     <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\OpenDialog.js" />
-    <Content Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\BaseLayouts.config">
       <SubType>Designer</SubType>
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
+    <Content Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.js" />
+    <Content Include="sitecore modules\shell\BaseLayouts\ExperienceEditorShim.js" />
     <Content Include="sitecore modules\shell\BaseLayouts\SelectBaseLayout.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +133,9 @@
     <None Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -141,6 +147,7 @@
     <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>

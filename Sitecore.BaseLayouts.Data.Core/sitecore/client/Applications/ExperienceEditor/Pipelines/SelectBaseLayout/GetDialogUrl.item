@@ -13,9 +13,9 @@ templatekey: PipelineProcessor
 field: {20D0BB88-0649-4714-A6DD-585DD4CA5B4E}
 name: ProcessorFile
 key: processorfile
-content-length: 51
+content-length: 84
 
-/sitecore modules/shell/BaseLayouts/GetDialogUrl.js
+/sitecore modules/shell/BaseLayouts/ClientPipelines/SelectBaseLayout/GetDialogUrl.js
 ----field----
 field: {9E91BAA8-5CAC-48E0-8AB2-04219118BF08}
 name: ProcessorName
@@ -141,7 +141,7 @@ sitecore\admin
 ----version----
 language: en
 version: 1
-revision: 8fd8f89c-b104-4d95-acf7-de928c12e5c3
+revision: 6bf7b23a-0c7d-46d8-be37-d01562530172
 
 ----field----
 field: {52807595-0F8F-4B20-8D2A-CB71D28C6103}
@@ -170,14 +170,14 @@ name: __Revision
 key: __revision
 content-length: 36
 
-8fd8f89c-b104-4d95-acf7-de928c12e5c3
+6bf7b23a-0c7d-46d8-be37-d01562530172
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
-content-length: 35
+content-length: 16
 
-20151007T191005:635798418054420159Z
+20151110T161243Z
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by

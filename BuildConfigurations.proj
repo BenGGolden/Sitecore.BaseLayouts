@@ -1,20 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <ReleaseBuild>false</ReleaseBuild>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v4.5</TargetFrameworkVersion>
-    <SpeakRibbon>false</SpeakRibbon>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc72\</SitecorePath>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc72\</SitecorePath>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(ReleaseBuild)' == true">
@@ -23,13 +11,32 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'sc72|AnyCPU'">
-    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc72\</SitecorePath>
+    <SitecoreVersionNumber>7.2</SitecoreVersionNumber>
+    <SitecoreVersionString>sc72</SitecoreVersionString>
     <OutputPath>bin\sc72\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'sc80|AnyCPU'">
-    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\sc80\</SitecorePath>
+    <SitecoreVersionNumber>8.0</SitecoreVersionNumber>
+    <SitecoreVersionString>sc80</SitecoreVersionString>
     <DefineConstants>FINAL_LAYOUT</DefineConstants>
-    <SpeakRibbon>true</SpeakRibbon>
     <OutputPath>bin\sc80\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'sc81|AnyCPU'">
+    <SitecoreVersionNumber>8.1</SitecoreVersionNumber>
+    <SitecoreVersionString>sc81</SitecoreVersionString>
+    <DefineConstants>FINAL_LAYOUT</DefineConstants>
+    <OutputPath>bin\sc81\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ReleaseBuild Condition="'$(ReleaseBuild)' == ''">false</ReleaseBuild>
+    <DebugSymbols Condition="'$(DebugSymbols)' == ''">true</DebugSymbols>
+    <DebugType Condition="'$(DebugType)' == ''">full</DebugType>
+    <Optimize Condition="'$(Optimize)' == ''">false</Optimize>
+    <ErrorReport Condition="'$(ErrorReport)' == ''">prompt</ErrorReport>
+    <WarningLevel Condition="'$(WarningLevel)' == ''">4</WarningLevel>
+    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v4.5</TargetFrameworkVersion>
+    <SitecoreVersionNumber Condition="'$(SitecoreVersionNumber)' == ''">7.2</SitecoreVersionNumber>
+    <SitecoreVersionString Condition="'$(SitecoreVersionString)' == ''">sc72</SitecoreVersionString>
+    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\$(SitecoreVersionString)\</SitecorePath>
   </PropertyGroup>
 </Project>
