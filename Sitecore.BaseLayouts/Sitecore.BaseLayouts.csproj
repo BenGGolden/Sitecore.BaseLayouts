@@ -110,7 +110,7 @@
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.js" />
-    <Content Include="sitecore modules\shell\BaseLayouts\ExperienceEditorShim.js" />
+    <Content Include="sitecore\shell\client\Sitecore\ExperienceEditor\ExperienceEditor.js" Condition="$(SitecoreVersionNumber) == 8.0" />
     <Content Include="sitecore modules\shell\BaseLayouts\SelectBaseLayout.xml" />
   </ItemGroup>
   <ItemGroup>

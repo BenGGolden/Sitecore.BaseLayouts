@@ -1,5 +1,5 @@
-﻿define(["myExperienceEditor"], function(experienceEditor) {
-    return experienceEditor.PipelinesUtil.generateRequestProcessor(
+﻿define(["/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (ExperienceEditor) {
+    return ExperienceEditor.PipelinesUtil.generateRequestProcessor(
         "BaseLayouts.GetDialogUrl",
         function(response) {
             response.context.currentContext.value = response.responseValue.value;
