@@ -8,6 +8,62 @@ namespace Sitecore.BaseLayouts.Tests.Data
     public class BaseLayoutValidatorTests : FakeDbTestClass
     {
         [Fact]
+        public void ItemSupportsBaseLayouts_WithContentItemWithBaseLayoutFieldFromSupportedDatabase_ReturnsTrue()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem();
+
+            // Act
+            var result = validator.ItemSupportsBaseLayouts(item);
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void ItemSupportsBaseLayouts_WithNonContentItemWithBaseLayoutFieldFromSupportedDatabase_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem(null, ItemIDs.SystemRoot);
+
+            // Act
+            var result = validator.ItemSupportsBaseLayouts(item);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void ItemSupportsBaseLayouts_WithContentItemWithoutBaseLayoutFieldFromSupportedDatabase_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator();
+            var item = MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false);
+
+            // Act
+            var result = validator.ItemSupportsBaseLayouts(item);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void ItemSupportsBaseLayouts_WithContentItemWithBaseLayoutFieldFromUnsupportedDatabase_ReturnsFalse()
+        {
+            // Arrange
+            var validator = new BaseLayoutValidator(new [] {"web"});
+            var item = MasterFakesFactory.CreateFakeItem();
+
+            // Act
+            var result = validator.ItemSupportsBaseLayouts(item);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
         public void HasCircularBaseLayoutReference_WithNullItem_ThrowsArgumentNullException()
         {
             // Arrange

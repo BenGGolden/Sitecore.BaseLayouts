@@ -12,35 +12,6 @@ namespace Sitecore.BaseLayouts.Data
     /// </summary>
     public class BaseLayoutValueProvider : IBaseLayoutValueProvider
     {
-        private readonly string[] _databases;
-        private readonly IBaseLayoutValidator _baseLayoutValidator;
-        private readonly ILog _log;
-
-        /// <summary>
-        /// Initializes the BaseLayoutProvider
-        /// </summary>
-        /// <param name="baseLayoutValidator">An IBaseLayoutValidator</param>
-        /// <param name="log">a log service</param>
-        public BaseLayoutValueProvider(IBaseLayoutValidator baseLayoutValidator, ILog log) : this(BaseLayoutSettings.SupportedDatabases, baseLayoutValidator, log)
-        {
-        }
-
-        /// <summary>
-        /// Initializes the BaseLayoutProvider
-        /// </summary>
-        /// <param name="databases">pipe separated list of database names to support</param>
-        /// <param name="baseLayoutValidator">An IBaseLayoutValidator</param>
-        /// <param name="log">a log service</param>
-        public BaseLayoutValueProvider(string[] databases, IBaseLayoutValidator baseLayoutValidator, ILog log)
-        {
-            Assert.ArgumentNotNull(baseLayoutValidator, "baseLayoutValidator");
-            Assert.ArgumentNotNull(log, "log");
-
-            _databases = databases;
-            _baseLayoutValidator = baseLayoutValidator;
-            _log = log;
-        }
-
         /// <summary>
         /// Gets the value of the layout field from the base layout if one is selected.
         /// </summary>
@@ -48,31 +19,13 @@ namespace Sitecore.BaseLayouts.Data
         /// <returns>The merged layout field value of the base layout chain.</returns>
         public virtual string GetBaseLayoutValue(Field field)
         {
-            // Sanity check.  Make sure the context is appropriate for attempting to find a base layout.
-            if (!field.IsLayoutField()
-                || !_databases.Contains(field.Item.Database.Name, StringComparer.OrdinalIgnoreCase)
-                || !field.Item.Paths.IsContentItem || !field.Item.HasField(BaseLayoutSettings.FieldId))
-            {
-                return null;
-            }
-
             // Get the item selected in the Base Layout field.  Otherwise, exit.
             var baseLayoutItem = new BaseLayoutItem(field.Item).BaseLayout;
             if (baseLayoutItem == null)
             {
                 return null;
             }
-
-            // Prevent an infinite loop
-            if (_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
-            {
-                _log.Warn(
-                    string.Format(
-                        "Circular base layout reference detected on item {0}.  Aborting resolution of base layouts.",
-                        field.Item.ID));
-                return null;
-            }
-
+            
             // Get the value of the layout field on the base layout.
             // If the selected item also has a base layout selected, this will cause implicit recursion.
             return new LayoutField(baseLayoutItem).Value;

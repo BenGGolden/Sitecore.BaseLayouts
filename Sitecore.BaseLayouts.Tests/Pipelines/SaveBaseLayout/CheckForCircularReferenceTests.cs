@@ -21,7 +21,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             processor.Process(args);
 
             // Assert
-            validator.DidNotReceive().CreatesCircularBaseLayoutReference(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>());
+            validator.DidNotReceive().CreatesCircularBaseLayoutReference(Arg.Any<Item>(), Arg.Any<Item>());
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             var item2 = MasterFakesFactory.CreateFakeItem();
             var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = item2};
             var validator = Substitute.For<IBaseLayoutValidator>();
-            validator.CreatesCircularBaseLayoutReference(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>()).Returns(true);
+            validator.CreatesCircularBaseLayoutReference(Arg.Any<Item>(), Arg.Any<Item>()).Returns(true);
             var processor = new CheckForCircularReference(validator);
 
             // Act
@@ -51,7 +51,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             var item2 = MasterFakesFactory.CreateFakeItem();
             var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = item2};
             var validator = Substitute.For<IBaseLayoutValidator>();
-            validator.CreatesCircularBaseLayoutReference(Arg.Any<BaseLayoutItem>(), Arg.Any<Item>()).Returns(false);
+            validator.CreatesCircularBaseLayoutReference(Arg.Any<Item>(), Arg.Any<Item>()).Returns(false);
             var processor = new CheckForCircularReference(validator);
 
             // Act

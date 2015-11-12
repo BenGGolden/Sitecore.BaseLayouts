@@ -1,17 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <summary>
-//   The base layouts standard values provider.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
+using System.Linq;
+using Sitecore.BaseLayouts.Caching;
 
 namespace Sitecore.BaseLayouts.Data
 {
@@ -20,49 +17,55 @@ namespace Sitecore.BaseLayouts.Data
     /// </summary>
     public class BaseLayoutStandardValuesProvider : StandardValuesProvider
     {
-        /// <summary>
-        ///     The inner provider.
-        /// </summary>
         private readonly StandardValuesProvider _innerProvider;
-
         private readonly IBaseLayoutValueProvider _baseLayoutValueProvider;
-
+        private readonly IBaseLayoutValidator _baseLayoutValidator;
         private readonly ILog _log;
 
-        #region Constructors and Destructors
+        [ExcludeFromCodeCoverage]
+        public BaseLayoutStandardValuesProvider() : this(new StandardValuesProvider())
+        {
+        }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BaseLayoutStandardValuesProvider" /> class.
-        /// </summary>
-        /// <param name="innerProvider">
-        ///     The inner provider.
-        /// </param>
-        /// <param name="baseLayoutValueProvider">
-        ///     The layout value provider
-        /// </param>
-        /// <param name="log"></param>
+        [ExcludeFromCodeCoverage]
+        public BaseLayoutStandardValuesProvider(StandardValuesProvider innerProvider)
+            : this(innerProvider,
+                new CachedBaseLayoutValueProvider(new BaseLayoutValueProvider(), new BaseLayoutValueCache()),
+                new BaseLayoutValidator(), new LogWrapper())
+        {
+        }
+
         public BaseLayoutStandardValuesProvider(
             StandardValuesProvider innerProvider,
             IBaseLayoutValueProvider baseLayoutValueProvider,
+            IBaseLayoutValidator baseLayoutValidator,
             ILog log)
         {
             Assert.ArgumentNotNull(innerProvider, "innerProvider");
             Assert.ArgumentNotNull(baseLayoutValueProvider, "layoutValueProvider");
+            Assert.ArgumentNotNull(baseLayoutValidator, "baseLayoutValidator");
             Assert.ArgumentNotNull(log, "log");
 
             _innerProvider = innerProvider;
             _baseLayoutValueProvider = baseLayoutValueProvider;
+            _baseLayoutValidator = baseLayoutValidator;
             _log = log;
         }
 
-        #endregion
+        public override string Name
+        {
+            get { return _innerProvider.Name; }
+        }
 
-        #region Public Methods and Operators
+        public override string Description
+        {
+            get { return _innerProvider.Description; }
+        }
 
         /// <summary>
         ///     Get the standard value for the field.  If the field is the Layout field (__renderings), it attempts to use base
-        ///     layouts.
-        ///     Otherwise, it passes the call on to the inner provider, which is usually the built-in standard values provider.
+        ///     layouts. Otherwise, it passes the call on to the inner provider, which is usually the built-in standard values
+        ///     provider.
         /// </summary>
         /// <param name="field">
         ///     The field.
@@ -74,7 +77,8 @@ namespace Sitecore.BaseLayouts.Data
         {
             try
             {
-                if (field.IsLayoutField())
+                if (field.IsLayoutField() && _baseLayoutValidator.ItemSupportsBaseLayouts(field.Item) &&
+                    !_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
                 {
                     var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field);
                     if (!string.IsNullOrEmpty(layoutValue))
@@ -90,51 +94,15 @@ namespace Sitecore.BaseLayouts.Data
 
             return _innerProvider.GetStandardValue(field);
         }
-
-        /// <summary>
-        ///     Initialize the provider.
-        /// </summary>
-        /// <param name="name">
-        ///     The provider name.
-        /// </param>
-        /// <param name="config">
-        ///     The configuration properties.
-        /// </param>
+        
         public override void Initialize(string name, NameValueCollection config)
         {
             _innerProvider.Initialize(name, config);
         }
 
-        /// <summary>
-        ///     Determines whether the item is a standard values item.
-        /// </summary>
-        /// <param name="item">
-        ///     The item.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="bool" />.
-        /// </returns>
         public override bool IsStandardValuesHolder(Item item)
         {
             return _innerProvider.IsStandardValuesHolder(item);
         }
-
-        /// <summary>
-        ///     Gets the name of the provider.
-        /// </summary>
-        public override string Name
-        {
-            get { return _innerProvider.Name; }
-        }
-
-        /// <summary>
-        ///     Gets the description of the provider.
-        /// </summary>
-        public override string Description
-        {
-            get { return _innerProvider.Description; }
-        }
-
-        #endregion
     }
 }
