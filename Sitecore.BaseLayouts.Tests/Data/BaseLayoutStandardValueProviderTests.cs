@@ -136,6 +136,48 @@ namespace Sitecore.BaseLayouts.Tests.Data
 #endif
 
         [Fact]
+        public void GetStandardValue_WithLayoutFieldFromItemWithCircularReference_CallsLogWarn()
+        {
+            // Arrange
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            var innerProvider = Substitute.For<StandardValuesProvider>();
+            var validator = Substitute.For<IBaseLayoutValidator>();
+            validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
+            validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
+            var log = Substitute.For<ILog>();
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var field = MasterFakesFactory.CreateFakeLayoutField();
+
+            // Act
+            var result = provider.GetStandardValue(field);
+
+            // Assert
+            log.ReceivedWithAnyArgs().Warn(Arg.Any<string>());
+        }
+
+#if FINAL_LAYOUT
+        [Fact]
+        public void GetStandardValue_WithFinalLayoutFieldFromItemWithCircularReference_CallsLogWarn()
+        {
+            // Arrange
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
+            var innerProvider = Substitute.For<StandardValuesProvider>();
+            var validator = Substitute.For<IBaseLayoutValidator>();
+            validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
+            validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
+            var log = Substitute.For<ILog>();
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var field = MasterFakesFactory.CreateFakeFinalLayoutField();
+
+            // Act
+            var result = provider.GetStandardValue(field);
+
+            // Assert
+            log.ReceivedWithAnyArgs().Warn(Arg.Any<string>());
+        }
+#endif
+
+        [Fact]
         public void GetStandardValue_WithLayoutFieldAndNonEmptyLayoutValue_ReturnsLayoutValue()
         {
             // Arrange

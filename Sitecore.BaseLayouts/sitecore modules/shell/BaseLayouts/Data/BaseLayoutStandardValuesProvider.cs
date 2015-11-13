@@ -77,13 +77,19 @@ namespace Sitecore.BaseLayouts.Data
         {
             try
             {
-                if (field.IsLayoutField() && _baseLayoutValidator.ItemSupportsBaseLayouts(field.Item) &&
-                    !_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
+                if (field.IsLayoutField() && _baseLayoutValidator.ItemSupportsBaseLayouts(field.Item))
                 {
-                    var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field.Item);
-                    if (!string.IsNullOrEmpty(layoutValue))
+                    if (_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
                     {
-                        return layoutValue;
+                        _log.Warn("Circular Base Layout reference detected on item {0}. Aborting base layout ", field.Item.Paths.Path);
+                    }
+                    else
+                    {
+                        var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field.Item);
+                        if (!string.IsNullOrEmpty(layoutValue))
+                        {
+                            return layoutValue;
+                        }
                     }
                 }
             }
