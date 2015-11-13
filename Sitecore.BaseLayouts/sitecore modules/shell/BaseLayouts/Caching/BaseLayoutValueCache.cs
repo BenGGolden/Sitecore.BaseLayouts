@@ -42,24 +42,24 @@ namespace Sitecore.BaseLayouts.Caching
         /// <summary>
         /// Gets a layout value from the cache
         /// </summary>
-        /// <param name="field">the field</param>
+        /// <param name="item">the item</param>
         /// <returns>The cached value, if it exists, or null if there is no value for the field.</returns>
-        public virtual string GetLayoutValue(Field field)
+        public virtual string GetLayoutValue(Item item)
         {
-            Assert.ArgumentNotNull(field, "field");
-            return GetString(GetCacheKey(field.Item));
+            Assert.ArgumentNotNull(item, "item");
+            return GetString(GetCacheKey(item));
         }
 
         /// <summary>
         /// Adds a layout value to the cache
         /// </summary>
-        /// <param name="field">the field</param>
+        /// <param name="item">the item</param>
         /// <param name="value">the layout value</param>
-        public virtual void AddLayoutValue(Field field, string value)
+        public virtual void AddLayoutValue(Item item, string value)
         {
-            Assert.ArgumentNotNull(field, "field");
+            Assert.ArgumentNotNull(item, "field");
             Assert.ArgumentNotNullOrEmpty(value, "value");
-            SetString(GetCacheKey(field.Item), value);
+            SetString(GetCacheKey(item), value);
         }
 
         /// <summary>

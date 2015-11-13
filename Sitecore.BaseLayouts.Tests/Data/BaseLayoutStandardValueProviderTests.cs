@@ -28,7 +28,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var result = provider.GetStandardValue(field);
 
             // Assert
-            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
+            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Item>());
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var result = provider.GetStandardValue(field);
 
             // Assert
-            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
+            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Item>());
         }
 
 #if FINAL_LAYOUT
@@ -89,7 +89,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var result = provider.GetStandardValue(field);
 
             // Assert
-            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
+            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Item>());
         }
 #endif
 
@@ -110,7 +110,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var result = provider.GetStandardValue(field);
 
             // Assert
-            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
+            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Item>());
         }
 
 #if FINAL_LAYOUT
@@ -131,7 +131,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var result = provider.GetStandardValue(field);
 
             // Assert
-            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
+            layoutProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Item>());
         }
 #endif
 
@@ -141,7 +141,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var layoutProviderValue = "This is the layout value!";
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
-            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(layoutProviderValue);
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(layoutProviderValue);
 
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
@@ -166,7 +166,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var layoutProviderValue = "This is the layout value!";
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
-            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(layoutProviderValue);
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(layoutProviderValue);
 
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
@@ -190,7 +190,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         {
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
-            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(string.Empty);
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(string.Empty);
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();
@@ -216,7 +216,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         {
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
-            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(string.Empty);
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(string.Empty);
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();
@@ -243,7 +243,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var ex = new Exception("Something bad happened.");
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
-            layoutProvider.GetBaseLayoutValue(Arg.Any<Field>()).Throws(ex);
+            layoutProvider.GetBaseLayoutValue(Arg.Any<Item>()).Throws(ex);
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();

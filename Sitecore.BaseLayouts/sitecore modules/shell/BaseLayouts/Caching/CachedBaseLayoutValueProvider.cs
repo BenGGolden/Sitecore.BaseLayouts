@@ -1,13 +1,13 @@
 ﻿using Sitecore.BaseLayouts.Data;
-using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.Caching
 {
     public class CachedBaseLayoutValueProvider : IBaseLayoutValueProvider
     {
-        private readonly IBaseLayoutValueProvider _innerProvider;
         private readonly IBaseLayoutValueCache _cache;
+        private readonly IBaseLayoutValueProvider _innerProvider;
 
         public CachedBaseLayoutValueProvider(IBaseLayoutValueProvider innerProvider, IBaseLayoutValueCache cache)
         {
@@ -18,15 +18,15 @@ namespace Sitecore.BaseLayouts.Caching
             _cache = cache;
         }
 
-        public string GetBaseLayoutValue(Field field)
+        public string GetBaseLayoutValue(Item item)
         {
-            var value = _cache.GetLayoutValue(field);
+            var value = _cache.GetLayoutValue(item);
             if (string.IsNullOrWhiteSpace(value))
             {
-                value = _innerProvider.GetBaseLayoutValue(field);
+                value = _innerProvider.GetBaseLayoutValue(item);
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    _cache.AddLayoutValue(field, value);
+                    _cache.AddLayoutValue(item, value);
                 }
             }
 

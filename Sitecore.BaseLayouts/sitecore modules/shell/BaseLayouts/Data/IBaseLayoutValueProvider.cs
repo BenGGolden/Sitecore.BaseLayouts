@@ -1,9 +1,9 @@
-﻿using Sitecore.Data.Fields;
+﻿using Sitecore.Data.Items;
 
 namespace Sitecore.BaseLayouts.Data
 {
     public interface IBaseLayoutValueProvider
     {
-        string GetBaseLayoutValue(Field field);
+        string GetBaseLayoutValue(Item item);
     }
 }

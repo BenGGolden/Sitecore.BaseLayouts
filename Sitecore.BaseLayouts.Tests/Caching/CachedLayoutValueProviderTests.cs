@@ -3,6 +3,7 @@ using NSubstitute;
 using Sitecore.BaseLayouts.Caching;
 using Sitecore.BaseLayouts.Data;
 using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
 using Xunit;
 
 namespace Sitecore.BaseLayouts.Tests.Caching
@@ -16,16 +17,16 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             var layoutValue = "this is my layout value";
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Field>()).Returns(layoutValue);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns(layoutValue);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
-            var field = MasterFakesFactory.CreateFakeLayoutField();
+            var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
-            var result = provider.GetBaseLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(item);
 
             // Assert
             Assert.Equal(layoutValue, result);
-            innerProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Field>());
+            innerProvider.DidNotReceive().GetBaseLayoutValue(Arg.Any<Item>());
         }
 
         [Fact]
@@ -34,19 +35,19 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             // Arrange
             var layoutValue = "this is my layout value";
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
-            innerProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(layoutValue);
+            innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(layoutValue);
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Field>()).Returns((string)null);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string)null);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
-            var field = MasterFakesFactory.CreateFakeLayoutField();
+            var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
-            var result = provider.GetBaseLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(item);
 
             // Assert
             Assert.Equal(layoutValue, result);
-            innerProvider.Received().GetBaseLayoutValue(field);
-            cache.Received().AddLayoutValue(field, layoutValue);
+            innerProvider.Received().GetBaseLayoutValue(item);
+            cache.Received().AddLayoutValue(item, layoutValue);
         }
 
         [Fact]
@@ -55,18 +56,18 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             // Arrange
             var layoutValue = "this is my layout value";
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
-            innerProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns(layoutValue);
+            innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(layoutValue);
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Field>()).Returns((string)null);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string)null);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
-            var field = MasterFakesFactory.CreateFakeLayoutField();
+            var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
-            var result = provider.GetBaseLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(item);
 
             // Assert
             Assert.Equal(layoutValue, result);
-            cache.Received().AddLayoutValue(field, layoutValue);
+            cache.Received().AddLayoutValue(item, layoutValue);
         }
 
         [Fact]
@@ -74,18 +75,18 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         {
             // Arrange
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
-            innerProvider.GetBaseLayoutValue(Arg.Any<Field>()).Returns((string)null);
+            innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns((string)null);
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Field>()).Returns((string)null);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string)null);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
-            var field = MasterFakesFactory.CreateFakeLayoutField();
+            var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
-            var result = provider.GetBaseLayoutValue(field);
+            var result = provider.GetBaseLayoutValue(item);
 
             // Assert
             Assert.Null(result);
-            cache.DidNotReceive().AddLayoutValue(Arg.Any<Field>(), Arg.Any<string>());
+            cache.DidNotReceive().AddLayoutValue(Arg.Any<Item>(), Arg.Any<string>());
         }
     }
 }

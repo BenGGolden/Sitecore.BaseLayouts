@@ -80,7 +80,7 @@ namespace Sitecore.BaseLayouts.Data
                 if (field.IsLayoutField() && _baseLayoutValidator.ItemSupportsBaseLayouts(field.Item) &&
                     !_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
                 {
-                    var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field);
+                    var layoutValue = _baseLayoutValueProvider.GetBaseLayoutValue(field.Item);
                     if (!string.IsNullOrEmpty(layoutValue))
                     {
                         return layoutValue;
