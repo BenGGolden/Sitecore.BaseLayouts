@@ -1,37 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitecore.BaseLayouts.Data;
 using Sitecore.Caching;
 using Sitecore.Configuration;
 using Sitecore.Data;
-using Sitecore.Data.Engines;
 using Sitecore.Data.Engines.DataCommands;
 using Sitecore.Data.Events;
-using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.Caching
 {
     /// <summary>
-    /// Provides caching for layout values.
+    ///     Provides caching for layout values.
     /// </summary>
     public class BaseLayoutValueCache : CustomCache, IBaseLayoutValueCache
     {
         /// <summary>
-        /// Initializes the cache using a configuration setting for the supported databases
+        ///     Initializes the cache using a configuration setting for the supported databases
         /// </summary>
-        public BaseLayoutValueCache() : this(BaseLayoutSettings.SupportedDatabases.Select(db => Factory.GetDatabase(db, false)).ToArray())
+        public BaseLayoutValueCache()
+            : this(BaseLayoutSettings.SupportedDatabases.Select(db => Factory.GetDatabase(db, false)).ToArray())
         {
         }
 
         /// <summary>
-        /// Initializes the cache
+        ///     Initializes the cache
         /// </summary>
         /// <param name="databases">the names of databases to suppport</param>
-        public BaseLayoutValueCache(Database[] databases) : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
+        public BaseLayoutValueCache(Database[] databases)
+            : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
         {
             foreach (var db in databases.Where(db => db != null))
             {
@@ -40,7 +39,7 @@ namespace Sitecore.BaseLayouts.Caching
         }
 
         /// <summary>
-        /// Gets a layout value from the cache
+        ///     Gets a layout value from the cache
         /// </summary>
         /// <param name="item">the item</param>
         /// <returns>The cached value, if it exists, or null if there is no value for the field.</returns>
@@ -51,7 +50,7 @@ namespace Sitecore.BaseLayouts.Caching
         }
 
         /// <summary>
-        /// Adds a layout value to the cache
+        ///     Adds a layout value to the cache
         /// </summary>
         /// <param name="item">the item</param>
         /// <param name="value">the layout value</param>
@@ -63,7 +62,7 @@ namespace Sitecore.BaseLayouts.Caching
         }
 
         /// <summary>
-        /// Gets the cache key for the item
+        ///     Gets the cache key for the item
         /// </summary>
         /// <param name="item">the item</param>
         /// <returns>the cache key</returns>
@@ -97,7 +96,7 @@ namespace Sitecore.BaseLayouts.Caching
 
         private void InitializeEventHandlers(Database database)
         {
-            DataEngine dataEngine = database.Engines.DataEngine;
+            var dataEngine = database.Engines.DataEngine;
             dataEngine.DeletedItem += DataEngineDeletedItem;
             dataEngine.DeletedItemRemote += DataEngineDeletedItemRemote;
             dataEngine.SavedItem += DataEngineSavedItem;

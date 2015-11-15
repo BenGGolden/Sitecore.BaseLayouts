@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data.Items;
-using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 using Sitecore.Web.UI.HtmlControls.Data;
 
 namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
 {
     /// <summary>
-    /// Processor to get base layout items from LookupSources
+    ///     Processor to get base layout items from LookupSources
     /// </summary>
     public class GetLookupSourceItems : IGetBaseLayoutItemsProcessor
     {
         /// <summary>
-        /// Get base layout items from the soure of the base layout field
+        ///     Get base layout items from the soure of the base layout field
         /// </summary>
         /// <param name="args">The getBaseLayoutItems pipeline args</param>
         public void Process(GetBaseLayoutItemsArgs args)

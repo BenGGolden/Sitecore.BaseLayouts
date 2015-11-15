@@ -3,7 +3,6 @@ using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.Data;
-using Sitecore.Data.Items;
 using Xunit;
 
 namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
@@ -36,7 +35,7 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
                 .Do(x => x.Arg<GetBaseLayoutItemsArgs>().BaseLayoutItems.Add(item2));
             var locator = Substitute.ForPartsOf<SelectBaseLayoutDialogLocator>(runner);
             locator.When(l => l.GetUrl(Arg.Any<SelectBaseLayoutOptions>(), Arg.Any<Database>())).DoNotCallBase();
-            
+
             // Act
             var result = locator.GetDialogUrl(item);
 

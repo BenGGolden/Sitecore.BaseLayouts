@@ -1,4 +1,4 @@
-﻿define(["/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (ExperienceEditor) {
+﻿define(["/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function(ExperienceEditor) {
     return ExperienceEditor.PipelinesUtil.generateRequestProcessor(
         "BaseLayouts.GetDialogUrl",
         function(response) {

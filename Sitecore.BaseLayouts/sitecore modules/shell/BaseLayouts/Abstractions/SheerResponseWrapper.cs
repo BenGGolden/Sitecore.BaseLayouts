@@ -1,5 +1,4 @@
-﻿using Sitecore.Shell.Applications.Dialogs.ItemLister;
-using Sitecore.Web.UI.HtmlControls;
+﻿using Sitecore.Web.UI.HtmlControls;
 using Sitecore.Web.UI.Sheer;
 
 namespace Sitecore.BaseLayouts.Abstractions
@@ -7,7 +6,7 @@ namespace Sitecore.BaseLayouts.Abstractions
     public class SheerResponseWrapper : ISheerResponse
     {
         /// <summary>
-        /// Show an alert
+        ///     Show an alert
         /// </summary>
         /// <param name="text">alert text</param>
         /// <param name="parameters">paramaters to format the text with</param>
@@ -18,7 +17,7 @@ namespace Sitecore.BaseLayouts.Abstractions
         }
 
         /// <summary>
-        /// Check if the item has been modified
+        ///     Check if the item has been modified
         /// </summary>
         /// <returns></returns>
         public bool CheckModified()
@@ -27,7 +26,7 @@ namespace Sitecore.BaseLayouts.Abstractions
         }
 
         /// <summary>
-        /// Show a modal dialog to select an item
+        ///     Show a modal dialog to select an item
         /// </summary>
         /// <param name="url">the dialog url</param>
         /// <returns>a client command object</returns>

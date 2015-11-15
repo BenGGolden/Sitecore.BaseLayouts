@@ -8,7 +8,7 @@ using Sitecore.Globalization;
 namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
 {
     /// <summary>
-    /// Speak pipeline server request to get the url of the base layouts dialog.
+    ///     Speak pipeline server request to get the url of the base layouts dialog.
     /// </summary>
     public class GetDialogUrl : PipelineProcessorRequest<ItemContext>
     {

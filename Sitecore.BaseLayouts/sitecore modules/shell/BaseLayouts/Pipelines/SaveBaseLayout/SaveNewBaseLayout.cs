@@ -1,7 +1,5 @@
 ﻿using System;
-using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
-using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout

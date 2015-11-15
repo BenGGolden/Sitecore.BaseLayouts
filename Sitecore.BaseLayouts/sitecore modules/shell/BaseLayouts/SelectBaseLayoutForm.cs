@@ -168,7 +168,7 @@ namespace Sitecore.BaseLayouts
         /// <param name="output">
         ///     The output.
         /// </param>
-        new internal virtual void RenderItemPreview(Item item, HtmlTextWriter output)
+        internal new virtual void RenderItemPreview(Item item, HtmlTextWriter output)
         {
             base.RenderItemPreview(item, output);
         }

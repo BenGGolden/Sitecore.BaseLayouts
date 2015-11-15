@@ -8,7 +8,7 @@ namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
         private readonly IBaseLayoutValidator _validator;
 
         /// <summary>
-        /// Creates an instance of the processor
+        ///     Creates an instance of the processor
         /// </summary>
         /// <param name="validator">a base layout validator</param>
         public CheckForCircularReference(IBaseLayoutValidator validator)
@@ -18,7 +18,7 @@ namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
         }
 
         /// <summary>
-        /// Checks for a circular reference in the base layout chain
+        ///     Checks for a circular reference in the base layout chain
         /// </summary>
         /// <param name="args">the pipeline arguments</param>
         public void Process(SaveBaseLayoutArgs args)

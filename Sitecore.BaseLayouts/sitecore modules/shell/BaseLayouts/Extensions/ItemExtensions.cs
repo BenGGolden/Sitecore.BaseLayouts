@@ -6,12 +6,12 @@ using Sitecore.Data.Managers;
 namespace Sitecore.BaseLayouts.Extensions
 {
     /// <summary>
-    /// Extension methods for Sitecore.Data.Items.Item
+    ///     Extension methods for Sitecore.Data.Items.Item
     /// </summary>
     public static class ItemExtensions
     {
         /// <summary>
-        /// Determines if the item's template contains a field with the given field ID
+        ///     Determines if the item's template contains a field with the given field ID
         /// </summary>
         /// <param name="item">the item</param>
         /// <param name="fieldId">the field ID</param>
@@ -22,7 +22,7 @@ namespace Sitecore.BaseLayouts.Extensions
         }
 
         /// <summary>
-        /// Determines if the item's template contains a field with the given field ID
+        ///     Determines if the item's template contains a field with the given field ID
         /// </summary>
         /// <param name="item">the item</param>
         /// <param name="fieldId">the field ID</param>

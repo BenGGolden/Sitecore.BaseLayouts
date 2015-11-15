@@ -4,12 +4,11 @@ using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
-using Sitecore.Text;
 
 namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
 {
     /// <summary>
-    /// Gets the URL for the Select Base Layout dialog
+    ///     Gets the URL for the Select Base Layout dialog
     /// </summary>
     public class SelectBaseLayoutDialogLocator : IDialogLocator
     {
@@ -22,7 +21,7 @@ namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
         }
 
         /// <summary>
-        /// Gets the select base layout dialog URL with parameters for the given item
+        ///     Gets the select base layout dialog URL with parameters for the given item
         /// </summary>
         /// <param name="item">the item</param>
         /// <returns>the dialog url</returns>

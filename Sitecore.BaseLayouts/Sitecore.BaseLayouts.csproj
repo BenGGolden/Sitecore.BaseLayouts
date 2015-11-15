@@ -103,13 +103,13 @@
     <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\Execute.js" />
     <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\GetDialogUrl.js" />
     <Content Include="sitecore modules\shell\BaseLayouts\ClientPipelines\SelectBaseLayout\OpenDialog.js" />
+    <Content Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\BaseLayouts.config">
       <SubType>Designer</SubType>
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
-    <Content Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.js" />
     <Content Include="sitecore\shell\client\Sitecore\ExperienceEditor\ExperienceEditor.js" Condition="$(SitecoreVersionNumber) == 8.0" />
     <Content Include="sitecore modules\shell\BaseLayouts\SelectBaseLayout.xml" />
   </ItemGroup>

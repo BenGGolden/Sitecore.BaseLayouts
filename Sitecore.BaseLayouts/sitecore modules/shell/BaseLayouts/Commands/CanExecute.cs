@@ -1,6 +1,5 @@
 ﻿using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Pipelines;
-using Sitecore.Data.Managers;
 using Sitecore.Diagnostics;
 using Sitecore.ExperienceEditor.Speak.Server.Contexts;
 using Sitecore.ExperienceEditor.Speak.Server.Requests;
@@ -9,7 +8,7 @@ using Sitecore.ExperienceEditor.Speak.Server.Responses;
 namespace Sitecore.BaseLayouts.Commands
 {
     /// <summary>
-    /// Speak server request to determine if the base layouts dialog can execute on the current item.
+    ///     Speak server request to determine if the base layouts dialog can execute on the current item.
     /// </summary>
     public class CanExecute : PipelineProcessorRequest<ItemContext>
     {
@@ -26,7 +25,7 @@ namespace Sitecore.BaseLayouts.Commands
         }
 
         /// <summary>
-        /// Process the request to determine if the base layouts dialog can execute on the current item.
+        ///     Process the request to determine if the base layouts dialog can execute on the current item.
         /// </summary>
         /// <returns>a value indicating if base layouts are supported for the current item</returns>
         public override PipelineProcessorResponseValue ProcessRequest()

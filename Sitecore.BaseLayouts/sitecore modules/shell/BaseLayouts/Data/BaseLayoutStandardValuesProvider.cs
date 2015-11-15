@@ -2,13 +2,12 @@
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.Caching;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
-using System.Linq;
-using Sitecore.BaseLayouts.Caching;
 
 namespace Sitecore.BaseLayouts.Data
 {
@@ -17,9 +16,9 @@ namespace Sitecore.BaseLayouts.Data
     /// </summary>
     public class BaseLayoutStandardValuesProvider : StandardValuesProvider
     {
-        private readonly StandardValuesProvider _innerProvider;
-        private readonly IBaseLayoutValueProvider _baseLayoutValueProvider;
         private readonly IBaseLayoutValidator _baseLayoutValidator;
+        private readonly IBaseLayoutValueProvider _baseLayoutValueProvider;
+        private readonly StandardValuesProvider _innerProvider;
         private readonly ILog _log;
 
         [ExcludeFromCodeCoverage]
@@ -81,7 +80,8 @@ namespace Sitecore.BaseLayouts.Data
                 {
                     if (_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
                     {
-                        _log.Warn("Circular Base Layout reference detected on item {0}. Aborting base layout ", field.Item.Paths.Path);
+                        _log.Warn("Circular Base Layout reference detected on item {0}. Aborting base layout ",
+                            field.Item.Paths.Path);
                     }
                     else
                     {
@@ -100,7 +100,7 @@ namespace Sitecore.BaseLayouts.Data
 
             return _innerProvider.GetStandardValue(field);
         }
-        
+
         public override void Initialize(string name, NameValueCollection config)
         {
             _innerProvider.Initialize(name, config);

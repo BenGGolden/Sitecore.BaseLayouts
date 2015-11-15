@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data;
-using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 using Sitecore.Xml.Patch;
-using System.Linq;
 
 namespace Sitecore.BaseLayouts.Data
 {
@@ -25,7 +24,7 @@ namespace Sitecore.BaseLayouts.Data
         }
 
         /// <summary>
-        /// Determines if the field is a layout field on an item that supports base layouts.
+        ///     Determines if the field is a layout field on an item that supports base layouts.
         /// </summary>
         /// <param name="item">The item</param>
         /// <returns>A bool indicating whether the field is a layout field on an item that supports base layouts.</returns>
@@ -36,7 +35,7 @@ namespace Sitecore.BaseLayouts.Data
         }
 
         /// <summary>
-        /// Determines if there is a circular reference in the base layout chain.
+        ///     Determines if there is a circular reference in the base layout chain.
         /// </summary>
         /// <param name="item">the item</param>
         /// <returns>True if the item's base layout chain contains a circular reference.  Otherwise, false.</returns>
@@ -47,8 +46,8 @@ namespace Sitecore.BaseLayouts.Data
         }
 
         /// <summary>
-        /// Determines if a circular referece would be created if baseLayoutItem were set
-        /// as the base layout for item
+        ///     Determines if a circular referece would be created if baseLayoutItem were set
+        ///     as the base layout for item
         /// </summary>
         /// <param name="item">the item </param>
         /// <param name="baseLayoutItem">the candidate base layout item</param>
@@ -73,7 +72,8 @@ namespace Sitecore.BaseLayouts.Data
 #endif
 
         /// <summary>
-        /// Determines if there are duplicat IDs in the baseLayouts ID set and the chain of base layout IDs originating at item.
+        ///     Determines if there are duplicat IDs in the baseLayouts ID set and the chain of base layout IDs originating at
+        ///     item.
         /// </summary>
         /// <param name="item">the item</param>
         /// <param name="baseLayouts">the starting set of IDs</param>
@@ -87,10 +87,9 @@ namespace Sitecore.BaseLayouts.Data
                 {
                     return true;
                 }
-                
+
                 item2 = item2.BaseLayout;
-            }
-            while (item2 != null);
+            } while (item2 != null);
 
             return false;
         }

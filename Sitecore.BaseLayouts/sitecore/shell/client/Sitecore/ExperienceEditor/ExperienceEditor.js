@@ -1,3 +1,3 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore"], function(Sitecore) {
     return Sitecore.ExperienceEditor;
 });

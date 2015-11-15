@@ -1,6 +1,4 @@
-﻿using NSubstitute;
-using Sitecore.BaseLayouts.Abstractions;
-using Sitecore.BaseLayouts.Data;
+﻿using Sitecore.BaseLayouts.Data;
 using Xunit;
 
 namespace Sitecore.BaseLayouts.Tests.Data
@@ -34,7 +32,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Assert
             Assert.Null(result);
         }
-        
+
         [Fact]
         public void GetLayoutValue_WithItemWithValidBaseLayout_ReturnsLayoutFieldValueFromBaseLayoutItem()
         {

@@ -11,14 +11,14 @@ using Sitecore.Web.UI.Sheer;
 namespace Sitecore.BaseLayouts.Commands
 {
     /// <summary>
-    /// Command that opens the base layout selection dialog
+    ///     Command that opens the base layout selection dialog
     /// </summary>
     public class SelectBaseLayout : WebEditCommand
     {
-        private readonly ISheerResponse _sheerResponse;
         private readonly ICommandContextChecker _contextChecker;
         private readonly IDialogLocator _dialogLocator;
         private readonly IDialogResultProcessor _dialogResultProcessor;
+        private readonly ISheerResponse _sheerResponse;
 
         public SelectBaseLayout()
         {
@@ -39,7 +39,7 @@ namespace Sitecore.BaseLayouts.Commands
         }
 
         /// <summary>
-        /// Executes the command
+        ///     Executes the command
         /// </summary>
         /// <param name="context"></param>
         public override void Execute(CommandContext context)
@@ -56,7 +56,7 @@ namespace Sitecore.BaseLayouts.Commands
         }
 
         /// <summary>
-        /// Determines the display state of the command button.
+        ///     Determines the display state of the command button.
         /// </summary>
         /// <param name="context">The command context</param>
         /// <returns>The state that the button should display in</returns>
@@ -67,7 +67,7 @@ namespace Sitecore.BaseLayouts.Commands
             {
                 return CommandState.Disabled;
             }
-            
+
             return _contextChecker.CanExecute(context.Items[0]) ? CommandState.Enabled : CommandState.Disabled;
         }
 

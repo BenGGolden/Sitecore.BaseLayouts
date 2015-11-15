@@ -1,11 +1,9 @@
-﻿using System;
-using Sitecore.BaseLayouts.Abstractions;
+﻿using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
-using Sitecore.Shell.Applications.WebEdit.Commands;
 
 namespace Sitecore.BaseLayouts.Commands
 {
@@ -15,7 +13,7 @@ namespace Sitecore.BaseLayouts.Commands
         private readonly IPipelineRunner _pipelineRunner;
 
         /// <summary>
-        /// Initializes the context checker
+        ///     Initializes the context checker
         /// </summary>
         /// <param name="pageModeAccess">an IPageModeAccess implementation</param>
         /// <param name="pipelineRunner">a pipeline runner</param>
@@ -29,13 +27,14 @@ namespace Sitecore.BaseLayouts.Commands
         }
 
         /// <summary>
-        /// Determines whether the command is supported for the given item
+        ///     Determines whether the command is supported for the given item
         /// </summary>
         /// <param name="item">the context item</param>
         /// <returns>a value indicating if the command is supported</returns>
         public bool CanExecute(Item item)
         {
-            if (!_pageModeAccess.CanWebEdit() || !_pageModeAccess.CanDesignItem(item) || !item.HasField(BaseLayoutSettings.FieldId))
+            if (!_pageModeAccess.CanWebEdit() || !_pageModeAccess.CanDesignItem(item) ||
+                !item.HasField(BaseLayoutSettings.FieldId))
             {
                 return false;
             }

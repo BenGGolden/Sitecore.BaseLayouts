@@ -1,5 +1,4 @@
-﻿using System;
-using Sitecore.BaseLayouts.Pipelines;
+﻿using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
 using Sitecore.Data;
 using Sitecore.Data.Items;
@@ -7,7 +6,7 @@ using Sitecore.Diagnostics;
 
 namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
 {
-    class SelectBaseLayoutDialogResultProcessor : IDialogResultProcessor
+    internal class SelectBaseLayoutDialogResultProcessor : IDialogResultProcessor
     {
         private readonly IPipelineRunner _pipelineRunner;
 
@@ -40,7 +39,7 @@ namespace Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout
                 }
             }
 
-            var args = new SaveBaseLayoutArgs(item) { NewBaseLayoutItem = baseLayoutItem };
+            var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = baseLayoutItem};
             _pipelineRunner.Run(args);
             if (!string.IsNullOrEmpty(args.Message))
             {

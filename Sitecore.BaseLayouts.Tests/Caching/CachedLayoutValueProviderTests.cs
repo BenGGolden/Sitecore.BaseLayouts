@@ -1,8 +1,6 @@
-﻿using System;
-using NSubstitute;
+﻿using NSubstitute;
 using Sitecore.BaseLayouts.Caching;
 using Sitecore.BaseLayouts.Data;
-using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Xunit;
 
@@ -37,7 +35,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
             innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(layoutValue);
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string)null);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string) null);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
             var item = MasterFakesFactory.CreateFakeItem();
 
@@ -58,7 +56,7 @@ namespace Sitecore.BaseLayouts.Tests.Caching
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
             innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns(layoutValue);
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string)null);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string) null);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
             var item = MasterFakesFactory.CreateFakeItem();
 
@@ -75,9 +73,9 @@ namespace Sitecore.BaseLayouts.Tests.Caching
         {
             // Arrange
             var innerProvider = Substitute.For<IBaseLayoutValueProvider>();
-            innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns((string)null);
+            innerProvider.GetBaseLayoutValue(Arg.Any<Item>()).Returns((string) null);
             var cache = Substitute.For<IBaseLayoutValueCache>();
-            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string)null);
+            cache.GetLayoutValue(Arg.Any<Item>()).Returns((string) null);
             var provider = new CachedBaseLayoutValueProvider(innerProvider, cache);
             var item = MasterFakesFactory.CreateFakeItem();
 

@@ -1,18 +1,20 @@
 ﻿using Sitecore.BaseLayouts.Data;
-using Sitecore.Data;
-using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
-using Sitecore.Pipelines;
 
 namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
 {
     /// <summary>
-    /// Arguments for the saveBaseLayout pipeline
+    ///     Arguments for the saveBaseLayout pipeline
     /// </summary>
     public class SaveBaseLayoutArgs : RunnablePipelineArgs
     {
         /// <summary>
-        /// Initializes an instance of SaveBaseLayoutArgs
+        ///     Whether the save operation was successful
+        /// </summary>
+        public bool Successful;
+
+        /// <summary>
+        ///     Initializes an instance of SaveBaseLayoutArgs
         /// </summary>
         /// <param name="item">the item to be saved</param>
         public SaveBaseLayoutArgs(BaseLayoutItem item)
@@ -23,24 +25,19 @@ namespace Sitecore.BaseLayouts.Pipelines.SaveBaseLayout
         }
 
         /// <summary>
-        /// The item being saved with a new base layout
+        ///     The item being saved with a new base layout
         /// </summary>
-        public BaseLayoutItem Item { get; private set; }
+        public BaseLayoutItem Item { get; }
 
         /// <summary>
-        /// The ID of the old base layout
+        ///     The ID of the old base layout
         /// </summary>
         public BaseLayoutItem OldBaseLayoutItem { get; private set; }
 
         /// <summary>
-        /// The ID of the new base layout
+        ///     The ID of the new base layout
         /// </summary>
         public BaseLayoutItem NewBaseLayoutItem { get; set; }
-
-        /// <summary>
-        /// Whether the save operation was successful
-        /// </summary>
-        public bool Successful;
 
         public override string PipelineName
         {

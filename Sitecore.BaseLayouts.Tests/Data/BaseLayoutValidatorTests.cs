@@ -53,7 +53,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void ItemSupportsBaseLayouts_WithContentItemWithBaseLayoutFieldFromUnsupportedDatabase_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator(new [] {"web"});
+            var validator = new BaseLayoutValidator(new[] {"web"});
             var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
@@ -154,7 +154,8 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = new BaseLayoutValidator();
 
             // Act => Assert
-            Assert.Throws<ArgumentNullException>(() => validator.CreatesCircularBaseLayoutReference(null, MasterFakesFactory.CreateFakeItem()));
+            Assert.Throws<ArgumentNullException>(
+                () => validator.CreatesCircularBaseLayoutReference(null, MasterFakesFactory.CreateFakeItem()));
         }
 
         [Fact]
@@ -164,7 +165,8 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = new BaseLayoutValidator();
 
             // Act => Assert
-            Assert.Throws<ArgumentNullException>(() => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(), null));
+            Assert.Throws<ArgumentNullException>(
+                () => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(), null));
         }
 
         [Fact]
@@ -174,7 +176,11 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = new BaseLayoutValidator();
 
             // Act => Assert
-            Assert.Throws<ArgumentException>(() => validator.CreatesCircularBaseLayoutReference(MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false), MasterFakesFactory.CreateFakeItem()));
+            Assert.Throws<ArgumentException>(
+                () =>
+                    validator.CreatesCircularBaseLayoutReference(
+                        MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false),
+                        MasterFakesFactory.CreateFakeItem()));
         }
 
         [Fact]

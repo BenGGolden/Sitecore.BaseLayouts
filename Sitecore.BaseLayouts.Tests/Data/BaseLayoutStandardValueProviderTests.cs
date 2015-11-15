@@ -338,7 +338,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
-            
+
             // Act
             var result = provider.Name;
 
@@ -377,7 +377,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
 
             var item = MasterFakesFactory.CreateFakeEmptyField().Item;
-            
+
             // Act
             var result = provider.IsStandardValuesHolder(item);
 

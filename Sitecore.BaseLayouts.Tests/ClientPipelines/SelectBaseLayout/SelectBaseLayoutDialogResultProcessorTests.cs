@@ -1,24 +1,20 @@
 ﻿using NSubstitute;
-using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
-using Sitecore.BaseLayouts.Commands;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
 using Sitecore.Data;
-using Sitecore.Data.Items;
 using Xunit;
 
 namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
 {
     public class SelectBaseLayoutDialogResultProcessorTests : FakeDbTestClass
     {
-
         [Fact]
         public void ProcessResult_WithInvalidResult_ReturnsFalseAndMessageNotEmpty()
         {
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
-            
+
             var runner = Substitute.For<IPipelineRunner>();
             var processor = new SelectBaseLayoutDialogResultProcessor(runner);
 
@@ -36,7 +32,7 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
         {
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
-            
+
             var runner = Substitute.For<IPipelineRunner>();
             var processor = new SelectBaseLayoutDialogResultProcessor(runner);
 
@@ -64,7 +60,8 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
             var result = processor.ProcessResult(item, item2.ID.ToShortID().ToString(), out message);
 
             // Assert
-            runner.Received().Run(Arg.Is<SaveBaseLayoutArgs>(args => args.Item.ID == item.ID && args.NewBaseLayoutItem.ID == item2.ID));
+            runner.Received()
+                .Run(Arg.Is<SaveBaseLayoutArgs>(args => args.Item.ID == item.ID && args.NewBaseLayoutItem.ID == item2.ID));
         }
 
         [Fact]
@@ -75,7 +72,8 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
             var item2 = MasterFakesFactory.CreateFakeItem();
 
             var runner = Substitute.For<IPipelineRunner>();
-            runner.When(r => r.Run(Arg.Any<SaveBaseLayoutArgs>())).Do(ci => ci.Arg<SaveBaseLayoutArgs>().Successful = true);
+            runner.When(r => r.Run(Arg.Any<SaveBaseLayoutArgs>()))
+                .Do(ci => ci.Arg<SaveBaseLayoutArgs>().Successful = true);
             var processor = new SelectBaseLayoutDialogResultProcessor(runner);
 
             // Act
@@ -94,7 +92,8 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
             var item2 = MasterFakesFactory.CreateFakeItem();
 
             var runner = Substitute.For<IPipelineRunner>();
-            runner.When(r => r.Run(Arg.Any<SaveBaseLayoutArgs>())).Do(ci => ci.Arg<SaveBaseLayoutArgs>().Successful = false);
+            runner.When(r => r.Run(Arg.Any<SaveBaseLayoutArgs>()))
+                .Do(ci => ci.Arg<SaveBaseLayoutArgs>().Successful = false);
             var processor = new SelectBaseLayoutDialogResultProcessor(runner);
 
             // Act
@@ -114,7 +113,8 @@ namespace Sitecore.BaseLayouts.Tests.ClientPipelines.SelectBaseLayout
 
             var expectedMessage = "This is the expected error message!";
             var runner = Substitute.For<IPipelineRunner>();
-            runner.When(r => r.Run(Arg.Any<SaveBaseLayoutArgs>())).Do(ci => ci.Arg<SaveBaseLayoutArgs>().AddMessage(expectedMessage));
+            runner.When(r => r.Run(Arg.Any<SaveBaseLayoutArgs>()))
+                .Do(ci => ci.Arg<SaveBaseLayoutArgs>().AddMessage(expectedMessage));
             var processor = new SelectBaseLayoutDialogResultProcessor(runner);
 
             // Act

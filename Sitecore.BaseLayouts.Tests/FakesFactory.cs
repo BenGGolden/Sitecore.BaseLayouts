@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using Sitecore.Data;
+﻿using Sitecore.Data;
+using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.FakeDb;
 
 namespace Sitecore.BaseLayouts.Tests
 {
-    using Sitecore.Data.Fields;
-    using Sitecore.FakeDb;
-
     public class FakesFactory
     {
         private readonly Db _db;
@@ -18,7 +16,7 @@ namespace Sitecore.BaseLayouts.Tests
 
         public Field CreateFakeEmptyField()
         {
-            _db.Add(new DbItem("Home") { { "Title", null } });
+            _db.Add(new DbItem("Home") {{"Title", null}});
             var item = _db.GetItem("/sitecore/content/home");
             return item.Fields["Title"];
         }
@@ -45,7 +43,8 @@ namespace Sitecore.BaseLayouts.Tests
         }
 #endif
 
-        public Item CreateFakeItem(ID id = null, ID parentId = null, string layoutValue = null, string finalLayoutValue = null,
+        public Item CreateFakeItem(ID id = null, ID parentId = null, string layoutValue = null,
+            string finalLayoutValue = null,
             ID baseLayoutId = null,
             bool addBaseLayoutField = true)
         {
@@ -78,7 +77,8 @@ namespace Sitecore.BaseLayouts.Tests
                 {
                     {FieldIDs.LayoutField, layoutValue}
 #if FINAL_LAYOUT
-                    , {FieldIDs.FinalLayoutField, finalLayoutValue}
+                    ,
+                    {FieldIDs.FinalLayoutField, finalLayoutValue}
 #endif
                 }
             };

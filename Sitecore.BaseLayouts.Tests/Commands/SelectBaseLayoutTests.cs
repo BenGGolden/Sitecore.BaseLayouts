@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
+﻿using System.Collections.Specialized;
 using NSubstitute;
 using Sitecore.BaseLayouts.Abstractions;
 using Sitecore.BaseLayouts.ClientPipelines.SelectBaseLayout;
 using Sitecore.BaseLayouts.Commands;
-using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Shell.Framework.Commands;
@@ -43,7 +40,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem();
-            var context = new CommandContext(new[] { item, item2 });
+            var context = new CommandContext(new[] {item, item2});
             var sheer = Substitute.For<ISheerResponse>();
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
@@ -175,7 +172,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
             var args = Substitute.For<ClientPipelineArgs>();
-            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             args.IsPostBack = false;
 
             var sheer = Substitute.For<ISheerResponse>();
@@ -198,7 +195,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
             var args = Substitute.For<ClientPipelineArgs>();
-            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             args.IsPostBack = false;
 
             var sheer = Substitute.For<ISheerResponse>();
@@ -218,12 +215,14 @@ namespace Sitecore.BaseLayouts.Tests.Commands
         }
 
         [Fact]
-        public void Run_WithIsPostBackFalseAndDialogLocatorReturnsValue_CallsShowModalDialogWithReturnedValueAndCallsWaitForPostBack()
+        public void
+            Run_WithIsPostBackFalseAndDialogLocatorReturnsValue_CallsShowModalDialogWithReturnedValueAndCallsWaitForPostBack
+            ()
         {
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
             var args = Substitute.For<ClientPipelineArgs>();
-            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             args.IsPostBack = false;
 
             var sheer = Substitute.For<ISheerResponse>();
@@ -250,7 +249,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             var result = new ID().ToString();
             var item = MasterFakesFactory.CreateFakeItem();
             var args = Substitute.For<ClientPipelineArgs>();
-            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             args.IsPostBack = true;
             args.Result = result;
 
@@ -276,7 +275,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             var result = new ID().ToString();
             var item = MasterFakesFactory.CreateFakeItem();
             var args = Substitute.For<ClientPipelineArgs>();
-            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             args.IsPostBack = true;
             args.Result = result;
 
@@ -304,7 +303,7 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             var result = new ID().ToString();
             var item = MasterFakesFactory.CreateFakeItem();
             var args = Substitute.For<ClientPipelineArgs>();
-            args.Parameters = new NameValueCollection { { "items", item.Uri.ToString() } };
+            args.Parameters = new NameValueCollection {{"items", item.Uri.ToString()}};
             args.IsPostBack = true;
             args.Result = result;
 
@@ -315,7 +314,9 @@ namespace Sitecore.BaseLayouts.Tests.Commands
             var contextChecker = Substitute.For<ICommandContextChecker>();
             var locator = Substitute.For<IDialogLocator>();
             var processor = Substitute.For<IDialogResultProcessor>();
-            processor.ProcessResult(Arg.Any<Item>(), Arg.Any<string>(), out message).Returns(false).AndDoes(ci => ci[2] = expectedAlert);
+            processor.ProcessResult(Arg.Any<Item>(), Arg.Any<string>(), out message)
+                .Returns(false)
+                .AndDoes(ci => ci[2] = expectedAlert);
             var command = new SelectBaseLayout(sheer, contextChecker, locator, processor);
 
             // Act

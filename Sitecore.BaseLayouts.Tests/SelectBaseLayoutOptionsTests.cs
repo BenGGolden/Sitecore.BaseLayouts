@@ -59,7 +59,7 @@ namespace Sitecore.BaseLayouts.Tests
             var id = new ID();
             var options = Substitute.ForPartsOf<SelectBaseLayoutOptions>();
             options.When(o => o.GetQueryString(Arg.Any<string>())).DoNotCallBase();
-            options.GetQueryString(SelectBaseLayoutOptions.CurrentBaseLayoutQueryKey).Returns((string)null);
+            options.GetQueryString(SelectBaseLayoutOptions.CurrentBaseLayoutQueryKey).Returns((string) null);
 
             // Act
             options.ParseCurrentBaseLayout();

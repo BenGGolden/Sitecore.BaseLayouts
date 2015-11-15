@@ -18,6 +18,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             // Assert
             Assert.Equal(string.Empty, args.Item.InnerItem.Fields[BaseLayoutSettings.FieldId].Value);
         }
+
         [Fact]
         public void Process_WithNewBaseLayoutItemNull_SetsSuccessfulTrue()
         {
@@ -54,7 +55,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             // Arrange
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem();
-            var args = new SaveBaseLayoutArgs(item) { NewBaseLayoutItem = item2 };
+            var args = new SaveBaseLayoutArgs(item) {NewBaseLayoutItem = item2};
             var processor = new SaveNewBaseLayout();
 
             // Act
