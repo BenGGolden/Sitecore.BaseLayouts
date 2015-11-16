@@ -1,7 +1,9 @@
-﻿using Sitecore.BaseLayouts.Caching;
+﻿using System;
+using Sitecore.BaseLayouts.Caching;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Exceptions;
 using Sitecore.FakeDb;
 using Xunit;
 
@@ -114,6 +116,62 @@ namespace Sitecore.BaseLayouts.Tests.Caching
 
             // Assert
             Assert.Equal(value, result);
+        }
+
+        [Fact]
+        public void GetCacheKey_WithoutCircularReference_ReturnsKeyThatStartsWithDatabase()
+        {
+            // Arrange
+            var cache = new BaseLayoutValueCache();
+            var item1 = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item1.ID);
+
+            // Act
+            var result = cache.GetCacheKey(item2);
+
+            // Assert
+            Assert.True(result.StartsWith("master", StringComparison.OrdinalIgnoreCase));
+        }
+
+        [Fact]
+        public void GetCacheKey_WithoutCircularReference_ReturnsKeyThatEndsWithItemId()
+        {
+            // Arrange
+            var cache = new BaseLayoutValueCache();
+            var item1 = MasterFakesFactory.CreateFakeItem();
+            var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item1.ID);
+
+            // Act
+            var result = cache.GetCacheKey(item2);
+
+            // Assert
+            Assert.True(result.EndsWith(item2.ID.ToString(), StringComparison.OrdinalIgnoreCase));
+        }
+
+        [Fact]
+        public void GetCacheKey_WhenItemHasBaseLayoutReferencingSelf_ThrowsCircularReferenceException()
+        {
+            // Arrange
+            var cache = new BaseLayoutValueCache();
+            var id = new ID();
+            var item = MasterFakesFactory.CreateFakeItem(id, null, null, null, id);
+
+            // Act => Assert
+            Assert.Throws<CircularReferenceException>(() => cache.GetCacheKey(item));
+        }
+
+        [Fact]
+        public void GetCacheKey_WhenItemHasMultilevelCircularBaseLayoutReference_ThrowsCircularReferenceException()
+        {
+            // Arrange
+            var cache = new BaseLayoutValueCache();
+            var id = new ID();
+            var baseId = new ID();
+            var baseItem = MasterFakesFactory.CreateFakeItem(baseId, null, null, null, id);
+            var item = MasterFakesFactory.CreateFakeItem(id, null, null, null, baseId);
+
+            // Act => Assert
+            Assert.Throws<CircularReferenceException>(() => cache.GetCacheKey(item));
         }
 
         [Fact]

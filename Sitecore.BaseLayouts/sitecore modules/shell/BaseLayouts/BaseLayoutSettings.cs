@@ -33,6 +33,15 @@ namespace Sitecore.BaseLayouts
             "master|web")
             .Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
+        /// <summary>
+        ///     Should the BaseLayoutStandardValuesProvider always check for a circular reference?
+        ///     Default is false since the BaseLayoutValueCache does this anyway and throws an exception
+        ///     if a circular reference is detected.  If disabling the cache or adding an IBaseLayoutValueProvider
+        ///     decorator, strongly consider setting this to true.
+        /// </summary>
+        public static readonly bool AlwaysCheckForCircularReference =
+            Settings.GetBoolSetting("BaseLayouts.AlwaysCheckForCircularReference", false);
+
 
         private static ID GetIdSetting(string name, string defaultValue)
         {

@@ -204,6 +204,10 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
+# Git merge backups
+*.orig
+
 Sitecore.BaseLayouts.Tests/license.xml
 References/sc*/*
+
 

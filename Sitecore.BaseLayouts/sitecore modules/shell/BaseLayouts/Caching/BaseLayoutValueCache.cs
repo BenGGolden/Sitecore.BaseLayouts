@@ -9,6 +9,7 @@ using Sitecore.Data.Engines.DataCommands;
 using Sitecore.Data.Events;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
+using Sitecore.Exceptions;
 
 namespace Sitecore.BaseLayouts.Caching
 {
@@ -66,27 +67,29 @@ namespace Sitecore.BaseLayouts.Caching
         /// </summary>
         /// <param name="item">the item</param>
         /// <returns>the cache key</returns>
-        protected virtual string GetCacheKey(Item item)
+        public virtual string GetCacheKey(Item item)
         {
             Assert.ArgumentNotNull(item, "item");
 
+            var dbName = item.Database.Name;
             BaseLayoutItem baseLayoutItem = item;
-            var sb = new StringBuilder(baseLayoutItem.Database.Name + ":");
-            var baseLayouts = new List<BaseLayoutItem> {baseLayoutItem};
-            while (baseLayoutItem.BaseLayout != null)
+            var idList = new List<ID>();
+            var idSet = new HashSet<ID>();
+            while (baseLayoutItem != null)
             {
-                baseLayoutItem = baseLayoutItem.BaseLayout;
-                baseLayouts.Add(baseLayoutItem);
+                if (idSet.Add(baseLayoutItem.ID))
+                {
+                    idList.Add(baseLayoutItem.ID);
+                    baseLayoutItem = baseLayoutItem.BaseLayout;
+                }
+                else
+                {
+                    throw new CircularReferenceException("A circular reference was detected in the base layout chain.");
+                }
             }
-            baseLayouts.Reverse();
+            idList.Reverse();
 
-            foreach (var baseLayout in baseLayouts)
-            {
-                sb.Append(baseLayout.ID);
-                sb.Append("|");
-            }
-
-            return sb.ToString();
+            return dbName + ":" + string.Join("|", idList);
         }
 
         internal virtual void ProcessItemUpdate(Item item)

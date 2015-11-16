@@ -37,6 +37,6 @@
     <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v4.5</TargetFrameworkVersion>
     <SitecoreVersionNumber Condition="'$(SitecoreVersionNumber)' == ''">7.2</SitecoreVersionNumber>
     <SitecoreVersionString Condition="'$(SitecoreVersionString)' == ''">sc72</SitecoreVersionString>
-    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\$(SitecoreVersionString)\</SitecorePath>
+    <SitecorePath Condition="'$(SitecorePath)'==''">..\References\$(SitecoreVersionString)</SitecorePath>
   </PropertyGroup>
 </Project>

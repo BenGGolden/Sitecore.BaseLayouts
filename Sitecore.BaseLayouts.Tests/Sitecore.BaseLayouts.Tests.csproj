@@ -20,23 +20,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lucene.Net">
-      <HintPath>$(SitecorePath)Lucene.Net.dll</HintPath>
+      <HintPath>$(SitecorePath)\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute, Version=1.9.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
       <HintPath>..\packages\NSubstitute.1.9.2.0\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Analytics">
-      <HintPath>$(SitecorePath)Sitecore.Analytics.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Client">
-      <HintPath>$(SitecorePath)Sitecore.Client.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ExperienceEditor" Condition="$(SitecoreVersionNumber) &gt;= 8.0">
-      <HintPath>$(SitecorePath)Sitecore.ExperienceEditor.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.ExperienceEditor.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ExperienceEditor.Speak" Condition="$(SitecoreVersionNumber) &gt;= 8.0">
-      <HintPath>$(SitecorePath)Sitecore.ExperienceEditor.Speak.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.ExperienceEditor.Speak.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.FakeDb, Version=0.31.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.FakeDb.0.31.5\lib\net45\Sitecore.FakeDb.dll</HintPath>
@@ -47,13 +47,13 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Kernel">
-      <HintPath>$(SitecorePath)Sitecore.Kernel.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.Kernel.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Logging">
-      <HintPath>$(SitecorePath)Sitecore.Logging.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.Logging.dll</HintPath>
     </Reference>
     <Reference Include="sitecore.nexus">
-      <HintPath>$(SitecorePath)sitecore.nexus.dll</HintPath>
+      <HintPath>$(SitecorePath)\sitecore.nexus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

@@ -31,10 +31,10 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Kernel">
-      <HintPath>$(SitecorePath)Sitecore.Kernel.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.Kernel.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Mvc">
-      <HintPath>$(SitecorePath)Sitecore.Mvc.dll</HintPath>
+      <HintPath>$(SitecorePath)\Sitecore.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />

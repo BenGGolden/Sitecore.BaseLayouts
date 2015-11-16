@@ -78,9 +78,11 @@ namespace Sitecore.BaseLayouts.Data
             {
                 if (field.IsLayoutField() && _baseLayoutValidator.ItemSupportsBaseLayouts(field.Item))
                 {
-                    if (_baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
+                    if (BaseLayoutSettings.AlwaysCheckForCircularReference &&
+                        _baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
                     {
-                        _log.Warn("Circular Base Layout reference detected on item {0}. Aborting base layout ",
+                        _log.Warn(
+                            "Circular Base Layout reference detected on item {0}. Aborting base layout composition.",
                             field.Item.Paths.Path);
                     }
                     else
