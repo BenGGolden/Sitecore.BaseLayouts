@@ -1,0 +1,79 @@
+----item----
+version: 1
+id: {7F26F16C-8C6F-4DC6-8858-430D6BB88306}
+database: master
+path: /sitecore/system/Settings/Validation Rules/Field Rules/Base Layout Circular Reference
+parent: {207B1F0D-FCF2-4F86-B270-A20FD012CEB8}
+name: Base Layout Circular Reference
+master: {00000000-0000-0000-0000-000000000000}
+template: {8F8E2549-C77F-4860-B83B-54FA31E2BEFA}
+templatekey: Validation Rule
+
+----field----
+field: {43A829D1-43DA-465C-B772-EBAA0D515E3E}
+name: Type
+key: type
+content-length: 84
+
+Sitecore.BaseLayouts.Data.BaseLayoutCircularReferenceValidator, Sitecore.BaseLayouts
+----field----
+field: {B3607D43-E523-494E-9AFF-102678D11670}
+name: Use Thread
+key: use thread
+content-length: 0
+
+
+----version----
+language: en
+version: 1
+revision: 09efd53c-bf7c-40a7-bbea-2dfd44ff1a35
+
+----field----
+field: {DA43C533-CBAE-43D0-9019-65B1E346F984}
+name: Title
+key: title
+content-length: 33
+
+No Base Layout Circular Reference
+----field----
+field: {58014183-26FE-4568-B19F-C26745824C32}
+name: Description
+key: description
+content-length: 57
+
+Base Layout selection cannot create a circular reference.
+----field----
+field: {5DCF6FF3-41C5-466C-AD5E-991CFCD55716}
+name: Text
+key: text
+content-length: 0
+
+
+----field----
+field: {25BED78C-4957-4165-998A-CA1B52F67497}
+name: __Created
+key: __created
+content-length: 16
+
+20151116T054405Z
+----field----
+field: {8CDC337E-A112-42FB-BBB4-4143751E123F}
+name: __Revision
+key: __revision
+content-length: 36
+
+09efd53c-bf7c-40a7-bbea-2dfd44ff1a35
+----field----
+field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
+name: __Updated
+key: __updated
+content-length: 34
+
+20151116T002246:635832301665215166
+----field----
+field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
+name: __Updated by
+key: __updated by
+content-length: 14
+
+sitecore\admin

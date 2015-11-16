@@ -72,6 +72,7 @@
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\ICommandContextChecker.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayout.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Commands\SelectBaseLayoutContextChecker.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutCircularReferenceValidator.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutItem.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutStandardValuesProvider.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Data\BaseLayoutValidator.cs" />
