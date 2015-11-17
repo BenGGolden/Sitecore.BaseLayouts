@@ -13,14 +13,10 @@ namespace Sitecore.BaseLayouts.Data
     {
         private readonly string[] _databases;
 
-        public BaseLayoutValidator() : this(BaseLayoutSettings.SupportedDatabases)
+        public BaseLayoutValidator(IBaseLayoutSettings settings)
         {
-        }
-
-        public BaseLayoutValidator(string[] databases)
-        {
-            Assert.ArgumentNotNull(databases, "databases");
-            _databases = databases;
+            Assert.ArgumentNotNull(settings, "settings");
+            _databases = settings.SupportedDatabases;
         }
 
         /// <summary>
@@ -31,7 +27,7 @@ namespace Sitecore.BaseLayouts.Data
         public virtual bool ItemSupportsBaseLayouts(Item item)
         {
             return _databases.Contains(item.Database.Name, StringComparer.OrdinalIgnoreCase)
-                   && item.Paths.IsContentItem && item.HasField(BaseLayoutSettings.FieldId);
+                   && item.Paths.IsContentItem && item.IsBaseLayoutItem();
         }
 
         /// <summary>
@@ -56,7 +52,7 @@ namespace Sitecore.BaseLayouts.Data
         {
             Assert.ArgumentNotNull(item, "item");
             Assert.ArgumentNotNull(baseLayoutItem, "baseLayoutItem");
-            Assert.ArgumentCondition(item.HasField(BaseLayoutSettings.FieldId), "item",
+            Assert.ArgumentCondition(item.IsBaseLayoutItem(), "item",
                 "item does not have a Base Layout field");
 
             return HasDuplicateBaseLayout(baseLayoutItem, new HashSet<ID> {item.ID});

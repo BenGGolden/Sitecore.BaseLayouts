@@ -17,11 +17,12 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void GetStandardValue_WithNonLayoutField_DoesNotCallLayoutValueProvider()
         {
             // Arrange
-            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
+            var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeEmptyField();
 
             // Act
@@ -39,11 +40,12 @@ namespace Sitecore.BaseLayouts.Tests.Data
 
             var innerProviderValue = "Standard value from inner provider";
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
             innerProvider.GetStandardValue(Arg.Any<Field>()).Returns(innerProviderValue);
 
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeEmptyField();
 
             // Act
@@ -59,10 +61,11 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(false);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
@@ -79,10 +82,11 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(false);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeFinalLayoutField();
 
             // Act
@@ -94,16 +98,17 @@ namespace Sitecore.BaseLayouts.Tests.Data
 #endif
 
         [Fact]
-        public void GetStandardValue_WithLayoutFieldFromItemWithCircularReference_DoesNotCallLayoutValueProvider()
+        public void GetStandardValue_WithAlwaysCheckForCircularReferenceTrueAndLayoutFieldFromItemWithCircularReference_DoesNotCallLayoutValueProvider()
         {
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings(null, true);
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
@@ -115,16 +120,17 @@ namespace Sitecore.BaseLayouts.Tests.Data
 
 #if FINAL_LAYOUT
         [Fact]
-        public void GetStandardValue_WithFinalLayoutFieldFromItemWithCircularReference_DoesNotCallLayoutValueProvider()
+        public void GetStandardValue_WithAlwaysCheckForCircularReferenceTrueAndFinalLayoutFieldFromItemWithCircularReference_DoesNotCallLayoutValueProvider()
         {
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings(null, true);
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeFinalLayoutField();
 
             // Act
@@ -136,16 +142,17 @@ namespace Sitecore.BaseLayouts.Tests.Data
 #endif
 
         [Fact]
-        public void GetStandardValue_WithLayoutFieldFromItemWithCircularReference_CallsLogWarn()
+        public void GetStandardValue_WithAlwaysCheckForCircularReferenceTrueAndLayoutFieldFromItemWithCircularReference_CallsLogWarn()
         {
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings(null, true);
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
@@ -157,16 +164,17 @@ namespace Sitecore.BaseLayouts.Tests.Data
 
 #if FINAL_LAYOUT
         [Fact]
-        public void GetStandardValue_WithFinalLayoutFieldFromItemWithCircularReference_CallsLogWarn()
+        public void GetStandardValue_WithAlwaysCheckForCircularReferenceTrueAndFinalLayoutFieldFromItemWithCircularReference_CallsLogWarn()
         {
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings(null, true);
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(true);
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeFinalLayoutField();
 
             // Act
@@ -190,8 +198,9 @@ namespace Sitecore.BaseLayouts.Tests.Data
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(false);
 
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
@@ -215,8 +224,9 @@ namespace Sitecore.BaseLayouts.Tests.Data
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(false);
 
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeFinalLayoutField();
 
             // Act
@@ -238,11 +248,12 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.GetStandardValue(Arg.Any<Field>()).Returns(innerProviderValue);
 
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(false);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
@@ -264,11 +275,12 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.GetStandardValue(Arg.Any<Field>()).Returns(innerProviderValue);
 
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(false);
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeFinalLayoutField();
 
             // Act
@@ -295,8 +307,9 @@ namespace Sitecore.BaseLayouts.Tests.Data
             validator.ItemSupportsBaseLayouts(Arg.Any<Item>()).Returns(true);
             validator.HasCircularBaseLayoutReference(Arg.Any<Item>()).Returns(false);
 
+            var settings = TestUtil.CreateFakeSettings();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
             var field = MasterFakesFactory.CreateFakeLayoutField();
 
             // Act
@@ -313,9 +326,10 @@ namespace Sitecore.BaseLayouts.Tests.Data
             // Arrange
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
 
             var name = "baseLayouts";
             var config = new NameValueCollection();
@@ -335,9 +349,10 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.Name.Returns(name);
+            var settings = TestUtil.CreateFakeSettings();
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
 
             // Act
             var result = provider.Name;
@@ -353,10 +368,11 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var description = "I don't think this is even used";
             var layoutProvider = Substitute.For<IBaseLayoutValueProvider>();
             var innerProvider = Substitute.For<StandardValuesProvider>();
+            var settings = TestUtil.CreateFakeSettings();
             innerProvider.Description.Returns(description);
             var validator = Substitute.For<IBaseLayoutValidator>();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
 
             // Act
             var result = provider.Description;
@@ -373,8 +389,9 @@ namespace Sitecore.BaseLayouts.Tests.Data
             var innerProvider = Substitute.For<StandardValuesProvider>();
             innerProvider.IsStandardValuesHolder(Arg.Any<Item>()).Returns(true);
             var validator = Substitute.For<IBaseLayoutValidator>();
+            var settings = TestUtil.CreateFakeSettings();
             var log = Substitute.For<ILog>();
-            var provider = new BaseLayoutStandardValuesProvider(innerProvider, layoutProvider, validator, log);
+            var provider = new BaseLayoutStandardValuesProvider(innerProvider, settings, layoutProvider, validator, log);
 
             var item = MasterFakesFactory.CreateFakeEmptyField().Item;
 

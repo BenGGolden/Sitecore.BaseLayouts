@@ -1,4 +1,5 @@
 ﻿using Sitecore.BaseLayouts.Abstractions;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.BaseLayouts.Pipelines;
 using Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems;
@@ -17,6 +18,7 @@ namespace Sitecore.BaseLayouts.Commands
         /// </summary>
         /// <param name="pageModeAccess">an IPageModeAccess implementation</param>
         /// <param name="pipelineRunner">a pipeline runner</param>
+        /// <param name="settings">settings</param>
         public SelectBaseLayoutContextChecker(IPageModeAccess pageModeAccess, IPipelineRunner pipelineRunner)
         {
             Assert.ArgumentNotNull(pageModeAccess, "pageModeAccess");
@@ -34,7 +36,7 @@ namespace Sitecore.BaseLayouts.Commands
         public bool CanExecute(Item item)
         {
             if (!_pageModeAccess.CanWebEdit() || !_pageModeAccess.CanDesignItem(item) ||
-                !item.HasField(BaseLayoutSettings.FieldId))
+                !item.IsBaseLayoutItem())
             {
                 return false;
             }

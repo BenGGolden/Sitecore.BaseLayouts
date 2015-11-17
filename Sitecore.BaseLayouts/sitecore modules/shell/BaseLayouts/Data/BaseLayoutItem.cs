@@ -1,10 +1,12 @@
-﻿using Sitecore.Data.Fields;
+﻿using Sitecore.Data;
+using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 
 namespace Sitecore.BaseLayouts.Data
 {
     public class BaseLayoutItem : CustomItem
     {
+        public static readonly ID BaseLayoutFieldId = ID.Parse("{FBC10515-95D6-4559-BAD4-C235148DDECE}");
         private BaseLayoutItem _baseLayout;
 
         /// <summary>
@@ -20,7 +22,7 @@ namespace Sitecore.BaseLayouts.Data
             get
             {
                 return _baseLayout ??
-                       (_baseLayout = new ReferenceField(InnerItem.Fields[BaseLayoutSettings.FieldId]).TargetItem);
+                       (_baseLayout = new ReferenceField(InnerItem.Fields[BaseLayoutFieldId]).TargetItem);
             }
         }
 

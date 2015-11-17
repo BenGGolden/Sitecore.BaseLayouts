@@ -1,4 +1,6 @@
-﻿using Sitecore.Data;
+﻿using NSubstitute;
+using Sitecore.BaseLayouts.Data;
+using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.FakeDb;
@@ -85,7 +87,7 @@ namespace Sitecore.BaseLayouts.Tests
 
             if (addBaseLayoutField)
             {
-                dbItem.Fields.Add(BaseLayoutSettings.FieldId,
+                dbItem.Fields.Add(BaseLayoutItem.BaseLayoutFieldId,
                     ID.IsNullOrEmpty(baseLayoutId) ? null : baseLayoutId.ToString());
             }
 

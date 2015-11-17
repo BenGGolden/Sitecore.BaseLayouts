@@ -19,6 +19,7 @@ namespace Sitecore.BaseLayouts.Data
         private readonly IBaseLayoutValidator _baseLayoutValidator;
         private readonly IBaseLayoutValueProvider _baseLayoutValueProvider;
         private readonly StandardValuesProvider _innerProvider;
+        private readonly IBaseLayoutSettings _settings;
         private readonly ILog _log;
 
         [ExcludeFromCodeCoverage]
@@ -27,25 +28,33 @@ namespace Sitecore.BaseLayouts.Data
         }
 
         [ExcludeFromCodeCoverage]
-        public BaseLayoutStandardValuesProvider(StandardValuesProvider innerProvider)
-            : this(innerProvider,
-                new CachedBaseLayoutValueProvider(new BaseLayoutValueProvider(), new BaseLayoutValueCache()),
-                new BaseLayoutValidator(), new LogWrapper())
+        public BaseLayoutStandardValuesProvider(StandardValuesProvider innerProvider) : this(innerProvider, new BaseLayoutSettings())
+        {
+        }
+
+        [ExcludeFromCodeCoverage]
+        public BaseLayoutStandardValuesProvider(StandardValuesProvider innerProvider, IBaseLayoutSettings settings)
+            : this(innerProvider, settings,
+                new CachedBaseLayoutValueProvider(new BaseLayoutValueProvider(), new BaseLayoutValueCache(settings)),
+                new BaseLayoutValidator(settings), new LogWrapper())
         {
         }
 
         public BaseLayoutStandardValuesProvider(
             StandardValuesProvider innerProvider,
+            IBaseLayoutSettings settings,
             IBaseLayoutValueProvider baseLayoutValueProvider,
             IBaseLayoutValidator baseLayoutValidator,
             ILog log)
         {
             Assert.ArgumentNotNull(innerProvider, "innerProvider");
+            Assert.ArgumentNotNull(settings, "settings");
             Assert.ArgumentNotNull(baseLayoutValueProvider, "layoutValueProvider");
             Assert.ArgumentNotNull(baseLayoutValidator, "baseLayoutValidator");
             Assert.ArgumentNotNull(log, "log");
 
             _innerProvider = innerProvider;
+            _settings = settings;
             _baseLayoutValueProvider = baseLayoutValueProvider;
             _baseLayoutValidator = baseLayoutValidator;
             _log = log;
@@ -78,7 +87,7 @@ namespace Sitecore.BaseLayouts.Data
             {
                 if (field.IsLayoutField() && _baseLayoutValidator.ItemSupportsBaseLayouts(field.Item))
                 {
-                    if (BaseLayoutSettings.AlwaysCheckForCircularReference &&
+                    if (_settings.AlwaysCheckForCircularReference &&
                         _baseLayoutValidator.HasCircularBaseLayoutReference(field.Item))
                     {
                         _log.Warn(

@@ -9,7 +9,7 @@ namespace Sitecore.BaseLayouts.Data
     {
         private readonly IBaseLayoutValidator _baseLayoutValidator;
 
-        public BaseLayoutCircularReferenceValidator() : this(new BaseLayoutValidator())
+        public BaseLayoutCircularReferenceValidator() : this(new BaseLayoutValidator(new BaseLayoutSettings()))
         {
         }
 

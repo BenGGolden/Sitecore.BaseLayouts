@@ -1,4 +1,5 @@
 ﻿using System;
+using NSubstitute;
 using Sitecore.BaseLayouts.Data;
 using Sitecore.Data;
 using Xunit;
@@ -11,7 +12,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void ItemSupportsBaseLayouts_WithContentItemWithBaseLayoutFieldFromSupportedDatabase_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
@@ -25,7 +26,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void ItemSupportsBaseLayouts_WithNonContentItemWithBaseLayoutFieldFromSupportedDatabase_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem(null, ItemIDs.SystemRoot);
 
             // Act
@@ -39,7 +40,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void ItemSupportsBaseLayouts_WithContentItemWithoutBaseLayoutFieldFromSupportedDatabase_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false);
 
             // Act
@@ -53,7 +54,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void ItemSupportsBaseLayouts_WithContentItemWithBaseLayoutFieldFromUnsupportedDatabase_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator(new[] {"web"});
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings(new[] {"web"}));
             var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
@@ -67,7 +68,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void HasCircularBaseLayoutReference_WithNullItem_ThrowsArgumentNullException()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
 
             // Act => Assert
             Assert.Throws<ArgumentNullException>(() => validator.HasCircularBaseLayoutReference(null));
@@ -77,7 +78,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void HasCircularBaseLayoutReference_WithItemWithoutBaseLayoutField_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem(null, null, null, null, null, false);
 
             // Act
@@ -91,7 +92,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void HasCircularBaseLayoutReference_WithItemWithNoBaseLayout_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
@@ -105,7 +106,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void HasCircularBaseLayoutReference_WithoutCircularReference_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
@@ -119,7 +120,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void HasCircularBaseLayoutReference_WithSelfReference_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var id = new ID();
             var item = MasterFakesFactory.CreateFakeItem(id, null, null, null, id);
 
@@ -134,7 +135,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void HasCircularBaseLayoutReference_WithMultiLevelCircularReference_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var id = new ID();
             var baseId = new ID();
             var baseItem = MasterFakesFactory.CreateFakeItem(baseId, null, null, null, id);
@@ -151,7 +152,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WithNullItem_ThrowsArgumentNullException()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
 
             // Act => Assert
             Assert.Throws<ArgumentNullException>(
@@ -162,7 +163,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WithNullBaseLayoutItem_ThrowsArgumentNullException()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
 
             // Act => Assert
             Assert.Throws<ArgumentNullException>(
@@ -173,7 +174,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WithItemWithoutBaseLayoutField_ThrowsArgumentException()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
 
             // Act => Assert
             Assert.Throws<ArgumentException>(
@@ -187,7 +188,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WithItemSameAsBaseLayoutItem_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
 
             // Act
@@ -201,7 +202,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WhenBaseLayoutItemHasItemSelectedAsBaseLayout_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item.ID);
 
@@ -216,7 +217,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WithThreeNodeCycle_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item.ID);
             var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item2.ID);
@@ -232,7 +233,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesCircularBaseLayoutReference_WithLinearChain_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem();
             var item3 = MasterFakesFactory.CreateFakeItem(null, null, null, null, item2.ID);
@@ -249,7 +250,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesVersioningConflict_WhenItemHasOnlyFinalRenderings_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem(null, null, string.Empty);
             var item2 = MasterFakesFactory.CreateFakeItem();
 
@@ -264,7 +265,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesVersioningConflict_WhenBaseLayoutItemHasOnlySharedRenderings_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem(null, null, null, string.Empty);
 
@@ -279,7 +280,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesVersioningConflict_WhenItemHasRenderingsSeedAndBaseLayoutItemHasFinalRenderings_ReturnsFalse()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem();
             var item2 = MasterFakesFactory.CreateFakeItem();
 
@@ -294,7 +295,7 @@ namespace Sitecore.BaseLayouts.Tests.Data
         public void CreatesVersioningConflict_WhenItemHasRenderingsDeltaAndBaseLayoutItemHasFinalRenderings_ReturnsTrue()
         {
             // Arrange
-            var validator = new BaseLayoutValidator();
+            var validator = new BaseLayoutValidator(TestUtil.CreateFakeSettings());
             var item = MasterFakesFactory.CreateFakeItem(null, null, "<r xmlns:p=\"p\" xmlns:s=\"s\" p:p=\"1\"></r>");
             var item2 = MasterFakesFactory.CreateFakeItem();
 

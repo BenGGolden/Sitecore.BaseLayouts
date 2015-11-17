@@ -81,6 +81,7 @@
     <Compile Include="sitecore modules\shell\BaseLayouts\Data\IBaseLayoutValueProvider.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Extensions\FieldExtensions.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Extensions\ItemExtensions.cs" />
+    <Compile Include="sitecore modules\shell\BaseLayouts\IBaseLayoutSettings.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\GetBaseLayoutItems\GetBaseLayoutItemsArgs.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\GetBaseLayoutItems\GetLookupSourceItems.cs" />
     <Compile Include="sitecore modules\shell\BaseLayouts\Pipelines\GetBaseLayoutItems\IGetBaseLayoutItemsProcessor.cs" />

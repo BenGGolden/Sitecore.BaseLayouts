@@ -1,4 +1,5 @@
-﻿using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
+﻿using Sitecore.BaseLayouts.Data;
+using Sitecore.BaseLayouts.Pipelines.SaveBaseLayout;
 using Xunit;
 
 namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
@@ -16,7 +17,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             processor.Process(args);
 
             // Assert
-            Assert.Equal(string.Empty, args.Item.InnerItem.Fields[BaseLayoutSettings.FieldId].Value);
+            Assert.Equal(string.Empty, args.Item.InnerItem.Fields[BaseLayoutItem.BaseLayoutFieldId].Value);
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace Sitecore.BaseLayouts.Tests.Pipelines.SaveBaseLayout
             processor.Process(args);
 
             // Assert
-            Assert.Equal(item2.ID.ToString(), args.Item.InnerItem.Fields[BaseLayoutSettings.FieldId].Value);
+            Assert.Equal(item2.ID.ToString(), args.Item.InnerItem.Fields[BaseLayoutItem.BaseLayoutFieldId].Value);
         }
 
         [Fact]

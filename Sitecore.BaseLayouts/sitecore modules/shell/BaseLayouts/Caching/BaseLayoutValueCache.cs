@@ -18,22 +18,10 @@ namespace Sitecore.BaseLayouts.Caching
     /// </summary>
     public class BaseLayoutValueCache : CustomCache, IBaseLayoutValueCache
     {
-        /// <summary>
-        ///     Initializes the cache using a configuration setting for the supported databases
-        /// </summary>
-        public BaseLayoutValueCache()
-            : this(BaseLayoutSettings.SupportedDatabases.Select(db => Factory.GetDatabase(db, false)).ToArray())
+        public BaseLayoutValueCache(IBaseLayoutSettings settings)
+            : base("BaseLayouts.LayoutValueCache", settings.LayoutValueCacheSize)
         {
-        }
-
-        /// <summary>
-        ///     Initializes the cache
-        /// </summary>
-        /// <param name="databases">the names of databases to suppport</param>
-        public BaseLayoutValueCache(Database[] databases)
-            : base("BaseLayouts.LayoutValueCache", BaseLayoutSettings.LayoutValueCacheSize)
-        {
-            foreach (var db in databases.Where(db => db != null))
+            foreach (var db in settings.SupportedDatabases.Select(db => Factory.GetDatabase(db, false)).Where(db => db != null))
             {
                 InitializeEventHandlers(db);
             }

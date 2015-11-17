@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sitecore.BaseLayouts.Data;
 using Sitecore.BaseLayouts.Extensions;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
@@ -20,9 +21,9 @@ namespace Sitecore.BaseLayouts.Pipelines.GetBaseLayoutItems
             Assert.ArgumentNotNull(args, "args");
             Assert.IsNotNull(args.Item, "Item cannot be null.");
 
-            if (!args.Item.HasField(BaseLayoutSettings.FieldId)) return;
+            if (!args.Item.IsBaseLayoutItem()) return;
 
-            var field = args.Item.Fields[BaseLayoutSettings.FieldId];
+            var field = args.Item.Fields[BaseLayoutItem.BaseLayoutFieldId];
             args.BaseLayoutItems.AddRange(GetItems(args.Item, field.Source));
         }
 
